@@ -1,0 +1,27 @@
+/* #job{
+  border: 3px solid #9f9f9f;
+}
+.input-container03{
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  --bg-color: transparent;
+}
+#job{
+  border: 3px solid #9f9f9f;
+}
+.input-container04{
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  --bg-color: transparent;
+}
+.hd03{
+    margin-top: 50px;
+} */

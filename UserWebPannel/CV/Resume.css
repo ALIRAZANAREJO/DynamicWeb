@@ -1,0 +1,625 @@
+:root{
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --panel:#243142;
+  --content:#1f2937;
+  --sub:#6b7280;
+  --accent:#0b72c3;
+  --muted:#9aa0a6;
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;background:var(--bg);font-family:'Poppins',system-ui,Arial;color:var(--content);}
+a{color:var(--accent);text-decoration:none;}
+
+.container {
+  display: flex;
+  justify-content: center; /* horizontal center */
+  align-items: flex-start; /* optional vertical start */
+  width: 100%;
+  min-height: calc(100vh - 70px); /* leave space for top bar */
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+/* Center .cv-sheet inside container */
+.cv-sheet {
+  margin: 0 auto; /* horizontal center */
+}
+
+
+.cv-sheet{
+  display:flex;
+  width:100%;
+  max-width:794px;
+  min-height:1123px;
+  background:var(--card);
+  border-radius:6px;
+  box-shadow:0 12px 30px rgba(16,24,32,0.08);
+  color:var(--content);
+  overflow:hidden;
+  align-items:stretch;
+  transform-origin:top left;
+}
+
+.sidebar{
+  flex:0 0 40%;
+  background:linear-gradient(180deg,var(--panel),#16222a);
+  color:#fff;
+  padding:1.2rem;
+  display:flex;
+  flex-direction:column;
+  gap:0.8rem;
+  overflow-y:auto;
+  font-size:1rem;
+}
+
+.main{
+  padding:1.2rem;
+  display:flex;
+  flex-direction:column;
+  overflow-y:auto;
+  width:100%;
+}
+
+.main .section,
+.main .item,
+.main .col-box,
+.main .project-item,
+.main h1,
+.main h2,
+.main h3,
+.main h4,
+.main p,
+.main .about{
+  width:100%;
+  max-width:100%;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
+  box-sizing:border-box;
+}
+
+/* About full width */
+.main .about {
+  width:100%;
+  max-width:100%;
+  line-height:1.3;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
+  box-sizing:border-box;
+}
+/* Reference items in column form */
+.main .col-row.reference-list {
+  display:flex;
+  flex-direction:column; /* stacked vertically */
+  gap:0.5rem;
+  width:100%;
+}
+
+.main .col-row.reference-list .col-box {
+  flex:1 1 100%;
+  min-width:100%;
+  background:#f7f8fa;
+  border-radius:8px;
+  padding:0.3rem;
+  font-size:0.6rem;
+  color:var(--content);
+  box-sizing:border-box;
+}
+
+.main .section .title{
+  font-size:1rem;
+  display:flex;
+  gap:0.3rem;
+  align-items:center;
+  width:100%;
+  flex-wrap:wrap;
+}
+
+.main .col-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.5rem;
+}
+
+.main .col-box{
+  flex:1 1 calc(50% - 0.5rem);
+  min-width:120px;
+}
+
+.main .project-col{
+  display:flex;
+  flex-direction:column;
+  gap:0.35rem;
+  width:100%;
+}
+
+.project-item{
+  width:100%;
+  font-size:0.7rem;
+  line-height:1.2;
+  word-break:break-word;
+  padding:5px 5px;
+  border-radius:10px;
+  border:1px solid #ffffff;
+margin-top: 10px;
+}
+
+.profile-img{
+  width:100%;
+  max-width:120px;
+  height:auto;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid rgba(255,255,255,0.12);
+  margin:0 auto 0.4rem auto;
+  display:block;
+}
+
+.section-title{
+  display:flex;
+  gap:6px;
+  align-items:center;
+  font-weight:700;
+  text-transform:uppercase;
+  font-size:1.5rem;
+  color:rgba(255,255,255,0.9);
+}
+
+.chips{display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.3rem;}
+.chip{
+  background:#fff;color:var(--panel);
+  padding:0.2rem 0.4rem;
+  border-radius:999px;
+  font-size:0.7rem;
+  display:inline-flex;
+  align-items:center;
+  gap:0.2rem;
+}
+
+.skill-list{display:flex;flex-direction:column;gap:0.4rem;margin-top:0.3rem;}
+.skill-row{display:flex;flex-direction:column;gap:0.2rem;}
+.skill-meta{display:flex;justify-content:space-between;font-weight:600;font-size:0.7rem;}
+.skill-bar-wrap{height:0.45rem;background:rgba(255,255,255,0.12);border-radius:999px;overflow:hidden;width:100%;}
+.skill-bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#1e8fe1);border-radius:999px;transition:width .6s ease;}
+
+.personal-list{display:flex;flex-direction:column;gap:0.25rem;font-size:0.75rem;}
+.personal-item{display:flex;gap:0.4rem;align-items:center;color:rgba(255,255,255,0.95);}
+
+.header{display:flex;justify-content:space-between;align-items:flex-start;gap:0.6rem;margin-bottom:-1rem;}
+.name-large{font-size:2.5rem;font-weight:800;color:var(--content);}
+.profession{font-size:1.5rem;color:var(--accent);font-weight:600;margin-top:0.1rem;}
+h5{font-size:0.75rem;color:var(--content);font-weight:600;margin-top:0.1rem;}
+.about{font-size:0.7rem;color:var(--sub);margin-top:0.1rem;max-width:100%;}
+
+.section{margin-top:0.5rem;display:flex;flex-direction:column;gap:0.3rem;}
+.section .title{display:flex;align-items:center;gap:0.3rem;font-weight:700;font-size:0.7rem;color:var(--content);border-bottom:1px solid #e7eaec;padding-bottom:0.3rem;}
+.section .title .icon{width:1.5rem;height:1.5rem;border-radius:6px;background:rgba(11,114,195,0.08);display:inline-grid;place-items:center;color:var(--accent);}
+.section .list{display:flex;flex-direction:column;gap:0.3rem;}
+.item{padding:0.25rem;border-radius:6px;background:transparent;display:flex;flex-direction:column;gap:0.2rem;font-size:0.65rem;color:var(--content);}
+.item .line{font-size:0.80rem;color:var(--content);line-height:1.1;}
+.item .sub{font-size:0.6rem;color:var(--sub);}
+
+/* ========================= RESPONSIVE ========================= */
+@media (max-width:900px){
+  .cv-sheet{flex-direction:row;width:100%;overflow-x:auto;transform:scale(1);}
+  .sidebar{flex:0 0 40%;padding:0.8rem;gap:0.5rem;}
+  .main{font:0.8rem;}
+}
+
+@media (max-width:600px){
+  /* .main{
+    flex:1;
+  } */
+
+  .personal-list{
+    gap: 3px;
+  }
+
+  /* Each row (Father, CNIC, Phone, etc.) */
+  .personal-item{
+    font-size: 7px;      /* smaller text */
+    line-height: 1.1;
+  }
+
+  /* Label + value spacing */
+  .personal-item span,
+  .personal-item strong{
+    font-size: 7px;
+  }
+  .cv-sheet{
+    width:100% !important;
+    min-height:auto;
+    flex-direction:row !important;
+    overflow-x:auto;
+    padding:0;
+    margin-top: 20px;
+  }
+  .sidebar{
+    width:40% !important;
+    padding:4px;
+    gap:4px;
+    padding-top:10px;
+
+  }
+  .main{
+    width:60% !important;
+    padding:4px;
+    padding-top:10px;
+  }
+
+  /* =================== SMALL SCREEN TEXT SCALE (<=600px) =================== */
+
+  /* SECTION TITLES (Education, Experience, References) */
+  .main .section .title{
+    font-size: 0.65rem;
+  }
+
+  /* Education / Experience item text */
+  .main .item{
+    font-size: 7px;
+    line-height: 1.15;
+  }
+
+  .main .item .line{
+    font-size: 7px;
+  }
+
+  .main .item .sub{
+    font-size: 6.5px;
+  }
+
+  /* Reference boxes */
+  .main .col-box{
+    font-size: 7px;
+    padding: 0.25rem;
+  }
+
+  .main .col-box div{
+    font-size: 7px;
+    line-height: 1.2;
+  }
+
+  /* Reference name (bold) */
+  .main .col-box div:first-child{
+    font-size: 7.2px;
+    font-weight: 600;
+  }
+
+  /* Reference contact line */
+  .main .col-box div:last-child{
+    font-size: 6.5px;
+  }
+
+  /* Titles like Education / Experience icons row */
+  .section .title .icon{
+    font-size: 0.7rem;
+  }
+
+
+  .section-title{font-size:0.85rem}
+  .name-large{font-size:18px}
+  .profession{font-size:12px}
+  .item,.col-box,.project-item{font-size:8px}
+  .skill-meta{font-size:7px}
+  .chip{font-size:7px;padding:2px 4px}
+  .about{font-size:8px}
+}
+
+/* EQUAL HEIGHT */
+.cv-sheet{align-items:stretch;}
+.sidebar,.main{display:flex;flex-direction:column;justify-content:flex-start;}
+.cv-sheet::after{content:"";flex-grow:1;}
+/* ===== TOP ACTION BAR (FIXED & ALWAYS ON TOP) ===== */
+.top-action-bar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  background: rgba(244,246,248,0.95);
+  backdrop-filter: blur(6px);
+}
+
+/* PUSH CONTENT DOWN SO IT DOES NOT HIDE UNDER BUTTON */
+body{
+  padding-top: 70px;
+}
+
+/* DOWNLOAD BUTTON */
+.download-btn{
+  padding: 10px 22px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #0b72c3 50%, #1f2937 50%);
+  background-size: 200% 100%;
+  background-position: left;
+  transition: all 0.35s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.download-btn:hover{
+  background-position: right;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.download-btn:active{
+  transform: scale(0.96);
+}
+/* DOWNLOAD BUTTON */
+#finalDownloadBtn{
+  padding: 10px 22px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #0b72c3 50%, #1f2937 50%);
+  background-size: 200% 100%;
+  background-position: left;
+  transition: all 0.35s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* #finalDownloadBtn:hover{
+  background-position: right;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+} */
+
+#finalDownloadBtn:active{
+  transform: scale(0.96);
+}
+
+/* MOBILE FIX */
+@media (max-width:600px){
+  body{
+    padding-top: 60px;
+  }
+
+  .download-btn{
+    font-size: 0.75rem;
+    padding: 8px 18px;
+  }
+}
+
+/* ===== MODAL OVERLAY & CONTENT ===== */
+#overlay {
+  display: none; 
+  position: fixed; 
+  inset: 0; 
+  z-index: 1200; 
+  justify-content: center; 
+  align-items: center;
+}
+
+#overlay > div:nth-child(2) { /* Modal content */
+  position: relative;
+  width: 90%;
+  max-width: 980px;
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+  z-index: 1210;
+  box-sizing: border-box;
+  max-height: 90vh; /* scrollable if content too tall */
+  overflow-y: auto;
+}
+
+/* Modal Buttons (independent from .download-btn) */
+.modal-btn {
+  flex: 1 1 120px; /* responsive width */
+  min-width: 80px;
+  padding: 10px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background-size: 200% 100%;
+  background-position: left;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+/* .modal-btn:hover {
+  background-position: right;
+  transform: translateY(-2px);
+} */
+
+.modal-btn:active {
+  transform: scale(0.96);
+}
+
+/* Modal buttons responsive for mobile */
+@media (max-width: 600px) {
+  .modal-btn {
+    flex: 1 1 100%;
+    font-size: 0.75rem;
+    padding: 8px 12px;
+  }
+}
+
+/* ===== ENABLE FULL PAGE SCROLL ===== */
+html, body {
+  height: auto;
+  min-height: 100%;
+  overflow-y: auto;
+}
+
+/* Allow content to grow naturally */
+.container {
+  min-height: 100vh;
+  overflow: visible;
+}
+
+
+/* Allow inner sections to grow */
+.sidebar,
+.main {
+  overflow: visible !important;
+  height: auto !important;
+}
+
+/* Keep top bar fixed */
+.top-action-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+/* Prevent content hiding under top bar */
+body {
+  padding-top: 70px;
+}
+
+
+
+
+/* ===================== PDF CLONE ===================== */
+.pdf-clone {
+  width: 210mm !important;
+  height: 297mm !important; /* A4 portrait */
+  max-width: 210mm !important;
+  max-height: 297mm !important;
+  min-width: 210mm !important;
+  min-height: 297mm !important;
+  display: flex !important;
+  flex-direction: row !important;
+  overflow: visible !important;
+}
+/* Hide PDF clone AFTER download */
+.pdf-clone.hide-after-download {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Sidebar fixed width for PDF */
+.pdf-clone .sidebar {
+  flex: 0 0 40% !important; /* fixed desktop width */
+  min-width: auto !important;
+  overflow: visible !important;
+}
+
+/* Main column fixed width for PDF */
+.pdf-clone .main {
+  width: 60% !important; /* remaining width */
+  min-width: auto !important;
+  max-width: 60% !important;
+  padding: 1.2rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.3rem !important;
+  overflow: visible !important;
+}
+
+/* ================= PDF SKILLS FULL WIDTH ================= */
+.pdf-clone .main .skill-list,
+.pdf-clone .main .skill-row,
+.pdf-clone .main .skill-meta,
+.pdf-clone .main .skill-bar-wrap {
+  width: calc(100% - 4px) !important; /* full main width minus 2px padding each side */
+  padding: 0 2px !important;
+  margin: 0 !important;
+  flex: none !important;
+}
+
+/* Skill bars full width inside wrapper */
+.pdf-clone .main .skill-bar {
+  width: 100% !important;
+  transition: none !important;
+}
+
+/* Prevent animation / transitions in PDF */
+.pdf-clone .skill-bar {
+  transition: none !important;
+}
+.pdf-clone .chips{display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.3rem;}
+.pdf-clone .chip{
+  background:#fff;color:var(--panel);
+  padding:0.4rem 0.4rem;
+  border-radius:999px;
+  font-size:0.7rem;
+  display:inline-flex;
+  align-items:center;
+  gap:0.2rem;
+}
+
+/* Print-friendly adjustments */
+@media print {
+  body { background: #fff; }
+  .container { padding: 0; }
+  .cv-sheet { box-shadow: none; border-radius: 0; }
+  .pdf-clone { 
+    page-break-inside: avoid; 
+    width: 210mm !important; 
+    height: 297mm !important; 
+    flex-direction: row !important;
+    overflow: visible !important;
+  }
+
+}
+/* ================= FIX MOBILE PDF SCALE ISSUE ================= */
+
+/* Force desktop layout inside PDF clone */
+.pdf-clone * {
+  font-size: inherit !important;
+}
+
+.pdf-clone {
+  width: 210mm !important;
+  min-width: 210mm !important;
+  max-width: 210mm !important;
+}
+
+/* OVERRIDE MOBILE MEDIA QUERY EFFECTS */
+@media (max-width: 600px) {
+
+  .pdf-clone .cv-sheet {
+    flex-direction: row !important;
+    width: 210mm !important;
+  }
+
+  .pdf-clone .sidebar {
+    width: 40% !important;
+    padding: 1rem !important;
+  }
+
+  .pdf-clone .main {
+    width: 60% !important;
+    padding: 1rem !important;
+  }
+
+  /* RESET TEXT SIZES */
+  .pdf-clone .name-large { font-size: 22px !important; }
+  .pdf-clone .profession { font-size: 14px !important; }
+
+  .pdf-clone .section .title {
+    font-size: 0.9rem !important;
+  }
+
+  .pdf-clone .item,
+  .pdf-clone .col-box,
+  .pdf-clone .project-item {
+    font-size: 11px !important;
+  }
+
+  .pdf-clone .skill-meta,
+  .pdf-clone .chip {
+    font-size: 10px !important;
+  }
+}

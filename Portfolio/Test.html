@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Portfolio/Test.css">
+    <link rel="stylesheet" href="/UserWebPannel/Profession/Profession02.css">
+
+    <title>Document</title>
+</head>
+<body>
+<!-- HEADER START -->
+<div id="homed">
+  <div class="container">
+    <div class="header-content">
+
+      <!-- LEFT SIDE TEXT -->
+      <main class="left-box">
+
+        <div class="tag-box">
+          <h3 class="texthd">I'm</h3>
+        </div>
+
+        <h1 class="heroName" id="heroName">Full Name</h1>
+
+        <!-- PROFILE PIC (ALWAYS UNDER NAME) -->
+        <img class="Profpic" id="heroProfileImg" src="img/profile.png" alt="Profile">
+
+        <!-- SMALL GRADIENT IMG -->
+        <img class="image-gradient" src="Assets/back.jpg" alt="gradient">
+
+        <h2 class="typed-text-output" id="typedOutput"></h2>
+
+        <p class="description" id="Aboutpera"></p>
+
+        <div class="buttons-row">
+          <a id="downloadCV" href="#" class="btn btn-primary">Download CV</a>
+
+          <button type="button" class="btn-play" data-bs-toggle="modal"
+            data-src="" data-bs-target="#videoModal" id="playVideoBtn">
+            <span></span>
+          </button>
+          <h5 class="play-label">Play Video</h5>
+        </div>
+
+      </main>
+
+      <!-- RIGHT SIDE 3D MODEL -->
+      <div class="right-box">
+        <spline-viewer class="robot-3d"
+          url="https://prod.spline.design/Qr2knMM4aKElH8x7/scene.splinecode">
+        </spline-viewer>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- VIDEO MODAL -->
+<div class="modal modal-video fade" id="videoModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-0">
+      <div class="modal-header">
+        <h3 class="modal-title">Youtube Video</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="ratio ratio-16x9">
+          <iframe src="" id="video" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- HEADER END -->
+
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>All Designs — Select Template</title>
+  <style>
+    :root{
+      --bg: #f6f8fb;
+      --card:#ffffff;
+      --accent:#0d6efd;
+      --muted:#6b7280;
+      --shadow: 0 6px 18px rgba(15,23,42,0.08);
+      --radius:12px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:#0f172a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:28px;
+    }
+
+    .content{
+      max-width:1100px;
+      margin:0 auto;
+      background:transparent;
+    }
+
+    h2{
+      margin:0 0 18px 0;
+      font-size:22px;
+      font-weight:700;
+      color:#08102a;
+    }
+
+    /* Grid for main & sub */
+    .design-grid{
+      display:grid;
+      gap:18px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .design-card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:14px;
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      gap:10px;
+      cursor:pointer;
+      transition: transform .18s ease, box-shadow .18s ease;
+      border:1px solid rgba(15,23,42,0.03);
+    }
+
+    .design-card:hover{
+      transform: translateY(-6px);
+      box-shadow: 0 10px 30px rgba(15,23,42,0.08);
+    }
+
+    .design-card img{
+      width:100%;
+      max-width: 260px;
+      height:120px;
+      object-fit:cover;
+      border-radius:10px;
+      user-select:none;
+    }
+
+    .design-card h3{
+      margin:0;
+      font-size:16px;
+      font-weight:700;
+      color:#09132a;
+    }
+
+    .design-card p{
+      margin:0;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .design-card.selected{
+      outline: 3px solid rgba(13,110,253,0.12);
+      box-shadow: 0 12px 30px rgba(13,110,253,0.08);
+      transform: translateY(-4px);
+    }
+
+    /* SubDesigns container style */
+    #SubDesignsContainer{
+      margin-top:20px;
+      display:none; /* hidden by default */
+    }
+
+    /* Buttons area */
+    .controls{
+      display:flex;
+      gap:12px;
+      margin-top:18px;
+      align-items:center;
+      justify-content:flex-start;
+      flex-wrap:wrap;
+    }
+
+    /* HTML login button (styled) */
+    #loginBtn{
+      width: 260px;
+      padding: 12px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      background-color: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: none; /* hidden until sub designs show */
+      box-shadow: 0 8px 22px rgba(13,110,253,0.12);
+      transition: transform .12s ease, background-color .12s ease;
+    }
+    #loginBtn:hover{ transform: translateY(-3px); background-color:#0056d6; }
+
+    /* Back button */
+    .back-btn{
+      padding: 10px 14px;
+      font-size:14px;
+      border-radius:10px;
+      border:1px solid rgba(15,23,42,0.06);
+      background:#fff;
+      cursor:pointer;
+      display:none; /* hidden by default */
+      box-shadow: var(--shadow);
+    }
+
+    /* Popup */
+    .popup{
+      position:fixed;
+      left:0;right:0;top:0;bottom:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(2,6,23,0.45);
+      z-index:9999;
+    }
+    .popup.hidden{ display:none; }
+    .popup-box{
+      background:#fff;
+      padding:20px;
+      border-radius:12px;
+      max-width:360px;
+      text-align:center;
+      box-shadow: 0 18px 48px rgba(2,6,23,0.18);
+    }
+    .popup-box p{ color:var(--muted); margin:0 0 12px 0; }
+    .popup-box button{ padding:8px 12px; border-radius:8px; border:none; cursor:pointer; background:var(--accent); color:#fff; font-weight:600; }
+
+    /* Responsive tweaks */
+    @media (max-width:720px){
+      .design-card img{ height:110px; }
+      #loginBtn{ width: 48%; }
+      .controls{ justify-content:space-between; }
+    }
+    @media (max-width:480px){
+      .design-grid{ grid-template-columns: repeat(2,1fr); }
+      #loginBtn{ width:100%; }
+      .controls{ flex-direction:column; align-items:stretch; }
+      .back-btn{ width:100%; }
+    }
+  </style>
+</head>
+<body>
+  <div id="AllDesigns" class="content">
+    <h2>Choose Your Web Design</h2>
+
+    <div id="mainDesignCards" class="design-grid">
+      <div class="design-card" data-design="Portfolio">
+        <img src="AllWebDesigns/Portfolio/Portfolio01.png" alt="Portfolio01">
+        <h3>Portfolio</h3>
+        <p>Clean and modern portfolio designs</p>
+      </div>
+      <div class="design-card" data-design="Agency">
+        <img src="AllWebDesigns/Agency/Agency01.png" alt="Agency">
+        <h3>Agency</h3>
+        <p>Professional agency website layouts</p>
+      </div>
+      <div class="design-card" data-design="Product">
+        <img src="AllWebDesigns/Product/Product01.png" alt="Product">
+        <h3>Product</h3>
+        <p>Modern product showcase templates</p>
+      </div>
+      <div class="design-card" data-design="Security">
+        <img src="AllWebDesigns/Security/Security01.png" alt="Security">
+        <h3>Security</h3>
+        <p>Secure and corporate web designs</p>
+      </div>
+      <!-- Add other main design cards similarly -->
+    </div>
+
+    <div id="SubDesignsContainer">
+      <!-- JS injects sub-designs grid here -->
+    </div>
+
+    <div class="controls">
+      <button class="back-btn">⬅ Back</button>
+      <!-- HTML login button placed here but hidden initially -->
+      <button type="button" id="loginBtn">Login with Google & Generate Website</button>
+    </div>
+
+    <div id="popup" class="popup hidden" aria-hidden="true">
+      <div class="popup-box">
+        <p>This service is not available.<br>Please use “Portfolio” for your first experience.<br>More services coming soon.</p>
+        <button id="closePopup">OK</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Script: Firebase imports + logic (module) -->
+  <script type="module">
+    // ======================= Firebase Modular Imports =======================
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    // ======================= Firebase Configuration =======================
+    const firebaseConfig = {
+      apiKey: "AIzaSyCmL8qcjg4S6NeY3erraq_XhlDJ7Ek2s_E",
+      authDomain: "palestine-web.firebaseapp.com",
+      databaseURL: "https://palestine-web-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "palestine-web",
+      storageBucket: "palestine-web.appspot.com",
+      messagingSenderId: "35190212487",
+      appId: "1:35190212487:web:0a699bb1fa7b1a49113522",
+      measurementId: "G-8TE04Z9ZFW"
+    };
+
+    // ======================= Initialize Firebase =======================
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+    const provider = new GoogleAuthProvider();
+
+    // ======================= DOM Elements =======================
+    const subContainer = document.getElementById("SubDesignsContainer");
+    const mainCards = document.getElementById("mainDesignCards");
+    const backBtn = document.querySelector(".back-btn");
+    const popup = document.getElementById("popup");
+    const closePopup = document.getElementById("closePopup");
+    const cards = document.querySelectorAll(".design-card");
+    const loginBtn = document.getElementById("loginBtn");   // ✅ use HTML button
+
+    let selectedDesign = null;
+    let selectedSubDesign = null;
+
+    // ----------- CHECK FILE EXISTENCE -----------
+    async function fileExists(path) {
+      try {
+        const res = await fetch(path, { method: "HEAD" });
+        return res.ok;
+      } catch {
+        return false;
+      }
+    }
+
+    // ----------- LOAD SUB-DESIGNS -----------
+    async function loadSubDesigns(designName) {
+      selectedDesign = designName;
+      selectedSubDesign = null;
+      subContainer.innerHTML = "";
+
+      const jsonPath = `AllWebDesigns/${designName}/_files.json`;
+
+      try {
+        const res = await fetch(jsonPath);
+        if (!res.ok) throw new Error("No sub-designs defined");
+
+        const subFiles = await res.json();
+        if (!subFiles.length) throw new Error("No sub-designs found");
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "design-grid";
+
+        subFiles.forEach(sub => {
+          const card = document.createElement("div");
+          card.className = "design-card";
+          card.style.display = "flex";
+          card.style.flexDirection = "column";
+          card.style.alignItems = "center";
+          card.style.cursor = "pointer";
+
+          const img = document.createElement("img");
+          img.src = `AllWebDesigns/${designName}/${sub.img}`;
+          img.alt = sub.name;
+          img.style.width = "150px";
+          img.style.height = "100px";
+          img.style.objectFit = "cover";
+          img.style.marginBottom = "10px";
+
+          const title = document.createElement("span");
+          title.textContent = sub.name;
+
+          card.appendChild(img);
+          card.appendChild(title);
+
+          card.addEventListener("click", async () => {
+            const htmlFile = `AllWebDesigns/${designName}/${sub.name}.html`;
+            const exists = await fileExists(htmlFile);
+            if (!exists) {
+              // show available popup instead of alert for better UX
+              popup.classList.remove("hidden");
+              popup.setAttribute("aria-hidden", "false");
+              return;
+            }
+            selectedSubDesign = sub.name;
+            wrapper.querySelectorAll(".design-card").forEach(c => c.classList.remove("selected"));
+            card.classList.add("selected");
+          });
+
+          wrapper.appendChild(card);
+        });
+
+        subContainer.appendChild(wrapper);
+
+        // show sub designs, show login and back button
+        mainCards.style.display = "none";
+        subContainer.style.display = "grid";
+        loginBtn.style.display = "inline-block";
+        backBtn.style.display = "inline-block";
+
+      } catch (err) {
+        console.error(err);
+        // keep consistent popup UX
+        alert("This service is not available. Please use Portfolio for your first experience.");
+      }
+    }
+
+    // ----------- MAIN CARD CLICK -----------
+    cards.forEach(card => {
+      card.addEventListener("click", () => {
+        const design = card.dataset.design;
+        loadSubDesigns(design);
+      });
+    });
+
+    // ----------- POPUP CLOSE -----------
+    closePopup.addEventListener("click", () => {
+      popup.classList.add("hidden");
+      popup.setAttribute("aria-hidden", "true");
+    });
+
+    // ----------- BACK BUTTON -----------
+    backBtn.addEventListener("click", () => {
+      // go back to main grid without reloading
+      if (subContainer.style.display !== "none") {
+        subContainer.style.display = "none";
+        mainCards.style.display = "grid";
+        selectedSubDesign = null;
+        // hide controls again
+        loginBtn.style.display = "none";
+        backBtn.style.display = "none";
+        // clear selected styling
+        const selected = subContainer.querySelectorAll(".design-card.selected");
+        selected.forEach(s => s.classList.remove("selected"));
+        // clear subContainer content
+        subContainer.innerHTML = "";
+      }
+    });
+
+    // ======================= LOGIN FUNCTION =======================
+    loginBtn.addEventListener("click", async () => {
+      const designToUse = selectedDesign || "Portfolio";
+      const subToUse = selectedSubDesign || "Portfolio01";
+      const htmlFilePath = `AllWebDesigns/${designToUse}/${subToUse}.html`;
+
+      const exists = await fileExists(htmlFilePath);
+      if (!exists) {
+        // show popup if not exists
+        popup.classList.remove("hidden");
+        popup.setAttribute("aria-hidden", "false");
+        return;
+      }
+
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        const email = user.email;
+        const profilePic = user.photoURL;
+
+        const dbRef = ref(db, "resContainer9");
+        const snapshot = await get(dbRef);
+
+        let foundCnic = null;
+        snapshot.forEach(childSnap => {
+          const personal = childSnap.child("Personal").val();
+          if (personal && personal.Lisnt && personal.Lisnt.toLowerCase() === email.toLowerCase()) {
+            foundCnic = childSnap.key;
+          }
+        });
+
+        if (!foundCnic) {
+          alert("⚠️ No user found in database. Please contact admin or try again.");
+          return;
+        }
+
+        const now = Date.now();
+        const expiresAt = now + 3 * 60 * 1000;
+        const accessRef = ref(db, `resContainer9/${foundCnic}/Access`);
+        await set(accessRef, {
+          link: "User.html",
+          timerStart: now,
+          expiresAt,
+          paymentStatus: "Pending"
+        });
+
+        const safeEmailKey = email.replace(/\./g, ",");
+        const userRef = ref(db, `PortfolioUsers/${safeEmailKey}`);
+        await set(userRef, {
+          email,
+          profilePic: profilePic || null,
+          cnic: foundCnic
+        });
+
+        localStorage.setItem("userEmail", email);
+        localStorage.setItem("userCNIC", foundCnic);
+
+        const encodedEmail = encodeURIComponent(email);
+        window.location.href = `AllWebDesigns/${designToUse}/${subToUse}.html?email=${encodedEmail}`;
+
+      } catch (error) {
+        console.error("❌ Sign-in error:", error);
+        alert("Login failed. Please try again.");
+      }
+    });
+
+    // initial state: hide login & back
+    loginBtn.style.display = "none";
+    backBtn.style.display = "none";
+  </script>
+</body>
+</html>
+
+
+<script type="module" src="/UserWebPannel/Account/Pakig.html"></script>

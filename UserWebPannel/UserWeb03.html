@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professional Step Form Wizard</title>
+  <link rel="stylesheet" href="/UserWebPannel/UserWeb03.css" />
+</head>
+<body>
+
+  <header>
+    <div class="nav">
+      <button class="tab-btn active" data-target="about">About</button>
+      <button class="tab-btn" data-target="skills">Skills</button>
+      <button class="tab-btn" data-target="experience">Experience</button>
+      <button class="tab-btn" data-target="education">Education</button>
+      <button class="tab-btn" data-target="Professionality">Profession</button>
+      <button class="tab-btn" data-target="service">Services</button>
+      <button class="tab-btn" data-target="project">Projects</button>
+      <button class="tab-btn" data-target="team">Team</button>
+      <button class="tab-btn" data-target="cv">CV Designs</button>
+      <button class="tab-btn" data-target="Portfolio">Portfolio Web Design</button>
+    </div>
+
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+
+    <div id="progress-circle">0%</div>
+  </header>
+
+  <main>
+    <div id="about" class="content active">
+      <h2>About</h2>
+      <input type="text" placeholder="Enter about info" />
+      <div class="buttons">
+        <button class="next-btn">Next ➜</button>
+      </div>
+    </div>
+
+    <div id="skills" class="content">
+      <h2>Skills</h2>
+      <input type="text" placeholder="Enter your skills" />
+      <div class="buttons">
+        <button class="back-btn">⬅ Back</button>
+        <button class="next-btn">Next ➜</button>
+      </div>
+    </div>
+
+    <div id="experience" class="content">
+      <h2>Experience</h2>
+      <input type="text" placeholder="Enter your experience" />
+      <div class="buttons">
+        <button class="back-btn">⬅ Back</button>
+        <button class="next-btn">Next ➜</button>
+      </div>
+    </div>
+
+    <div id="education" class="content">
+      <h2>Education</h2>
+      <input type="text" placeholder="Enter education" />
+      <div class="buttons">
+        <button class="back-btn">⬅ Back</button>
+        <button class="next-btn">Next ➜</button>
+      </div>
+    </div>
+
+    <div id="Professionality" class="content">
+      <h2>Profession</h2>
+      <input type="text" placeholder="Enter profession" />
+      <div class="buttons">
+        <button class="back-btn">⬅ Back</button>
+        <button class="next-btn">Next ➜</button>
+      </div>
+    </div>
+
+    <div id="service" class="content">
+      <h2>Services</h2>
+      <input type="text" placeholder="Enter services" />
+      <div class="buttons">
+        <button class="back-btn">⬅ Back</button>
+        <button class="next-btn">Next ➜</button>
+      </div>
+    </div>
+
+    <div id="project" class="content">
+      <h2>Projects</h2>
+      <input type="text" placeholder="Enter projects" />
+      <div class="buttons">
+        <button class="back-btn">⬅ Back</button>
+        <button class="next-btn">Next ➜</button>
+      </div>
+    </div>
+
+    <div id="team" class="content">
+      <h2>Team</h2>
+      <input type="text" placeholder="Enter team info" />
+      <div class="buttons">
+        <button class="back-btn">⬅ Back</button>
+        <button class="next-btn">Next ➜</button>
+      </div>
+    </div>
+
+    <div id="cv" class="content">
+      <h2>CV Designs</h2>
+      <input type="text" placeholder="Enter CV design details" />
+      <div class="buttons">
+        <button class="back-btn">⬅ Back</button>
+        <button class="next-btn">Next ➜</button>
+      </div>
+    </div>
+
+    <div id="Portfolio" class="content">
+      <h2>Portfolio Web Design</h2>
+      <input type="text" placeholder="Enter portfolio details" />
+      <div class="buttons">
+        <button class="back-btn">⬅ Back</button>
+        <button class="next-btn">Finish</button>
+      </div>
+    </div>
+
+    <!-- Submit container placed OUTSIDE the 9th div (index 8) -->
+    <div id="submit-container" class="submit-container" aria-hidden="true">
+      <select style="display: none;" id="containerSelect9">
+        <option style="display: none;" value="resContainer9">resContainer9</option>
+      </select>
+      <p style="color: gray;">No skills selected</p>
+      <button class="sbbt" id="submitBtn">Submit</button>
+    </div>
+
+  </main>
+
+  <!-- overlay used for final state or confirmations -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="overlay-inner" id="overlayInner">
+      <!-- final messages/buttons inserted here -->
+    </div>
+  </div>
+
+  <script src="/UserWebPannel/UserWeb03.js"></script>
+</body>
+</html>

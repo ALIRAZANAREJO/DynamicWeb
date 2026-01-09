@@ -1,0 +1,498 @@
+:root{
+  --card:#fff;
+  --accent:#0d6efd;
+  --muted:#555;
+  --shadow:0 8px 20px rgba(15,23,42,0.08);
+  --radius:12px;
+}
+
+/* Typography bold, straight */
+
+/* Typography bold, straight */
+.design-card h3 {
+  margin:0;
+  font-size:20px;
+  font-weight:800; /* Bold straight */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(90deg, rgb(76, 133, 255) 0%, rgb(255, 141, 192) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align:center;
+}
+.design-card p{ margin:0; font-size:14px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height:1.5; }
+
+P{
+   color:var(--muted);
+}
+
+
+
+/* Grid */
+.design-grid{
+  display:grid;
+  gap:18px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+}
+
+/* Cards */
+.design-card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:16px;
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:10px;
+  cursor:pointer;
+  border:2px solid rgba(15,23,42,0.05);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .15s ease;
+}
+
+.design-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(15,23,42,0.10);
+}
+
+.design-card.selected{
+  border:2.5px solid #003d99;
+  box-shadow: 0 12px 30px rgba(13,110,253,0.10);
+  transform: translateY(-4px);
+}
+
+/* Make all subhd 3-word lines use gradient light colors */
+.subhd-1, .subhd-2, .subhd-3,
+.subhd-4, .subhd-5, .subhd-6,
+.subhd-7, .subhd-8 {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(90deg, rgb(56, 149, 255) 0%, rgb(255, 141, 192) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align:center;
+}
+/* Flex layout for 3-word lines */
+[class^="subhd-"] {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 600;
+  
+}
+
+/* 
+/* Gen + Login Button *
+#loginBtn {
+  width: 260px;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  background: linear-gradient(90deg, rgba(255,182,193,0.7) 0%, rgba(173,216,230,0.5) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(13,110,253,0.12);
+  transition: transform .12s ease, background .12s ease;
+  display:block;
+  margin:30px auto;
+  text-align:center;
+  text-transform: uppercase;
+}
+
+#loginBtn:hover{
+  transform: translateY(-3px);
+  background: linear-gradient(90deg, rgba(255,182,193,0.9) 0%, rgba(173,216,230,0.7) 100%);
+} */
+.design-card img{
+  width:100%;
+  max-width:280px;
+  height:160px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:12px; /* space before HD */
+  user-select:none;
+  border: 2px solid rgba(0,0,0,0.05);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.design-card:hover img{
+  transform: scale(1.03);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+}
+
+/* Responsive */
+@media (max-width:720px){
+  .design-grid{ grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
+
+@media (max-width:540px){
+  .design-grid{ grid-template-columns: repeat(2, 1fr); }
+  .design-card{ padding:12px; }
+  .design-card p{ font-size:13px; }
+}
+
+@media (max-width:400px){
+  .design-grid{ grid-template-columns: repeat(1, 1fr); gap:12px; }
+  .design-card{ padding:10px; border-radius:10px; }
+  .design-card h3{ font-size:14px; }
+  .design-card p{ font-size:12px; }
+  /* #loginBtn{ width:100%; margin-top:20px; } */
+}
+
+
+
+
+
+/* ================= SUB DESIGNS GRID ================= */
+#SubDesignsContainer .design-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  justify-items: center;   /* center cards horizontally */
+  padding: 10px;
+  width: 100%;
+}
+
+/* ================= DESIGN CARDS ================= */
+#SubDesignsContainer .design-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#SubDesignsContainer .design-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+#SubDesignsContainer .design-card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+#SubDesignsContainer .design-card span {
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 500px) {
+  #SubDesignsContainer .design-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+  }
+
+  #SubDesignsContainer .design-card {
+    padding: 8px;
+  }
+
+  #SubDesignsContainer .design-card span {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 400px) {
+  #SubDesignsContainer .design-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+  }
+
+  #SubDesignsContainer .design-card span {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 350px) {
+  #SubDesignsContainer .design-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+  }
+
+  #SubDesignsContainer .design-card span{
+    font-size: 0.75rem;
+  }
+  #SubDesignsContainer .design-card img{
+  width: 50%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================= BUTTON BASE ================= */
+.sbdata,
+.recall-rced,
+.update-uped {
+  position: relative;
+  width: 100%;
+  max-width: 15rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  border: 2px solid #0057c9c7;
+
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+
+  background: #ffffff6f;
+  box-shadow: 0 6px 18px rgba(91, 140, 255, 0.18);
+
+  transition:
+    border 0.5s ease,
+    box-shadow 0.6s ease,
+    transform 0.4s ease;
+}
+
+/* ✅ TEXT LAYER (IMPORTANT) */
+.sbdata span,
+.recall-rced span,
+.update-uped span {
+  position: relative;
+  z-index: 2;
+  color: #0057c9c7;
+  transition: color 0.4s ease;
+  display: inline-block;       /* important for padding to work */
+  padding: 0px;              /* default span padding */
+  white-space: nowrap;  
+  font-size: 1rem;
+          /* prevent wrapping */
+}
+
+/* ================= HOVER WAVE ================= */
+.sbdata::before,
+.recall-rced::before,
+.update-uped::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -120%;
+  width: 160%;
+  height: 160%;
+
+  background: radial-gradient(
+    circle at bottom center,
+    rgb(255, 88, 163) 0%,
+    rgb(85, 125, 255) 45%,
+    rgb(255, 127, 184) 75%
+  );
+
+  transform: translateX(-50%) scale(0.2);
+  border-radius: 50%;
+  transition:
+    bottom 1.4s ease,
+    transform 1.4s ease;
+
+  z-index: 1;
+}
+
+/* ================= HOVER EFFECT ================= */
+.sbdata:hover::before,
+.recall-rced:hover::before,
+.update-uped:hover::before {
+  bottom: -15%;
+  transform: translateX(-50%) scale(1.4);
+}
+
+.sbdata:hover,
+.recall-rced:hover,
+.update-uped:hover {
+  border-color: rgb(255, 255, 255);
+  box-shadow: 0 14px 32px rgba(130, 100, 255, 0.45);
+  transform: translateY(-2px);
+}
+
+/* Optional: text glow on hover */
+.sbdata:hover span,
+.recall-rced:hover span,
+.update-uped:hover span {
+  color: #ffffff;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 680px) {
+  .sbdata,
+  .recall-rced,
+  .update-uped {
+    max-width: 20rem;
+    justify-content: center;
+    
+  }
+}
+/* ================= MOBILE ================= */
+@media (max-width: 500px) {
+  .sbdata,
+  .recall-rced,
+  .update-uped {
+    max-width: 100%;
+  }
+}
+
+
+/* ================= MOBILE SMALL ================= */
+@media (max-width: 400px) {
+  .sbdata,
+  .recall-rced,
+  .update-uped {
+    justify-content: center;
+    width: 100%;
+    height: 100%;             /* smaller button width */
+   font-size: 1.2rem;          /* smaller text */
+  }
+
+  .sbdata span,
+  .recall-rced span,
+  .update-uped span {
+    padding: 0 1px;             /* smaller span padding */
+    font-size: 0.9rem;          /* match smaller button text */
+  }
+}
+/* Center all buttons in one row */
+.input-container04 button {
+  grid-column: auto;          /* remove spanning full row */
+}
+
+
+
+/* ================= MOBILE SMALL ================= */
+@media (max-width: 340px) {
+  .sbdata,
+  .recall-rced,
+  .update-uped {
+    justify-content: center;
+    width: 80%;
+    height: 100%;             /* smaller button width */
+   font-size: 1.2rem;          /* smaller text */
+  }
+  .sbdata span,
+  .recall-rced span,
+  .update-uped span {
+    padding: 0 1px;             /* smaller span padding */
+    font-size: 0.9rem;          /* match smaller button text */
+  }
+}
+
+/* ================= GOOGLE LOGIN BUTTON ================= */
+.pgredirectbt {
+  position: relative;
+  width: 100%;
+  max-width: 22rem;
+  height: 4.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 45px;
+  border: 2px solid #0057c9c7;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  background: #ffffff6f;
+  box-shadow: 0 8px 24px rgba(85, 125, 255, 0.25);
+  transition: all 0.4s ease;
+    display:block;
+  margin:30px auto;
+  text-align:center;
+}
+
+/* Text inside button */
+.pgredirectbt span {
+  position: relative;
+  z-index: 2;
+  color: #0057c9c7;
+  font-size: 1rem;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+/* Glowing hover wave */
+.pgredirectbt::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -120%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(circle at bottom center, #ff5ca8 0%, #557dff 45%, #ff8fc1 75%);
+  transform: translateX(-50%) scale(0.2);
+  border-radius: 50%;
+  transition: bottom 1.2s ease, transform 1.2s ease;
+  z-index: 1;
+    border: 2px solid #ffffffc7;
+
+}
+
+/* Hover effects */
+.pgredirectbt:hover::before {
+  bottom: -15%;
+  transform: translateX(-50%) scale(1.4);
+}
+
+.pgredirectbt:hover {
+  box-shadow: 0 16px 36px rgba(130, 100, 255, 0.45);
+  transform: translateY(-2px);
+}
+
+.pgredirectbt:hover span {
+  color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+  .pgredirectbt {
+    max-width: 100%;
+    height: 4rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .pgredirectbt span{
+    width: 80%;
+    height: 3.8rem;
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 340px) {
+  .pgredirectbt span{
+    width: 80%;
+    height: 3.8rem;
+    font-size: 0.7rem;
+    padding: 0;
+  }
+}

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profession Selector</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 40px;
+    background: #f4f7fa;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: auto;
+    position: relative;
+  }
+
+  .search-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    padding: 8px;
+    background: #fff;
+  }
+
+  .search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 6px;
+  }
+
+  .tag {
+    background: #007bff;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+  }
+
+  .tag span {
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+  }
+
+  .dropdown div {
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .dropdown div:hover,
+  .dropdown .active {
+    background: #007bff;
+    color: white;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="search-box" id="searchBox">
+      <input type="text" id="searchInput" placeholder="Search professions..." />
+    </div>
+    <div class="dropdown" id="dropdown"></div>
+  </div>
+
+<script>
+const professions = [
+"Web Developer","Software Engineer","Frontend Developer","Backend Developer","Full Stack Developer",
+"Mobile App Developer","Game Developer","Data Scientist","Machine Learning Engineer","AI Specialist",
+"UI/UX Designer","Graphic Designer","Product Designer","Interior Designer","Fashion Designer",
+"Architect","Civil Engineer","Mechanical Engineer","Electrical Engineer","Chemical Engineer",
+"Aerospace Engineer","Biomedical Engineer","Environmental Engineer","Industrial Engineer","Automotive Engineer",
+"Doctor","Surgeon","Dentist","Pharmacist","Nurse","Physician Assistant","Veterinarian","Optometrist",
+"Psychologist","Therapist","Physical Therapist","Occupational Therapist","Nutritionist","Dietitian",
+"Teacher","Professor","Lecturer","Tutor","Researcher","Principal","School Counselor","Librarian",
+"Lawyer","Attorney","Judge","Paralegal","Legal Advisor","Legal Secretary","Court Clerk",
+"Police Officer","Detective","Firefighter","Security Guard","Corrections Officer","Paramedic","Soldier",
+"Pilot","Flight Attendant","Air Traffic Controller","Aircraft Mechanic","Aviation Engineer","Travel Agent",
+"Chef","Cook","Baker","Waiter","Bartender","Restaurant Manager","Catering Manager","Butcher",
+"Farmer","Agricultural Scientist","Horticulturist","Fisherman","Forester","Rancher",
+"Electrician","Plumber","Carpenter","Mason","Painter","Welder","Mechanic","Technician",
+"Construction Worker","Crane Operator","Surveyor","Real Estate Agent","Property Manager","Urban Planner",
+"Accountant","Auditor","Financial Analyst","Investment Banker","Economist","Loan Officer","Insurance Agent",
+"Bank Teller","Stockbroker","Tax Advisor","Bookkeeper","Payroll Clerk",
+"Marketing Manager","Sales Executive","Digital Marketer","SEO Specialist","Content Writer","Copywriter",
+"Social Media Manager","Brand Manager","Public Relations Officer","Advertising Manager","Market Research Analyst",
+"Entrepreneur","Business Consultant","Project Manager","Product Manager","Operations Manager","HR Manager",
+"Recruiter","Training Specialist","Customer Service Representative","Call Center Agent","Administrative Assistant",
+"Secretary","Office Manager","Receptionist","Executive Assistant","Data Entry Clerk",
+"Photographer","Videographer","Film Director","Producer","Actor","Actress","Musician","Singer",
+"Composer","Sound Engineer","DJ","Radio Host","Journalist","News Reporter","Editor","Writer","Author","Poet",
+"Translator","Interpreter","Linguist","Historian","Archaeologist","Sociologist","Anthropologist",
+"Political Scientist","Geographer","Statistician","Mathematician","Physicist","Chemist","Biologist",
+"Microbiologist","Geneticist","Zoologist","Botanist","Ecologist","Geologist","Meteorologist",
+"Astronomer","Astrophysicist","Oceanographer","Marine Biologist","Environmental Scientist",
+"Software Tester","QA Engineer","DevOps Engineer","Cloud Architect","Cybersecurity Specialist",
+"Database Administrator","Network Engineer","System Administrator","IT Support Specialist",
+"Hardware Engineer","Blockchain Developer","AR/VR Developer","Game Designer","Animation Artist",
+"3D Modeler","Video Editor","Motion Graphics Designer","Illustrator","Cartoonist",
+"Social Worker","Community Organizer","NGO Manager","Volunteer Coordinator","Charity Worker",
+"Politician","Diplomat","Ambassador","Public Administrator","Policy Analyst",
+"Customs Officer","Immigration Officer","Border Patrol Agent","Transport Planner",
+"Truck Driver","Bus Driver","Taxi Driver","Train Conductor","Ship Captain","Sailor",
+"Warehouse Worker","Logistics Manager","Supply Chain Analyst","Inventory Manager","Courier","Delivery Driver",
+"Sports Coach","Athlete","Fitness Trainer","Yoga Instructor","Gym Manager","Sports Commentator",
+"Event Planner","Wedding Planner","Tour Guide","Travel Blogger","Hotel Manager","Concierge",
+"Cleaner","Housekeeper","Janitor","Gardener","Laundry Attendant","Caretaker",
+"Tailor","Fashion Stylist","Makeup Artist","Hairdresser","Barber","Beautician",
+"Jeweler","Watchmaker","Sculptor","Painter (Artist)","Ceramic Artist","Glassblower",
+"Software Trainer","Coding Instructor","Language Teacher","Driving Instructor","Music Teacher",
+"Game Streamer","YouTuber","Content Creator","Influencer","Podcaster","Blogger",
+"HR Analyst","Compliance Officer","Risk Manager","Procurement Officer","Fundraiser",
+"Event Coordinator","Media Planner","Creative Director","Brand Strategist","E-commerce Manager",
+"UI Tester","Automation Engineer","Robotics Engineer","Drone Operator","Data Engineer",
+"Survey Data Collector","Field Researcher","Policy Researcher","Archivist","Museum Curator",
+"Art Director","Set Designer","Lighting Technician","Stage Manager","Theater Director",
+"Investment Analyst","Credit Analyst","Budget Analyst","Actuary","Treasury Analyst",
+"Cyber Forensics Expert","Penetration Tester","Ethical Hacker","Network Security Analyst",
+"System Analyst","Cloud Engineer","Solutions Architect","IT Project Manager","Web Administrator"
+];
+
+const input = document.getElementById("searchInput");
+const dropdown = document.getElementById("dropdown");
+const searchBox = document.getElementById("searchBox");
+let selectedProfessions = [];
+let filtered = [];
+let activeIndex = -1;
+
+input.addEventListener("input", () => {
+  const query = input.value.toLowerCase();
+  if (!query) {
+    dropdown.style.display = "none";
+    return;
+  }
+  filtered = professions.filter(p => p.toLowerCase().includes(query) && !selectedProfessions.includes(p));
+  renderDropdown();
+});
+
+input.addEventListener("keydown", e => {
+  if (dropdown.style.display === "none") return;
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    activeIndex = (activeIndex + 1) % filtered.length;
+    renderDropdown();
+  } else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    activeIndex = (activeIndex - 1 + filtered.length) % filtered.length;
+    renderDropdown();
+  } else if (e.key === "Enter" && filtered[activeIndex]) {
+    e.preventDefault();
+    selectProfession(filtered[activeIndex]);
+  }
+});
+
+function renderDropdown() {
+  dropdown.innerHTML = "";
+  if (filtered.length === 0) {
+    dropdown.style.display = "none";
+    return;
+  }
+  filtered.forEach((p, i) => {
+    const div = document.createElement("div");
+    div.textContent = p;
+    if (i === activeIndex) div.classList.add("active");
+    div.onclick = () => selectProfession(p);
+    dropdown.appendChild(div);
+  });
+  dropdown.style.display = "block";
+}
+
+function selectProfession(name) {
+  if (selectedProfessions.includes(name)) return;
+  selectedProfessions.push(name);
+  const tag = document.createElement("div");
+  tag.classList.add("tag");
+  tag.innerHTML = `${name} <span onclick="removeProfession('${name}')">&times;</span>`;
+  searchBox.insertBefore(tag, input);
+  input.value = "";
+  dropdown.style.display = "none";
+}
+
+function removeProfession(name) {
+  selectedProfessions = selectedProfessions.filter(p => p !== name);
+  document.querySelectorAll(".tag").forEach(tag => {
+    if (tag.textContent.includes(name)) tag.remove();
+  });
+}
+</script>
+</body>
+</html>

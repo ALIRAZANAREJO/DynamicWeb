@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Profession / Hobbies / Languages - Recall & Update (Realtime DB)</title>
+<link rel="stylesheet" href="">
+<style>
+/* ====== Layout & container ====== */
+body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;margin:18px;background:#f4f7fb;color:#062a4f;}
+.containerddd{max-width:1200px;margin:12px auto;padding:16px;}
+h2{margin:0 0 12px;font-size:20px;color:#003366}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.controls input[type="text"]{padding:10px 12px;border-radius:8px;border:1px solid #cfdcec;min-width:220px}
+button{padding:10px 12px;border-radius:8px;border:none;background:#00469b;color:white;cursor:pointer}
+button.secondary{background:#0066cc;opacity:0.95}
+
+/* ====== grid inputs ====== */
+.input-container02 {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  --bg-color: transparent;
+  background: #ffffff00;
+  padding: 15px;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 1200px;
+  border: 3px solid #adadad6a;
+  transition: all 0.5s ease;
+  overflow: visible;
+}
+
+/* Responsive */
+@media (max-width:768px){.input-container02{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}}
+@media (max-width:480px){.input-container02{grid-template-columns:1fr;gap:8px;padding:10px;margin-bottom:12px}}
+
+/* wrappers */
+.multi-block{position:relative;display:flex;flex-direction:column;gap:6px}
+.multi-profession-input, .multi-hobby-input, .multi-lang-input{
+  position:relative;display:flex;flex-wrap:wrap;align-items:flex-start;gap:6px;
+  padding:6px 12px;border:2px solid #bbbbbb;border-radius:8px;background:#fff;min-height:50px;transition:all .2s ease;
+}
+.multi-profession-input:focus-within,.multi-hobby-input:focus-within,.multi-lang-input:focus-within{
+  border-color:#00469b;box-shadow:0 0 8px rgba(0,70,155,0.12)
+}
+.multi-profession-input input, .multi-hobby-input input, .multi-lang-input input{
+  flex:1;border:none;outline:none;font-size:15px;color:#00469b;min-width:120px;padding:8px 0;background:transparent;
+}
+
+/* floating label */
+.multi-profession-input label, .multi-hobby-input label, .multi-lang-input label{
+  position:absolute;top:12px;left:12px;font-size:15px;color:#888;background:transparent;padding:0 6px;pointer-events:none;transition:all .2s ease;z-index:2;
+}
+.multi-profession-input input:focus + label,
+.multi-hobby-input input:focus + label,
+.multi-lang-input input:focus + label{top:-8px;font-size:12px;color:#00469b;background:white}
+
+/* selected tags container */
+.selected-container{display:flex;flex-wrap:wrap;gap:6px;width:100%;padding-top:6px;pointer-events:auto}
+.tagd{background:linear-gradient(90deg,#ffb6c1,#add8e6);color:#222;padding:4px 8px;border-radius:10px;font-size:12px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 4px rgba(0,0,0,0.06)}
+.tagd .remove{cursor:pointer;font-weight:700;padding-left:6px}
+.tagd .text{max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* dropdown base - shared style for all dropdowns */
+.dropdown{
+  position:absolute;top:100%;left:0;width:100%;background:#fff;border:1px solid #b3d9ff;border-radius:10px;margin-top:6px;display:none;max-height:220px;overflow-y:auto;box-shadow:0 6px 18px rgba(0,0,0,0.08);z-index:9999;
+}
+.dropdown div{padding:10px 12px;font-size:15px;color:#00469b;background:#fff;cursor:pointer;position:relative;transition:all .18s ease;display:flex;align-items:center;}
+.dropdown div .arrow{position:absolute;left:8px;opacity:0;transform:translateX(-6px);transition:all .18s ease;font-weight:700}
+.dropdown div:hover,.dropdown div.active,.dropdown div.highlighted,.dropdown div:focus{
+  background:linear-gradient(90deg,#ffb6c1 0%,#add8e6 100%);color:#222;padding-left:28px;border-radius:6px;outline:none;
+}
+.dropdown div:hover .arrow,.dropdown div.active .arrow,.dropdown div.highlighted .arrow{opacity:1;transform:translateX(0)}
+
+/* minor visuals */
+.small-note{font-size:13px;color:#5b6b7a}
+.label-row{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.key-help{font-size:12px;color:#666}
+
+/* ensure dropdown appears within viewport on small screens */
+@media (max-width:480px){.dropdown{max-height:180px;font-size:14px}}
+</style>
+</head>
+<body>
+
+<div class="containerddd">
+  <h2>Recall & Update — Profession / Hobbies / Languages</h2>
+
+  <div class="controls">
+    <input id="cnic" type="text" placeholder="Enter CNIC (e.g. 12345)" />
+    <button id="recallBtn" class="secondary">Recall Data</button>
+    <button id="updateBtn">Update Data</button>
+    <span class="small-note">Use Arrow keys + Enter or mouse to select; hover shows arrow.</span>
+  </div>
+
+  <div class="input-container02">
+    <!-- Profession -->
+    <div class="multi-block">
+      <div class="label-row"><label>Professions</label><span class="key-help">arrow/enter or click</span></div>
+      <div class="multi-profession-input" id="multiProfessionWrapper">
+        <input type="search" id="professionInput" autocomplete="off" placeholder="">
+        <label for="professionInput">Search professions...</label>
+        <div class="selected-container" id="profession-selected"></div>
+      </div>
+      <div class="dropdown" id="dropdown002" aria-hidden="true"></div>
+    </div>
+
+    <!-- Hobbies (Qual) -->
+    <div class="multi-block">
+      <div class="label-row"><label>Hobbies</label><span class="key-help">arrow/enter or click</span></div>
+      <div class="multi-hobby-input" id="hobbyWrapper">
+        <input type="text" id="Qual" autocomplete="off" placeholder="">
+        <label for="Qual">Select Your Hobbies</label>
+        <div class="selected-container" id="qual-selected"></div>
+      </div>
+      <div class="dropdown" id="hobbydropdown01" aria-hidden="true"></div>
+    </div>
+
+    <!-- Languages (Paddres) -->
+    <div class="multi-block">
+      <div class="label-row"><label>Languages</label><span class="key-help">arrow/enter or click</span></div>
+      <div class="multi-lang-input" id="multiLangWrapper">
+        <input type="text" id="Paddres" autocomplete="off" placeholder="">
+        <label for="Paddres">Select Languages</label>
+        <div class="selected-container" id="paddres-selected"></div>
+      </div>
+      <div class="dropdown" id="dropdown01" aria-hidden="true"></div>
+    </div>
+
+    <!-- (Optional) Another input - 4th placeholder to satisfy "oh yes its 4" -->
+    <div class="multi-block">
+      <div class="label-row"><label>Optional Tag</label><span class="key-help"></span></div>
+      <div class="multi-profession-input" id="optWrapper">
+        <input type="text" id="optionalInput" autocomplete="off" placeholder="">
+        <label for="optionalInput">Optional</label>
+        <div class="selected-container" id="opt-selected"></div>
+      </div>
+      <div class="dropdown" id="opt-dropdown" aria-hidden="true"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+// ---------- Firebase (v9 modular) ----------
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCmL8qcjg4S6NeY3erraq_XhlDJ7Ek2s_E",
+  authDomain: "palestine-web.firebaseapp.com",
+  databaseURL: "https://palestine-web-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "palestine-web",
+  storageBucket: "palestine-web.appspot.com",
+  messagingSenderId: "35190212487",
+  appId: "1:35190212487:web:0a699bb1fa7b1a49113522",
+  measurementId: "G-8TE04Z9ZFW"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+// ===== static lists =====
+const professions = [
+  "Web Developer","Software Engineer","Frontend Developer","Backend Developer","Full Stack Developer",
+  "Mobile App Developer","Game Developer","Data Scientist","Machine Learning Engineer","AI Specialist",
+  "UI/UX Designer","Graphic Designer","Product Designer","Teacher","Doctor","Lawyer","Engineer"
+];
+
+const languagesList = [
+"Ghotuo","Alumu-Tesu","Ari","Amal","Arbëreshë Albanian","Aranadan","Zay",
+"No linguistic content","Yongbei Zhuang","Yang Zhuang","Youjiang Zhuang","Yongnan Zhuang",
+"Zyphe Chin","Zaza","Zuojiang Zhuang"
+];
+
+const hobbiesList = [
+"Reading","Writing","Painting","Sketching","Photography","Traveling","Hiking","Cycling","Swimming","Running","Yoga",
+"Meditation","Gardening","Cooking","Baking","Music Listening","Singing","Dancing","Playing Guitar","Playing Piano",
+"Playing Violin","Learning Languages","Calligraphy","Origami","Knitting","Crocheting","Fishing","Bird Watching",
+"Camping","Rock Climbing","Surfing","Skiing","Snowboarding","Martial Arts","Chess","Board Games","Video Gaming",
+"Writing Poetry","Blogging","Vlogging","Podcasting","Volunteering","DIY Crafts","Jewelry Making","Pottery","Woodworking",
+"Graphic Design","Animation","Digital Art","Astronomy","Star Gazing","Magic Tricks","Learning Programming","Robotics",
+"Electronics","Puzzle Solving","Card Games","Collecting Coins","Collecting Stamps","Antique Collection","Model Building",
+"Travel Blogging","Fashion Designing","Interior Designing","Sculpting","Filmmaking","Acting","Improv Comedy","Stand-Up Comedy",
+"Creative Writing","Storytelling","Public Speaking","Debating","Bird Photography","Wildlife Photography","Carpentry",
+"Home Brewing","Mixology","Fitness Training","Weightlifting","Pilates","Parkour","Motorcycling","Driving","Kayaking",
+"Canoeing","Sailing","Skateboarding","Surfboard Riding","Learning History","Learning Culture","Meditation Retreats",
+"Environmental Activism","Sustainability Projects","Beach Cleanup","Animal Care","Pet Training","Aquarium Keeping",
+"Chess Strategy","Puzzle Games","Escape Rooms","Board Game Design","Learning AI & ML","Stock Market Investing",
+"Cryptocurrency Trading","Podcast Hosting","Music Production","DJing"
+];
+
+// ---------- utility multi-select factory ----------
+const instances = {}; // keyed by inputId
+
+function setupMultiSelect({ inputId, dropdownId, choices, selectedContainerId, allowFreeText = false }) {
+  const input = document.getElementById(inputId);
+  const dropdown = document.getElementById(dropdownId);
+  const selectedContainer = document.getElementById(selectedContainerId);
+  let allItems = choices.slice();
+  let filtered = [];
+  let highlighted = -1;
+  let selected = [];
+
+  function renderTags(){
+    selectedContainer.innerHTML = "";
+    selected.forEach(item=>{
+      const t = document.createElement("div");
+      t.className = "tagd";
+      t.innerHTML = `<span class="text">${escapeHtml(item)}</span><span class="remove">×</span>`;
+      t.querySelector(".remove").onclick = ()=>{ removeItem(item); };
+      selectedContainer.appendChild(t);
+    });
+  }
+
+  function removeItem(item){
+    selected = selected.filter(i=>i!==item);
+    renderTags();
+  }
+
+  function renderDropdown(){
+    dropdown.innerHTML = "";
+    filtered.forEach((item, idx)=>{
+      const el = document.createElement("div");
+      el.tabIndex = 0;
+      el.innerHTML = `<span class="arrow">→</span><span style="margin-left:20px">${escapeHtml(item)}</span>`;
+      if(idx===highlighted) el.classList.add("highlighted");
+      else el.classList.remove("highlighted");
+      el.addEventListener("mouseenter", ()=> { highlighted = idx; renderDropdown(); });
+      el.addEventListener("mousedown", (e)=>{ e.preventDefault(); selectItem(item); });
+      dropdown.appendChild(el);
+    });
+    dropdown.style.display = filtered.length ? "block" : "none";
+    dropdown.setAttribute('aria-hidden', filtered.length? 'false':'true');
+  }
+
+  function selectItem(item){
+    if(!selected.includes(item)) selected.push(item);
+    input.value = "";
+    filtered = allItems.filter(i=>!selected.includes(i));
+    highlighted = -1;
+    renderTags();
+    renderDropdown();
+  }
+
+  input.addEventListener("input", ()=> {
+    const v = input.value.trim().toLowerCase();
+    filtered = v===""? allItems.filter(i=>!selected.includes(i)) : allItems.filter(i=>i.toLowerCase().includes(v) && !selected.includes(i));
+    highlighted = filtered.length? 0:-1;
+    renderDropdown();
+  });
+
+  input.addEventListener("keydown", (e)=>{
+    if(e.key==="ArrowDown"){ e.preventDefault(); if(filtered.length){highlighted=(highlighted+1)%filtered.length; renderDropdown(); scrollHighlightedIntoView();} }
+    else if(e.key==="ArrowUp"){ e.preventDefault(); if(filtered.length){highlighted=(highlighted-1+filtered.length)%filtered.length; renderDropdown(); scrollHighlightedIntoView();} }
+    else if(e.key==="Enter"){ e.preventDefault(); if(highlighted>=0&&filtered[highlighted]) selectItem(filtered[highlighted]); else if(allowFreeText&&input.value.trim()) selectItem(input.value.trim()); }
+    else if(e.key==="Escape"){ dropdown.style.display="none"; }
+    else if(e.key==="Backspace" && input.value===""){ if(selected.length){selected.pop(); renderTags();} }
+  });
+
+  function scrollHighlightedIntoView(){
+    const el = dropdown.children[highlighted];
+    if(el) el.scrollIntoView({block:"nearest",behavior:"auto"});
+  }
+
+  document.addEventListener("click", (ev)=>{
+    if(!dropdown.contains(ev.target) && !input.contains(ev.target)) { dropdown.style.display="none"; highlighted=-1; }
+  });
+
+  const inst = {
+    getSelected: ()=>selected.slice(),
+    setSelectedFromString(str){
+      selected=[]; if(!str){renderTags(); return;}
+      if(Array.isArray(str)) selected=str.slice();
+      else if(typeof str==="string"){ const cleaned=str.replace(/(^\s*"+|\s*"+$)/g,""); selected=cleaned.split(",").map(s=>s.trim()).filter(s=>s); }
+      else selected=[String(str)];
+      renderTags();
+      filtered = allItems.filter(i=>!selected.includes(i));
+      renderDropdown();
+    },
+    setSelectedFromArray(arr){ if(!Array.isArray(arr)) return; selected=arr.slice(); renderTags(); filtered=allItems.filter(i=>!selected.includes(i)); renderDropdown(); },
+    clear(){ selected=[]; renderTags(); filtered=allItems.slice(); renderDropdown(); },
+    addItem(item){ selectItem(item); },
+    getSelectedAsString(){ return selected.join(","); }
+  };
+
+  allItems=choices.slice(); filtered=allItems.slice(); renderDropdown(); renderTags();
+  instances[inputId]=inst;
+  return inst;
+}
+
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// ---------- initialize three multi-selects ----------
+const profInst = setupMultiSelect({ inputId:"professionInput", dropdownId:"dropdown002", choices:professions, selectedContainerId:"profession-selected", allowFreeText:false });
+const qualInst = setupMultiSelect({ inputId:"Qual", dropdownId:"hobbydropdown01", choices:hobbiesList, selectedContainerId:"qual-selected", allowFreeText:true });
+const paddresInst = setupMultiSelect({ inputId:"Paddres", dropdownId:"dropdown01", choices:languagesList, selectedContainerId:"paddres-selected", allowFreeText:true });
+
+// ---------- recall button ----------
+recallBtn.addEventListener("click", async ()=>{
+  const cnicValue = cnic.value?.trim();
+  if(!cnicValue) return alert("Enter CNIC to recall.");
+  try{
+    const profSnap = await get(ref(db, `resContainer9/${cnicValue}/Professionality/profession`));
+    profInst.setSelectedFromString(profSnap.exists()? profSnap.val():"");
+
+    const personalSnap = await get(ref(db, `resContainer9/${cnicValue}/Personal`));
+    if(personalSnap.exists()){
+      const p = personalSnap.val();
+      qualInst.setSelectedFromString(p.Qual||"");
+      paddresInst.setSelectedFromString(p.Paddres||"");
+    } else { qualInst.clear(); paddresInst.clear(); }
+
+    profLog("✅ Profession, Qual, Paddres recalled.");
+    alert("✅ Data Recalled.");
+  } catch(err){ console.error(err); alert("⚠️ Recall Failed."); }
+});
+
+// ---------- update button ----------
+async function updateData(){
+  const cnicValue = cnic.value?.trim();
+  if(!cnicValue) return alert("Enter CNIC before saving.");
+  try{
+    await update(ref(db, `resContainer9/${cnicValue}/Professionality`), { profession: profInst.getSelectedAsString()||"" });
+    await update(ref(db, `resContainer9/${cnicValue}/Personal`), { Qual: qualInst.getSelectedAsString()||"", Paddres: paddresInst.getSelectedAsString()||"" });
+    profLog("✅ Profession, Qual, Paddres updated.");
+    alert("✅ Data Updated Successfully.");
+  } catch(err){ console.error(err); alert("⚠️ Update Failed."); }
+}
+
+function profLog(...args){ console.info("[Recall]", ...args); }
+
+
+</script>
+</body>
+</html>

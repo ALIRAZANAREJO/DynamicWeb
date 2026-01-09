@@ -1,0 +1,10 @@
+    body { font-family: Arial, sans-serif; margin: 20px;background-color: red; }
+    #searchInput01 { width: 100%; padding: 10px; font-size: 16px; }
+    #dropdown01 { border: 1px solid #ccc; max-height: 150px; overflow-y: auto; display: none; }
+    #dropdown01 div { padding: 8px; cursor: pointer; }
+    #dropdown01 div:hover { background: #f0f0f0; }
+    #selectedContainer { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .skill-tag { background: #00337f; color: #fff; padding: 5px 10px; border-radius: 12px; display: flex; align-items: center; gap: 5px; }
+    .skill-tag input { width: 50px; padding: 2px; border-radius: 5px; border: none; font-size: 14px; }
+    .remove-btn { cursor: pointer; font-weight: bold; margin-left: 5px; }
+    button { margin-top: 20px; padding: 10px 20px; font-size: 16px; cursor: pointer; }

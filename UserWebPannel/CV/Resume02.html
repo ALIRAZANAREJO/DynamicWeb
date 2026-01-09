@@ -1,0 +1,134 @@
+<button id="displayDownloadBtn" class="btn ghost">Display & Download</button>
+
+<div id="cvOverlay" style="display:none;position:fixed;inset:0;z-index:1200">
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,0.6)"></div>
+  <div style="position:relative;max-width:980px;margin:8% auto;background:#fff;padding:12px;border-radius:10px;z-index:1210">
+    <div style="display:flex;gap:10px">
+      <button id="displayBtn">Display</button>
+      <button id="downloadBtn">Download</button>
+      <button id="closeOverlay">Close</button>
+    </div>
+    <div id="overlayViewer" style="margin-top:10px;display:none"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { getDatabase, ref, get, child, update } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js";
+import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-storage.js";
+
+// ---------- Firebase Config ----------
+const firebaseConfig = {
+  apiKey: "AIzaSyCmL8qcjg4S6NeY3erraq_XhlDJ7Ek2s_E",
+  authDomain: "palestine-web.firebaseapp.com",
+  databaseURL: "https://palestine-web-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "palestine-web",
+  storageBucket: "palestine-web.appspot.com",
+  messagingSenderId: "35190212487",
+  appId: "1:35190212487:web:0a699bb1fa7b1a49113522"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const storage = getStorage(app);
+
+// ---------- DOM ----------
+const displayDownloadBtn = document.getElementById('displayDownloadBtn');
+const overlay = document.getElementById('cvOverlay');
+const displayBtn = document.getElementById('displayBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const closeOverlay = document.getElementById('closeOverlay');
+const overlayViewer = document.getElementById('overlayViewer');
+
+// Assume your CV HTML is already in <div id="cv"> on page
+const cvSheet = document.getElementById('cv');
+
+// ---------- CNIC ----------
+let CNIC = localStorage.getItem('Cnic') || prompt('Enter CNIC:');
+if(!CNIC) CNIC = prompt('CNIC required:') || 'unknown';
+localStorage.setItem('Cnic', CNIC);
+
+// ---------- Auto-create PDF if CV data exists ----------
+async function autoSavePdf() {
+  try {
+    const snap = await get(child(ref(db), `resContainer9/${CNIC}/cvjs`));
+    if(!snap.exists()) return;
+
+    const opt = {
+      margin: 8,
+      filename: `Resume-Cv.pdf`,
+      image: { type: 'jpeg', quality: 0.95 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    const blob = await html2pdf().from(cvSheet).set(opt).outputPdf('blob');
+
+    const pdfRef = sRef(storage, `ResumePdF/Portfolio/${CNIC}/Resume-Cv.pdf`);
+    await uploadBytes(pdfRef, blob);
+
+    const url = await getDownloadURL(pdfRef);
+    await update(ref(db), { [`resContainer9/${CNIC}/PDF`]: url });
+    console.log('Auto PDF saved:', url);
+  } catch(e){ console.error('Auto PDF error:', e); }
+}
+
+// ---------- Download with Payment Check ----------
+async function downloadCv() {
+  try {
+    const accessSnap = await get(child(ref(db), `resContainer9/${CNIC}/Access`));
+    const status = accessSnap.exists() ? accessSnap.val()?.paymentStatus : null;
+    if(status !== 'verified'){
+      window.location.href = '/payment.html';
+      return;
+    }
+
+    const pdfSnap = await get(child(ref(db), `resContainer9/${CNIC}/PDF`));
+    let url = pdfSnap.exists() ? pdfSnap.val() : null;
+    if(!url) url = await createPdfAndUpload();
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Resume-Cv.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  } catch(e){ console.error(e); alert('Download failed'); }
+}
+
+// ---------- PDF creation fallback ----------
+async function createPdfAndUpload() {
+  const opt = {
+    margin: 8,
+    filename: `Resume-Cv.pdf`,
+    image: { type: 'jpeg', quality: 0.95 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+  const blob = await html2pdf().from(cvSheet).set(opt).outputPdf('blob');
+  const pdfRef = sRef(storage, `ResumePdF/Portfolio/${CNIC}/Resume-Cv.pdf`);
+  await uploadBytes(pdfRef, blob);
+  const url = await getDownloadURL(pdfRef);
+  await update(ref(db), { [`resContainer9/${CNIC}/PDF`]: url });
+  return url;
+}
+
+// ---------- Button actions ----------
+displayDownloadBtn.addEventListener('click', ()=>overlay.style.display='block');
+displayBtn.addEventListener('click', ()=>{
+  overlayViewer.style.display='block';
+  overlayViewer.innerHTML='';
+  const clone = cvSheet.cloneNode(true);
+  clone.style.transform='scale(0.9)';
+  clone.style.transformOrigin='top left';
+  clone.style.width='90%';
+  clone.style.height='auto';
+  overlayViewer.appendChild(clone);
+});
+downloadBtn.addEventListener('click', downloadCv);
+closeOverlay.addEventListener('click', ()=>{ overlay.style.display='none'; overlayViewer.style.display='none'; overlayViewer.innerHTML=''; });
+
+// ---------- Auto-save PDF on page load if cvjs exists ----------
+autoSavePdf();
+</script>

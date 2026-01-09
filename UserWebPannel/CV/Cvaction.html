@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV Actions</title>
+  <link rel="stylesheet" href="/UserWebPannel/CV/Preview02.css">
+</head>
+<body>
+  <div class="preview-container">
+    <h2>Your CV Options</h2>
+
+    <div class="cv-action-buttons">
+      <button id="displayCV">👁️ Display CV</button>
+      <button id="downloadCV">📄 Download CV</button>
+    </div>
+
+    <div id="cvOutput" class="cv-template" style="display: none;"></div>
+  </div>
+
+  <!-- html2pdf for downloading -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <script type="module" src="/UserWebPannel/CV/Cvaction.js"></script>
+</body>
+</html>

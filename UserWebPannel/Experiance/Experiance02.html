@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experience Form</title>
+  <style>
+    .exp-group { margin-bottom: 10px; }
+    .exp-label { display: block; margin-bottom: 5px; }
+    .remove-experience, .exp-doc, #submitBtn {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .remove-experience { background: #dc3545; }
+  </style>
+</head>
+<body>
+  <h2>Experience Form</h2>
+
+  <div class="exper-docs">
+    <!-- Default first experience -->
+    <div class="exp-row-wrapper">
+      <div class="exp-row">
+        <div class="exp-group">
+          <label class="exp-label">Organization Name</label>
+          <input type="text" class="exp-input org-name" required />
+        </div>
+
+        <div class="exp-group">
+          <label class="exp-label">Month Or Year</label>
+          <select class="exp-input org-unit" required>
+            <option value="" disabled selected></option>
+            <option value="Months">Months</option>
+            <option value="Years">Years</option>
+          </select>
+        </div>
+
+        <div class="exp-group">
+          <label class="exp-label">Duration Number</label>
+          <input type="number" class="exp-input org-duration" required />
+        </div>
+
+        <button type="button" class="remove-experience">🗑️ Remove</button>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" id="addExperience" class="exp-doc">+ Add More Experience</button>
+  <button id="submitBtn">Submit</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCmL8qcjg4S6NeY3erraq_XhlDJ7Ek2s_E",
+  authDomain: "palestine-web.firebaseapp.com",
+  databaseURL: "https://palestine-web-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "palestine-web",
+  storageBucket: "palestine-web.appspot.com",
+  messagingSenderId: "35190212487",
+  appId: "1:35190212487:web:0a699bb1fa7b1a49113522",
+  measurementId: "G-8TE04Z9ZFW"
+};
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const container = document.querySelector(".exper-docs");
+    const addBtn = document.getElementById("addExperience");
+
+    // ➕ Add new experience row
+    addBtn.addEventListener("click", () => {
+      const newRow = document.createElement("div");
+      newRow.classList.add("exp-row-wrapper");
+      newRow.innerHTML = `
+        <div class="exp-row">
+          <div class="exp-group">
+            <label class="exp-label">Organization Name</label>
+            <input type="text" class="exp-input org-name" required />
+          </div>
+          <div class="exp-group">
+            <label class="exp-label">Month Or Year</label>
+            <select class="exp-input org-unit" required>
+              <option value="" disabled selected></option>
+              <option value="Months">Months</option>
+              <option value="Years">Years</option>
+            </select>
+          </div>
+          <div class="exp-group">
+            <label class="exp-label">Duration Number</label>
+            <input type="number" class="exp-input org-duration" required />
+          </div>
+          <button type="button" class="remove-experience">🗑️ Remove</button>
+        </div>
+      `;
+      container.appendChild(newRow);
+    });
+
+    // 🗑️ Remove experience
+    document.addEventListener("click", (e) => {
+      if (e.target.classList.contains("remove-experience")) {
+        e.target.closest(".exp-row-wrapper").remove();
+      }
+    });
+
+    // 🚀 Submit data
+    document.getElementById("submitBtn").addEventListener("click", async () => {
+      const allRows = document.querySelectorAll(".exp-row-wrapper");
+
+      for (const row of allRows) {
+        const name = row.querySelector(".org-name").value.trim();
+        const unit = row.querySelector(".org-unit").value.trim();
+        const duration = row.querySelector(".org-duration").value.trim();
+
+        if (!name || !unit || !duration) continue;
+
+        try {
+          await addDoc(collection(db, "userExperiences"), {
+            organization: name,
+            timeUnit: unit,
+            duration,
+            createdAt: new Date().toISOString()
+          });
+        } catch (err) {
+          console.error("❌ Firestore Save Error:", err);
+          alert("Error saving data: " + err.message);
+          return;
+        }
+      }
+
+      alert("✅ All experiences saved successfully!");
+    });
+  </script>
+</body>
+</html>

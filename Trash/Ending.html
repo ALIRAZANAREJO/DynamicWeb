@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional Footer</title>
+
+<!-- Font Awesome CDN for rating stars -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-+0f3X5w0Hk5gkM0TzZFtHVK1jlJdrVkp+MxzR7lFyK8VtKq5jzplHBKpBfiPhE6FTV6+xPk6LhK0bGdcfKqSQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<style>
+body { margin:0; font-family:Inter, sans-serif; background:#f0f0f0; }
+footer { background:#071029; color:#fff; padding:16px 12px; width:100%; }
+.footer-container { max-width:1400px; margin:0 auto; padding:0 18px; }
+.top-row { display:flex; gap:28px; justify-content:space-between; flex-wrap:wrap; margin-bottom:28px; }
+.col { box-sizing:border-box; }
+
+/* AR Block */
+.ar-block { flex:1 1 62%; min-width:260px; }
+.brand-row { display:flex; align-items:center; gap:14px; }
+.brand-logo { width:96px; height:auto; }
+.brand-name { font-size:22px; font-weight:700; margin:0; color:#fff; }
+.brand-para { margin:12px 0 14px; color:#d6e9ff; font-size:15.5px; line-height:1.6; }
+.meta-row { display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+.rating { display:flex; align-items:center; }
+.rating i { color:#ffd166; margin-right:4px; }
+.rating-text { color:#bcd8ff; font-size:13.5px; margin-left:6px; }
+.cta { display:inline-block; border: 2px solid #2196f3; color:#fff; padding:10px 18px; border-radius:8px; text-decoration:none; font-weight:600; position:relative; overflow:hidden; transition: color .32s ease; }
+.cta::after { content:''; position:absolute; left:0; top:0; width:0; height:100%; background:#005bb5; z-index:0; transition:width .32s ease; }
+.cta span { position:relative; z-index:1; }
+.cta:hover::after { width:100%; }
+
+/* Admin block */
+.admin-block { flex:0 0 34%; min-width:260px; }
+.admin-head { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+.admin-logo { width:66px; height:auto; border-radius:8px; }
+.admin-name { font-size:18px; font-weight:700; margin:0; color:#fff; }
+.admin-para { font-size:15px; line-height:1.6; color:#d6e9ff; margin-bottom:12px; }
+.admin-quick-links { display:flex; gap:12px; flex-wrap:wrap; }
+.admin-quick-links a { font-size:14px; color:#fff; text-decoration:none; position:relative; display:inline-block; border:2px solid #2196f3; padding:8px 14px; border-radius:8px; transition: all .32s ease; }
+.admin-quick-links a:hover { background:#0a66c2; }
+
+/* Services grid */
+.services-grid { display:grid; grid-template-columns: repeat(7,1fr); gap:8px; max-width:1320px; margin:0 auto 22px; margin-top: -30px; }
+.service-group h4 { color:#bcd8ff; margin-bottom:6px; font-size:14px; font-weight:600; }
+.service-group ul { list-style:none; padding:0; margin:0; line-height:1.8; }
+.service-group ul li a { color:#fff; text-decoration:none; position:relative; padding-bottom:3px; font-size:14px; display:inline-block; transition: all .28s ease; }
+.service-group ul li a::after { content:''; position:absolute; left:0; bottom:0; width:0; height:3px; background:#0a66c2; transition:width .36s ease; border-radius:2px; }
+.service-group ul li a:hover::after { width:100%; }
+
+/* Social icons */
+.icons-row { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:5px 0 18px; }
+.icons-row a.social { width:46px; height:46px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; transition: background .32s ease; text-decoration:none; border:none; }
+.icons-row a.social img { width:22px; height:22px; }
+.icons-row a.social:hover { background:#0a66c2; }
+
+/* Copyright */
+.footer-copyright { text-align:center; margin-top:12px; color:#bcd8ff; }
+.copyright-row { display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:6px; flex-wrap:wrap; }
+.copyright-logo { width:36px; height:auto; }
+.copyright-text { font-size:15px; max-width:960px; color:#d6e9ff; }
+.copyright-note { display:block; color:#98bfe6; font-size:13px; }
+
+/* Responsive */
+@media(max-width:1200px){.services-grid{grid-template-columns:repeat(6,1fr);} }
+@media(max-width:992px){.services-grid{grid-template-columns:repeat(4,1fr);}.brand-para,.admin-para{font-size:15px;} }
+@media(max-width:768px){.top-row{flex-direction:column;align-items:center;text-align:center;}.ar-block,.admin-block{width:100%;}.services-grid{grid-template-columns:repeat(3,1fr);}.meta-row{justify-content:center;} }
+@media(max-width:560px){.services-grid{grid-template-columns:repeat(2,1fr); gap:12px;}.brand-logo{width:82px;}.admin-logo{width:56px;}.icons-row a.social{width:40px;height:40px;}.brand-name{font-size:20px;}.brand-para,.admin-para{font-size:14.5px; line-height:1.4;} }
+@media(max-width:420px){.services-grid{grid-template-columns:repeat(2,1fr); gap:10px;}.brand-logo{width:74px;}.brand-name{font-size:18px;}.copyright-text{font-size:14px;padding:0 8px;} }
+</style>
+</head>
+<body>
+
+<footer>
+<div class="footer-container">
+
+  <div class="top-row">
+    <!-- AR Block -->
+    <div class="col ar-block">
+      <div class="brand-row">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/AR_Logo.png" class="brand-logo" alt="AR Technologies logo">
+        <h2 class="brand-name">AR Technologies</h2>
+      </div>
+      <p class="brand-para">
+        AR Technologies — premier software house delivering expert <strong>Web & App Development, Networking & Cloud, AI & ML, UI/UX, Graphic Design, Content Creation, Digital Marketing</strong> and modern portfolio/landing page solutions for startups & enterprises worldwide.
+      </p>
+      <div class="meta-row">
+        <div class="rating">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+          <span class="rating-text">4.8 — Trusted by 120+ clients</span>
+        </div>
+        <a href="#generate-portfolio" class="cta"><span>Generate Your Portfolio</span></a>
+      </div>
+    </div>
+
+    <!-- Admin Block -->
+    <div class="col admin-block">
+      <div class="admin-head">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/AR_Logo.png" class="admin-logo" alt="Admin Logo">
+        <h3 class="admin-name">Admin Portfolio</h3>
+      </div>
+      <p class="admin-para">
+        Dear User — welcome to my portfolio. Explore my expertise, education, and experience. I provide professional services including Web & App development, AI solutions, UI/UX design, graphic design, and digital marketing. Contact me if you want to work together.
+      </p>
+      <div class="admin-quick-links">
+        <a href="#generate-portfolio">Generate Portfolio</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#manage-users">Manage Users</a>
+        <a href="#reports">Reports</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Services -->
+  <section class="services-grid">
+    <div class="service-group"><h4>Core Services</h4><ul>
+        <li><a href="#web-design">Web Design</a></li><li><a href="#web-dev">Web Development</a></li><li><a href="#app-dev">App Development</a></li><li><a href="#ui-ux">UI/UX Design</a></li><li><a href="#graphic">Graphic Design</a></li><li><a href="#digital-marketing">Digital Marketing</a></li><li><a href="#content">Content Creation</a></li>
+    </ul></div>
+    <div class="service-group"><h4>Cloud & Infra</h4><ul>
+        <li><a href="#cloud">Cloud Hosting</a></li><li><a href="#server">Server Mgmt</a></li><li><a href="#network">Networking</a></li><li><a href="#devops">DevOps</a></li><li><a href="#security">Security Audit</a></li><li><a href="#performance">Performance Tuning</a></li><li><a href="#backup">Backup & DR</a></li>
+    </ul></div>
+    <div class="service-group"><h4>Data & AI</h4><ul>
+        <li><a href="#ai">AI & ML</a></li><li><a href="#data">Data Engineering</a></li><li><a href="#analytics">Analytics</a></li><li><a href="#bi">BI Dashboards</a></li><li><a href="#automation">Automation</a></li><li><a href="#docs">Documentation</a></li><li><a href="#research">Research & POCs</a></li>
+    </ul></div>
+    <div class="service-group"><h4>Enterprise</h4><ul>
+        <li><a href="#enterprise">Enterprise Apps</a></li><li><a href="#crm">CRM Systems</a></li><li><a href="#fintech">FinTech</a></li><li><a href="#edtech">EdTech</a></li><li><a href="#logistics">Logistics Tech</a></li><li><a href="#ecommerce">eCommerce</a></li><li><a href="#support">Support Systems</a></li>
+    </ul></div>
+    <div class="service-group"><h4>Growth & Brand</h4><ul>
+        <li><a href="#seo">SEO Optimization</a></li><li><a href="#ads">Ad Campaigns</a></li><li><a href="#social">Social Media Mgmt</a></li><li><a href="#brand">Brand Strategy</a></li><li><a href="#growth">Growth Hacking</a></li><li><a href="#content-plan">Content Planning</a></li><li><a href="#ux-review">UX Review</a></li>
+    </ul></div>
+    <div class="service-group"><h4>Tools & Integration</h4><ul>
+        <li><a href="#api">API Integration</a></li><li><a href="#payment">Payment Integration</a></li><li><a href="#pwa">Progressive Web Apps</a></li><li><a href="#mobile-ux">Mobile UX</a></li><li><a href="#app-integration">App Integration</a></li><li><a href="#embedded">Embedded Systems</a></li><li><a href="#localization">Localization</a></li>
+    </ul></div>
+    <div class="service-group"><h4>Creative & Ops</h4><ul>
+        <li><a href="#graphic2">Graphic Design</a></li><li><a href="#video">Video Production</a></li><li><a href="#voiceover">Voiceover</a></li><li><a href="#portfolio-audit">Portfolio Audit</a></li><li><a href="#partnerships">Partnerships</a></li><li><a href="#roadmaps">Product Roadmaps</a></li><li><a href="#consulting">Consulting</a></li>
+    </ul></div>
+  </section>
+
+  <!-- Social icons -->
+  <div class="icons-row">
+    <a href="https://wa.me/your-number" target="_blank" class="social"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp"></a>
+    <a href="https://youtube.com/yourchannel" target="_blank" class="social"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube"></a>
+    <a href="https://github.com/youraccount" target="_blank" class="social"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" alt="GitHub"></a>
+    <a href="https://linkedin.com/in/youraccount" target="_blank" class="social"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn"></a>
+    <a href="https://facebook.com/yourpage" target="_blank" class="social"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook"></a>
+    <a href="https://instagram.com/youraccount" target="_blank" class="social"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram"></a>
+    <a href="https://discord.com/users/youraccount" target="_blank" class="social"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord"></a>
+    <a href="https://twitter.com/youraccount" target="_blank" class="social"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/twitter.svg" alt="Twitter"></a>
+  </div>
+
+  <!-- Copyright -->
+  <div class="footer-copyright">
+    <div class="copyright-row">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/AR_Logo.png" class="copyright-logo" alt="AR logo">
+      <div class="copyright-text">
+        <strong>AR Technologies</strong> — Portfolio designed & developed by AR Technologies. Delivering digital solutions, web & app, AI & ML, enterprise systems, UX-focused products worldwide.
+      </div>
+    </div>
+    <small class="copyright-note">© 2025 AR Technologies. All rights reserved.</small>
+  </div>
+
+</div>
+</footer>
+</body>
+</html>

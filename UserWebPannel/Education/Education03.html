@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Education Form with Ball UI</title>
+  <link rel="stylesheet" href="/UserWebPannel/Education/Education03.css">
+</head>
+<body>
+
+<div id="education" class="content">
+  <div id="ball-container">
+    <div id="ball">
+      <div class="outer-ring"></div>
+      <div class="segment school" data-form="school"><span>School</span></div>
+      <div class="segment college" data-form="college"><span>College</span></div>
+      <div class="segment university" data-form="university"><span>University</span></div>
+      <div class="segment master" data-form="master"><span>Master</span></div>
+      <div class="segment phd" data-form="phd"><span>PhD</span></div>
+    </div>
+    <div class="center" id="ballCenter">+</div>
+  </div>
+
+  <!-- Forms -->
+  <div id="educationForm">
+
+    <!-- SCHOOL -->
+    <div class="edu-card" data-form="school">
+      <div class="edu-header"><h3>School</h3></div>
+      <div class="edu-body">
+
+        <div class="float-card">
+          <input type="text" id="Schoolname" class="float-input" placeholder=" " required>
+          <label for="Schoolname" class="float-label">School Name</label>
+        </div>
+
+        <div class="float-card">
+          <select id="Schooldegree" class="float-input" required>
+            <option value="" disabled selected></option>
+            <option value=""></option>
+          </select>
+          <label for="Schooldegree" class="float-label">Degree</label>
+        </div>
+
+        <div class="float-card">
+          <input type="text" id="Schoolrollno" class="float-input" placeholder=" ">
+          <label for="Schoolrollno" class="float-label">Roll No (Optional)</label>
+        </div>
+
+        <div class="float-card">
+          <input type="file" id="Schoolmarksheet" class="float-input" required>
+          <label for="Schoolmarksheet" class="float-label">Marksheet</label>
+        </div>
+
+        <div class="float-card">
+          <input type="file" id="Schoolcertificate" class="float-input" required>
+          <label for="Schoolcertificate" class="float-label">Certificate</label>
+        </div>
+
+        <div class="extra-docs"></div>
+        <button type="button" id="Schooladddoc" class="add-doc">+ Add Document</button>
+      </div>
+    </div>
+
+    <!-- COLLEGE -->
+    <div class="edu-card" data-form="college">
+      <div class="edu-header"><h3>College</h3></div>
+      <div class="edu-body">
+
+        <div class="float-card">
+          <input type="text" id="Collegename" class="float-input" placeholder=" " required>
+          <label for="Collegename" class="float-label">College Name</label>
+        </div>
+
+        <div class="float-card">
+          <select id="Collegedegree" class="float-input" required>
+            <option value="" disabled selected></option>
+            <option>Intermediate / A-Levels</option>
+            <option>Diploma</option>
+          </select>
+          <label for="Collegedegree" class="float-label">Degree</label>
+        </div>
+
+        <div class="float-card">
+          <input type="text" id="Collegerollno" class="float-input" placeholder=" ">
+          <label for="Collegerollno" class="float-label">Roll No (Optional)</label>
+        </div>
+
+        <div class="float-card">
+          <input type="file" id="Collegemarksheet" class="float-input" required>
+          <label for="Collegemarksheet" class="float-label">Marksheet</label>
+        </div>
+
+        <div class="float-card">
+          <input type="file" id="Collegecertificate" class="float-input" required>
+          <label for="Collegecertificate" class="float-label">Certificate</label>
+        </div>
+
+        <div class="extra-docs"></div>
+        <button type="button" id="Collegeadddoc" class="add-doc">+ Add Document</button>
+      </div>
+    </div>
+
+    <!-- UNIVERSITY -->
+    <div class="edu-card" data-form="university">
+      <div class="edu-header"><h3>University</h3></div>
+      <div class="edu-body">
+
+        <div class="float-card">
+          <input type="text" id="Universityname" class="float-input" placeholder=" " required>
+          <label for="Universityname" class="float-label">University Name</label>
+        </div>
+
+        <div class="float-card">
+          <select id="Universitydegree" class="float-input" required>
+            <option value="" disabled selected></option>
+            <option>Bachelor of Science</option>
+            <option>Bachelor of Arts</option>
+            <option>Bachelor of Engineering</option>
+          </select>
+          <label for="Universitydegree" class="float-label">Degree</label>
+        </div>
+
+        <div class="float-card">
+          <input type="text" id="Universityrollno" class="float-input" placeholder=" ">
+          <label for="Universityrollno" class="float-label">Roll No (Optional)</label>
+        </div>
+
+        <div class="float-card">
+          <input type="file" id="Universitymarksheet" class="float-input" required>
+          <label for="Universitymarksheet" class="float-label">Marksheet</label>
+        </div>
+
+        <div class="float-card">
+          <input type="file" id="Universitycertificate" class="float-input" required>
+          <label for="Universitycertificate" class="float-label">Certificate</label>
+        </div>
+
+        <div class="extra-docs"></div>
+        <button type="button" id="Universityadddoc" class="add-doc">+ Add Document</button>
+      </div>
+    </div>
+
+    <!-- MASTER -->
+    <div class="edu-card" data-form="master">
+      <div class="edu-header"><h3>Master</h3></div>
+      <div class="edu-body">
+
+        <div class="float-card">
+          <input type="text" id="Masteruniversityname" class="float-input" placeholder=" " required>
+          <label for="Masteruniversityname" class="float-label">University Name</label>
+        </div>
+
+        <div class="float-card">
+          <select id="Masterdegree" class="float-input" required>
+            <option value="" disabled selected></option>
+            <option>Master of Science</option>
+            <option>Master of Arts</option>
+            <option>MBA</option>
+          </select>
+          <label for="Masterdegree" class="float-label">Degree</label>
+        </div>
+
+        <div class="float-card">
+          <input type="text" id="Masterrollno" class="float-input" placeholder=" ">
+          <label for="Masterrollno" class="float-label">Roll No (Optional)</label>
+        </div>
+
+        <div class="float-card">
+          <input type="file" id="Mastermarksheet" class="float-input" required>
+          <label for="Mastermarksheet" class="float-label">Marksheet</label>
+        </div>
+
+        <div class="float-card">
+          <input type="file" id="Mastercertificate" class="float-input" required>
+          <label for="Mastercertificate" class="float-label">Certificate</label>
+        </div>
+
+        <div class="extra-docs"></div>
+        <button type="button" id="Masteradddoc" class="add-doc">+ Add Document</button>
+      </div>
+    </div>
+
+    <!-- PHD -->
+    <div class="edu-card" data-form="phd">
+      <div class="edu-header"><h3>PhD</h3></div>
+      <div class="edu-body">
+
+        <div class="float-card">
+          <input type="text" id="Phduniversityname" class="float-input" placeholder=" " required>
+          <label for="Phduniversityname" class="float-label">University Name</label>
+        </div>
+
+        <div class="float-card">
+          <select id="Phddegree" class="float-input" required>
+            <option value="" disabled selected></option>
+          </select>
+          <label for="Phddegree" class="float-label">Degree</label>
+        </div>
+
+        <div class="float-card">
+          <input type="text" id="Phdrollno" class="float-input" placeholder=" ">
+          <label for="Phdrollno" class="float-label">Roll No (Optional)</label>
+        </div>
+
+        <div class="float-card">
+          <input type="file" id="Phdmarksheet" class="float-input" required>
+          <label for="Phdmarksheet" class="float-label">Marksheet</label>
+        </div>
+
+        <div class="float-card">
+          <input type="file" id="Phdcertificate" class="float-input" required>
+          <label for="Phdcertificate" class="float-label">Certificate</label>
+        </div>
+
+        <div class="extra-docs"></div>
+        <button type="button" id="Phdadddoc" class="add-doc">+ Add New Documents</button>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <button class="sbbt" id="Submitbtn">Submit</button>
+  </div>
+</div>
+
+<script src="/UserWebPannel/Education/Education02.js"></script>
+<script src="/UserWebPannel/Education/Education03.js"></script>
+<script src="/UserWebPannel/Education/Education04.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+      <link rel="stylesheet" href="/UserWebPannel/Projects/Project.css"> 
+
+</head>
+<body>
+    
+         <!-- Projects -->
+
+
+
+  <div id="project" class="content">
+    <div id="projectedForm">
+      <div class="pro-card" data-form="school">
+        <div class="pro-header">
+          <h3>Your Projects</h3></div>
+        <div class="pro-body">
+
+   <div class="prod-docs">
+  <!-- First proerience Row (HTML, index 0) -->
+  <div class="pro-row-wrapper" data-pro-index="0">
+    <div class="pro-row">
+      <div class="pro-group">
+        <input type="text" id="Organizationcategory_0" class="pro-input" placeholder=" " required />
+        <label class="pro-label" for="Organizationcategory_0">Category Name</label>
+      </div>
+      
+
+      <div class="pro-group">
+        <input type="text01" id="Organizationprice_0" class="pro-input" placeholder=" " required />
+        <label class="pro-label" for="Organizationprice_0">Projects Name</label>
+      </div>
+      <div class="pro-group">
+        <input type="text01" id="organizationprourl_0" class="pro-input" placeholder=" " required />
+        <label class="pro-label" for="organizationprourl_0">Projects Url</label>
+      </div>
+      <!-- <div class="pro-group">
+        <select id="organizationest" class="pro-input" required>
+          <option value="" disabled selected></option>
+          <option value="Months">Months</option>
+          <option value="Years">Years</option>
+        </select>
+        <label class="pro-label" for="organizationest_0">Month Or Year</label>
+      </div> -->
+      <!-- <div class="pro-group">
+        <input type="number" id="Organizationdigits_0" class="pro-input" placeholder=" " required />
+        <label class="pro-label" for="Organizationdigits_0">Experience Time</label>
+      </div> -->
+      <div class="pro-group file-group">
+        <input type="file" id="Organizationlicence_0" class="pro-input" required />
+        <label class="pro-label" for="Organizationlicence_0">Projects Image</label>
+      </div>
+
+    <!-- Container for extra documents -->
+    <div class="prowices-docs"></div>
+    <button type="button" class="prowised-doc" data-pro="0">+ Add New Documents</button>
+    <button type="button" class="remove-project">🗑️ Remove Service</button>
+  </div>
+</div>
+
+    </div>
+
+          <!-- End First Project Row -->
+
+          <div class="prod-docs"></div>
+          <button type="button" id="organizationprojected" class="pro-doc">+ Add More Services</button>
+        </div>
+      </div>
+
+      <button style="display: none;" class="sbbt" id="submitBtn">Submit</button>
+    </div>
+  </div>
+
+  </div>
+</div>
+  </div>
+</div>
+
+<script type="module" src="/UserWebPannel/Projects/Projects.js"></script>
+</body>
+</html>

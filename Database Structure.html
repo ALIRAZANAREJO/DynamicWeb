@@ -1,0 +1,147 @@
+vscode.dev/
+
+
+resContainer9
+│
+├── {CNIC}                  // Unique identifier for each user
+│   ├── Personal            // Personal information
+│   │   ├── Cnic            // CNIC number
+│   │   ├── Email           // gmail
+│   │   ├── Name            // User's name
+│   │   ├── Fname           // Father's name
+│   │   ├── Dob             // Date of birth
+│   │   ├── Phone           // Phone number
+│   │   ├── Bsnumber        //Business Phone number
+│   │   ├── Caddres         // Current address
+│   │   ├── Paddres         // Multiple Languages in string form
+│   │   ├── Qual            // Multiple Hobbies in string form
+│   │   ├── Lisnt           // License number (if applicable)
+│   │   ├── Rarmy           // Army registration (if applicable)
+│   │   ├── Citybox         // City
+│   │   ├── Countrybox      // Country
+│   │   └── ImageUrl        // URL of the user's profile image
+│   │
+│   ├── Education           // Educational background
+│   │   ├── school          // School education details
+│   │   │   ├── Name        // School name
+│   │   │   ├── Degree      // Degree obtained
+│   │   │   ├── Rollno      // Roll number
+│   │   │   ├── Startyear   // Start year of education
+│   │   │   ├── Endyear     // End year of education
+│   │   │   ├── Gpa         // GPA
+│   │   │   ├── Marksheet   // Array of marksheet URLs
+│   │   │   └── Certificate  // Array of certificate URLs
+│   │   │
+│   │   ├── college         // College education details
+│   │   │   ├── Name        // College name
+│   │   │   ├── Degree      // Degree obtained
+│   │   │   ├── Rollno      // Roll number
+│   │   │   ├── Startyear   // Start year of education
+│   │   │   ├── Endyear     // End year of education
+│   │   │   ├── Gpa         // GPA
+│   │   │   ├── Marksheet   // Array of marksheet URLs
+│   │   │   └── Certificate  // Array of certificate URLs
+│   │   │
+│   │   ├── university      // University education details
+│   │   │   ├── Name        // University name
+│   │   │   ├── Degree      // Degree obtained
+│   │   │   ├── Rollno      // Roll number
+│   │   │   ├── Startyear   // Start year of education
+│   │   │   ├── Endyear     // End year of education
+│   │   │   ├── Gpa         // GPA
+│   │   │   ├── Marksheet   // Array of marksheet URLs
+│   │   │   └── Certificate  // Array of certificate URLs
+│   │   │
+│   │   ├── master          // Master's education details
+│   │   │   ├── Name        // University name
+│   │   │   ├── Degree      // Degree obtained
+│   │   │   ├── Rollno      // Roll number
+│   │   │   ├── Startyear   // Start year of education
+│   │   │   ├── Endyear     // End year of education
+│   │   │   ├── Gpa         // GPA
+│   │   │   ├── Marksheet   // Array of marksheet URLs
+│   │   │   └── Certificate  // Array of certificate URLs
+│   │   │
+│   │   └── phd             // PhD education details
+│   │       ├── Name        // University name
+│   │       ├── Degree      // Degree obtained
+│   │       ├── Rollno      // Roll number
+│   │       ├── Startyear   // Start year of education
+│   │       ├── Endyear     // End year of education
+│   │       ├── Gpa         // GPA
+│   │       ├── Marksheet   // Array of marksheet URLs
+│   │       └── Certificate  // Array of certificate URLs
+│   │
+│   ├── Experience          // Work experience records
+│   │   ├── experienceIndex // Array of experience entries
+│   │   │   ├── {expIndex}  // Unique index for each experience
+│   │   │   │   ├── organizationName  // Name of the organization
+│   │   │   │   ├── organizationPosition // Position held
+│   │   │   │   ├── durationUnit   // Unit of duration (Months/Years)
+│   │   │   │   ├── durationNumber // Duration number
+│   │   │   │   ├── idCardUrl      // URL of the ID card
+│   │   │   │   └── documents      // Array of document objects
+│   │   │   │       ├── {docIndex}  // Unique index for each document
+│   │   │   │       │   ├── Name    // Document name
+│   │   │   │       │   └── Url     // URL of the uploaded document
+│   │   │   │       └── ...         // Additional documents
+│   │   │   └── ...                // Additional experiences
+│   │
+│   ├── Skills               // Skills array
+│   │   ├── [skill object]   // Each skill object
+│   │   │   ├── name         // Name of the skill
+│   │   │   └── percent      // Proficiency percentage
+│   │
+│   ├── Professionality      // Professional details
+│   │   ├── Years            // Years of experience
+│   │   ├── aboutHeadline    // Headline about the professional
+│   │   ├── profession       // Multiple professions in string form
+│   │   ├── aboutParagraph    // Detailed about paragraph
+│   │   ├── happyClients     // Number of happy clients
+│   │   └── ProfilePhoto     // URL of the profile photo
+│   │
+│   ├── Service              // Services offered
+│   │   ├── serviceIndex     // Array of service entries
+│   │   │   ├── {serIndex}   // Unique index for each service
+│   │   │   │   ├── Name      // Name of the service
+│   │   │   │   ├── Price     // Starting price of the service
+│   │   │   │   ├── Description // Description of the service
+│   │   │   │   ├── Duration   // Duration of service
+│   │   │   │   ├── idCardUrl  // URL of the service ID card
+│   │   │   │   └── documents   // Array of document objects
+│   │   │   │       ├── {docIndex} // Unique index for each document
+│   │   │   │       │   ├── Name   // Document name
+│   │   │   │       │   └── Url    // URL of the uploaded document
+│   │   │   │       └── ...       // Additional documents
+│   │   │   └── ...               // Additional services
+│   │
+│   ├── Project              // Projects undertaken
+│   │   ├── projectIndex     // Array of project entries
+│   │   │   ├── {proIndex}   // Unique index for each project
+│   │   │   │   ├── Category  // Category of the project
+│   │   │   │   ├── ProjectName // Name of the project
+│   │   │   │   ├── ProjectUrl // URL of the project
+│   │   │   │   ├── ImageUrl  // URL of the project image
+│   │   │   │   └── Documents  // Array of document objects
+│   │   │       ├── {docIndex} // Unique index for each document
+│   │   │       │   ├── Name   // Document name
+│   │   │       │   └── Url    // URL of the uploaded document
+│   │   │       └── ...       // Additional documents
+│   │   │   └── ...           // Additional projects
+│   │
+│   └── Team                 // Team members
+│       ├── teamIndex        // Array of team member entries
+│       │   ├── {teamIndex}  // Unique index for each team member
+│       │   │   ├── Name      // Name of the team member
+│       │   │   ├── Profession // Profession of the team member
+│       │   │   ├── About     // About paragraph for the team member
+│       │   │   ├── Facebook   // Facebook URL
+│       │   │   ├── LinkedIn   // LinkedIn URL
+│       │   │   ├── Twitter     // Twitter URL
+│       │   │   ├── ProfileImgUrl // URL of the profile image
+│       │   │   └── Documents   // Array of document objects
+│       │       ├── {docIndex} // Unique index for each document
+│       │       │   ├── Name   // Document name
+│       │       │   └── Url    // URL of the uploaded document
+│       │       └── ...       // Additional documents
+│       │   └── ...           // Additional team members

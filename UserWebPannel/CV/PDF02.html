@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Final Professional CV — Preview & PDF</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --panel:#243142;
+  --content:#1f2937;
+  --sub:#6b7280;
+  --accent:#0b72c3;
+  --muted:#9aa0a6;
+  --pdf-width-mm:210mm;
+  --pdf-height-mm:297mm;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);font-family:'Poppins',system-ui,Arial;color:var(--content)}
+a{color:var(--accent);text-decoration:none}
+.container{display:flex;justify-content:center;padding:18px}
+.cv-sheet{width:794px;height:1123px;background:var(--card);border-radius:6px;box-shadow:0 12px 30px rgba(16,24,32,0.08);display:flex;overflow:hidden;padding:18px;color:var(--content)}
+.sidebar{width:250px;background:linear-gradient(180deg,var(--panel),#16222a);color:#fff;padding:18px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.profile-img{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.12);margin:0 auto 6px auto;display:block}
+.sidebar .name-small{text-align:center;font-weight:700;font-size:14px;color:#fff;margin-bottom:2px}
+.sidebar .role-small{text-align:center;font-size:12px;color:rgba(255,255,255,0.85);margin-bottom:8px}
+.section-title{display:flex;gap:8px;align-items:center;font-weight:700;text-transform:uppercase;font-size:11px;color:rgba(255,255,255,0.9)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{background:#fff;color:var(--panel);padding:6px 8px;border-radius:999px;font-size:11px;display:inline-flex;align-items:center;gap:6px}
+.skill-list{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.skill-row{display:flex;flex-direction:column;gap:4px}
+.skill-meta{display:flex;justify-content:space-between;font-weight:600;font-size:11px}
+.skill-bar-wrap{height:8px;background:rgba(255,255,255,0.12);border-radius:999px;overflow:hidden}
+.skill-bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#1e8fe1);border-radius:999px;transition:width .6s ease}
+.personal-list{display:flex;flex-direction:column;gap:6px;font-size:11px}
+.personal-item{display:flex;gap:8px;align-items:center;color:rgba(255,255,255,0.95)}
+.main{flex:1;padding-left:18px;display:flex;flex-direction:column;overflow:hidden}
+.header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:-16px}
+.name-large{font-size:28px;font-weight:800;color:var(--content)}
+.profession{font-size:18px;color:var(--accent);font-weight:600;margin-top:1px}
+h5{font-size:12px;color:var(--content);font-weight:600;margin-top:1px}
+.about{font-size:11px;color:var(--sub);margin-top:2px;max-width:100%}
+.section{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.section .title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:12px;color:var(--content);border-bottom:1px solid #e7eaec;padding-bottom:6px}
+.section .title .icon{width:28px;height:28px;border-radius:6px;background:rgba(11,114,195,0.08);display:inline-grid;place-items:center;color:var(--accent)}
+.section .list{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.item{padding:8px;border-radius:6px;background:transparent;display:flex;flex-direction:column;gap:2px;font-size:10.8px;color:var(--content)}
+.item .line{font-size:10.8px;color:var(--content);line-height:1.1}
+.item .sub{font-size:10px;color:var(--sub)}
+.col-row{display:flex;gap:10px}
+.col-box{flex:1;background:#f7f8fa;border-radius:8px;padding:8px;font-size:10.5px;color:var(--content)}
+@media (max-width:900px){
+  .cv-sheet{width:100%;height:auto;flex-direction:column}
+  .sidebar{width:100%;flex-direction:row;gap:12px;padding:12px;align-items:center}
+  .main{padding-left:12px}
+}
+@media print{
+  body{background:#fff}
+  .container{padding:0}
+  .cv-sheet{box-shadow:none;border-radius:0}
+}
+#modalViewer {
+    display: block;
+    overflow-y: auto;
+    max-height: 80vh;
+    padding: 8px;
+    background:#f9f9f9;
+    border-radius:6px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+button{cursor:pointer;padding:6px 12px;border:1px solid #ccc;background:#fff;border-radius:6px;font-weight:600}
+button:hover{background:#f0f0f0}
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="cv" class="cv-sheet" role="document" aria-label="CV">
+    <aside class="sidebar" id="sidebar">
+      <img id="profileImage" class="profile-img" alt="Profile">
+      <div class="name-small" id="sidebarName"></div>
+      <div class="role-small" id="sidebarRole"></div>
+
+      <div class="section-title"><span class="icon">👤</span><div>Personal Info</div></div>
+      <div class="personal-list" id="personalList"></div>
+
+      <div id="langWrap">
+        <div class="section-title"><span class="icon">🏷️</span><div>Languages</div></div>
+        <div class="chips" id="langList"></div>
+      </div>
+
+      <div id="skillsWrap">
+        <div class="section-title"><span class="icon">🛠️</span><div>Skills</div></div>
+        <div class="skill-list" id="skillList"></div>
+      </div>
+
+      <div id="hobbyWrap">
+        <div class="section-title"><span class="icon">🎯</span><div>Hobbies</div></div>
+        <div class="chips" id="hobbyList"></div>
+      </div>
+    </aside>
+
+    <main class="main" id="mainCV">
+      <header class="header">
+        <div>
+          <div class="name-large" id="fullName"></div>
+          <div class="profession" id="Resumeprofession"></div>
+          <h5>About Me
+          <div class="about" id="Aboutpera"></div></h5>
+        </div>
+      </header>
+
+      <section class="section" id="educationSection">
+        <div class="title"><div class="icon">🎓</div><div>Education</div></div>
+        <div class="list" id="educationList"></div>
+      </section>
+
+      <section class="section" id="experienceSection">
+        <div class="title"><div class="icon">🏢</div><div>Experience</div></div>
+        <div class="list" id="experienceList"></div>
+      </section>
+
+      <section class="section" id="projectsSection">
+        <div class="title"><div class="icon">💡</div><div>Projects</div></div>
+        <div class="col-row" id="projectsRow"></div>
+      </section>
+
+      <section class="section" id="referencesSection">
+        <div class="title"><div class="icon">📘</div><div>References</div></div>
+        <div class="col-row" id="referencesRow"></div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div style="text-align:center;margin:12px">
+  <button id="displayDownloadBtn">Display & Download</button>
+</div>
+
+<div id="overlay" style="display:none;position:fixed;inset:0;z-index:1200">
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,0.6)"></div>
+  <div style="position:relative;max-width:980px;margin:8% auto;background:#fff;padding:12px;border-radius:10px;z-index:1210">
+    <div style="display:flex;gap:10px;margin-bottom:10px">
+      <button id="displayBtn">Display</button>
+      <button id="downloadBtn">Download</button>
+      <button id="closeModal">Close</button>
+    </div>
+    <div id="modalViewer"></div>
+  </div>
+</div>
+<script type="module" src="/UserWebPannel/CV/PDF.js"></script>
+
+</body>
+</html>

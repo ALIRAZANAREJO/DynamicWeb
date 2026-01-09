@@ -1,0 +1,372 @@
+/* ===== Reset & Base ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f5f6fa; overflow-x: hidden; }
+
+/* ===== Ball ===== */
+#ball-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 1s ease;
+  z-index: 10;
+}
+
+#ball {
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  position: relative;
+  animation: none; /* controlled by JS */
+}
+
+@keyframes rotateBall {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.segment {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 50%;
+  transform-origin: 100% 100%;
+  transition: all 0.5s ease;
+}
+
+.segment span {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(0,0,0,0.2);
+  white-space: nowrap;
+}
+
+.segment.school { transform: rotate(0deg) translate(50%,0); background: #ff6b6b; }
+.segment.college { transform: rotate(72deg) translate(50%,0); background: #feca57; }
+.segment.university { transform: rotate(144deg) translate(50%,0); background: #1dd1a1; }
+.segment.master { transform: rotate(216deg) translate(50%,0); background: #54a0ff; }
+.segment.phd { transform: rotate(288deg) translate(50%,0); background: #5f27cd; }
+
+/* Ball center button */
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: all 0.5s ease;
+  z-index: 5;
+}
+
+/* Small ball position after load: slightly above center */
+#ball-container.small {
+  transform: translate(-50%, -105%) scale(0.4); /* -50% left stays centered, -80% top moves it up a bit */
+  transition: transform 1s ease;
+}
+
+/* exping animation for small ball (slight up/down) */
+@keyframes expBall {
+  0%, 100% { transform: translate(-50%, -105%) scale(0.4); }
+  50% { transform: translate(-50%, -110%) scale(0.4); } /* moves slightly down */
+}
+#ball-container.small.exp {
+  animation: expBall 2s ease-in-out infinite;
+}
+
+/* ===== Cards Container ===== */
+#experienceForm {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+  margin-top: 140px;
+  flex-wrap: wrap;
+  transition: all 0.5s ease;
+  width: 100%;
+  padding: 0 0px;
+  position: relative;
+}
+
+/* ===== Full Form Cards ===== */
+.exp-card {
+  flex-direction: column;
+  gap: -10px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  width: 270px;
+  min-height: 100px;
+  border: 3px solid #333;
+  transition: all 0.5s ease;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Show cards after rotation */
+.exp-card.show {
+  display: flex;
+  opacity: 1;
+}
+/* 
+ Card Hover *
+.exp-card:hover { transform: scale(1.09); box-shadow: 0 12px 25px rgba(0,0,0,0.25); }
+
+/* Card Active *
+.exp-card.active { transform: scale(1.22); z-index: 20; }
+
+/* Card Dimmed *
+.exp-card.dimmed { opacity: 0.3; transform: scale(1.1); }
+
+/* Move Left/Right Cards *
+.exp-card.shift-left { transform: translateX(-30px) scale(1.0); }
+.exp-card.shift-right { transform: translateX(30px) scale(1.0); }
+
+/* Card Header */
+.exp-card h3 { font-size: 20px; color:  #1a73e8; text-align: center; margin-bottom: -10px; }
+/* exping Input Group */
+.exp-group {
+  position: relative;
+  width: 100%;
+  margin: 14px 0;
+}
+
+.exp-input {
+  width: 100%;
+  padding: 16px 14px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  outline: none;
+  font-size: 16px;
+  background: none;
+  transition: border-color 0.3s ease;
+}
+
+.exp-label {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #888;
+  pointer-events: none;
+  background: #fff;
+  padding: 0 4px;
+  transition: 0.3s ease all;
+  border-radius: 4px;
+}
+
+/* exp label when input focused or has value */
+.exp-input:focus,
+.exp-input:valid {
+  border-color: #1a73e8;
+}
+
+.exp-input:focus + .exp-label,
+.exp-input:valid + .exp-label {
+  top: -8px;
+  font-size: 12px;
+  color: #1a73e8;
+}
+
+/* File input hack - always show label up */
+.exp-input[type="file"] + .exp-label {
+  top: -8px;
+  font-size: 12px;
+  color: #888;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .exp-input {
+    font-size: 14px;
+    padding: 14px 12px;
+  }
+  .exp-label {
+    font-size: 14px;
+  }
+}
+
+
+/* Add Document Button */
+.exp-card .exp-doc {
+  background:  #1a73e8;
+  color: #fff;
+  border: none;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+  margin-top: 1px;
+  margin-left: 35px;
+
+}
+.exp-card .exp-doc:hover { background: #0056b3; }
+
+/* exper Documents Container */
+.exp-card .exper-docs { display: flex; flex-direction: column; gap: 8px; margin-top: -6px; }
+
+
+
+/* Card Border Colors */
+.exp-card[data-form="school"] { border-color: #ff6b6b; }
+.exp-card[data-form="college"] { border-color: #feca57; }
+.exp-card[data-form="university"] { border-color: #1dd1a1; }
+.exp-card[data-form="master"] { border-color: #54a0ff; }
+.exp-card[data-form="phd"] { border-color: #5f27cd; }
+
+/* ===== Responsive ===== */
+@media(max-width: 1200px){ .exp-card .exp-doc {   margin-top: 10px;margin-left: -4px; }}
+@media(max-width: 1200px){ .exp-card { width: 200px; min-height: 240px; } }
+@media(max-width: 900px){ 
+  #experienceForm { flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .exp-card { width: 180px; min-height: 220px; }
+   .exp-card .exp-doc {   margin-top: 12px;
+  margin-left: -5px; }
+}
+@media(max-width: 600px){ 
+  #experienceForm { flex-direction: column; margin-top: 150px; gap: 12px; align-items: center; }
+  .exp-card { width: 90%; min-height: 200px; }
+}
+
+/* Adjust ball rotation animation (JS controlled) */
+#ball.rotate {
+  animation: rotateBall 2s linear infinite;
+}
+/* exping Input Card */
+.exp-card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+}
+
+/* Input Field */
+.exp-input {
+  width: 100%;
+  padding: 10px 12px 10px ;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  background: transparent;
+  transition: border-color 0.3s ease;
+}
+/* Input Field 
+.exp-input {
+  width: 100%;
+  max-height: 30px;
+  padding: 18px 12px 10px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  background: transparent;
+  transition: border-color 0.3s ease;
+}*/
+
+/* Focused border color */
+.exp-input:focus {
+  border-color: #1a73e8;
+}
+
+/* Label */
+.exp-label {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #888;
+  background: #fff;
+  padding: 0 4px;
+  pointer-events: none;
+  transition: all 0.25s ease-in-out;
+}
+
+/* When input is focused or filled */
+.exp-input:focus + .exp-label,
+.exp-input:not(:placeholder-shown) + .exp-label {
+  top: -2px;
+  left: 10px;
+  font-size: 13px;
+  color: #1a73e8;
+}
+
+/* Border gap effect for label */
+.exp-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10px;
+  height: 6px;
+  width: 0;
+  background: #fff;
+  z-index: 1;
+  transition: width 0.25s ease;
+}
+
+/* Activate border gap when label exps */
+.exp-input:focus + .exp-label,
+.exp-input:not(:placeholder-shown) + .exp-label {
+  z-index: 2;
+}
+
+.exp-input:focus ~ .exp-label::before,
+.exp-input:not(:placeholder-shown) ~ .exp-label::before {
+  content: "";
+}
+
+
+input[type="file"]::file-selector-button {
+  background-color: #dbdbdb77;
+  color: #1a73e8;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+input[type="file"]::file-selector-button:hover{
+  background-color:  #1a73e8;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+/* Responsive */
+@media (max-width: 480px) {
+  .exp-card {
+    max-width: 90%;
+  }
+  .exp-input {
+    font-size: 14px;
+    padding: 14px 10px;
+  }
+  .exp-label {
+    font-size: 14px;
+  }
+}
+
+ 

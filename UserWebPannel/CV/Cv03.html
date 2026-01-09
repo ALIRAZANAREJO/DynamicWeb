@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Select Your CV Design</title>
+<!-- <link rel="stylesheet" href="/UserWebPannel/CV/Previw02.css"> -->
+
+<style>
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #007bff;
+    text-align: center;
+  }
+
+  .cv-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    width: 100%;
+    max-width: 1100px;
+  }
+
+  .cv-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .cv-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cv-card h3 {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 1rem;
+    background: #f9f9f9;
+    margin: 0;
+  }
+
+  .cv-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0,123,255,0.3);
+  }
+
+  .cv-card.selected {
+    border: 3px solid #007bff;
+    box-shadow: 0 0 15px rgba(0,123,255,0.6);
+  }
+
+  #continueBtn, #backBtn, #saveBtn {
+    margin-top: 40px;
+    padding: 14px 35px;
+    font-size: 1.1rem;
+    color: white;
+    background: #007bff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  #continueBtn:hover, #backBtn:hover, #saveBtn:hover {
+    background: #0056b3;
+  }
+
+  #cvPreview {
+    display: none;
+    max-width: 1100px;
+    width: 100%;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-top: 20px;
+    animation: fadeIn 0.4s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .action-buttons {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<h1>🎨 Choose Your CV Design</h1>
+
+<!-- Design Selection -->
+<div class="cv-container" id="cvGrid">
+  <div class="cv-card" data-design="/UserWebPannel/CV/Preview02.html">
+    <img src="/Assets/1.png" alt="Elegant Blue CV">
+    <h3>Elegant Blue</h3>
+  </div>
+  <div class="cv-card" data-design="Preview02.html">
+    <img src="/Assets/2.png" alt="Professional Gray CV">
+    <h3>Professional Gray</h3>
+  </div>
+  <div class="cv-card" data-design="cvDesign3.html">
+    <img src="/Assets/3.png" alt="Minimal White CV">
+    <h3>Minimal White</h3>
+  </div>
+  <div class="cv-card" data-design="Preview02.html">
+    <img src="/Assets/4.jpg" alt="Creative Accent CV">
+    <h3>Creative Accent</h3>
+  </div>
+  <div class="cv-card" data-design="cvDesign5.html">
+    <img src="/Assets/5.png" alt="Modern Black CV">
+    <h3>Modern Black</h3>
+  </div>
+  <div class="cv-card" data-design="cvDesign6.html">
+    <img src="/Assets/6.png" alt="Modern Blue CV">
+    <h3>Modern Blue</h3>
+  </div>
+  <div class="cv-card" data-design="cvDesign7.html">
+    <img src="/Assets/7.png" alt="Classic White CV">
+    <h3>Classic White</h3>
+  </div>
+</div>
+
+<button id="continueBtn">Continue</button>
+
+<!-- Preview Section -->
+<div id="cvPreview">
+  <h2 style="text-align:center; color:#007bff;">CV Preview</h2>
+  
+  <div id="cvDisplay"></div>
+
+  <div class="action-buttons">
+    <button id="backBtn">← Back</button>
+    <button id="saveBtn">Save Design</button>
+
+  </div>
+</div>
+
+<script>
+const cards = document.querySelectorAll(".cv-card");
+const continueBtn = document.getElementById("continueBtn");
+const cvGrid = document.getElementById("cvGrid");
+const cvPreview = document.getElementById("cvPreview");
+const cvDisplay = document.getElementById("cvDisplay");
+const backBtn = document.getElementById("backBtn");
+const saveBtn = document.getElementById("saveBtn");
+
+let selectedDesign = null;
+
+// Select a design visually
+cards.forEach(card => {
+  card.addEventListener("click", () => {
+    cards.forEach(c => c.classList.remove("selected"));
+    card.classList.add("selected");
+    selectedDesign = card.dataset.design;
+    localStorage.setItem("selectedDesign", selectedDesign);
+  });
+});
+
+// Continue → show preview dynamically
+continueBtn.addEventListener("click", async () => {
+  if (!selectedDesign) {
+    alert("⚠️ Please select a CV design first!");
+    return;
+  }
+
+  try {
+    const response = await fetch(selectedDesign);
+    if (!response.ok) throw new Error("Design file not found");
+    const html = await response.text();
+
+    cvDisplay.innerHTML = html;
+    cvGrid.classList.add("hidden");
+    continueBtn.classList.add("hidden");
+    cvPreview.style.display = "block";
+  } catch (error) {
+    alert("Error loading design: " + error.message);
+  }
+});
+
+// Back → return to selection
+backBtn.addEventListener("click", () => {
+  cvPreview.style.display = "none";
+  cvGrid.classList.remove("hidden");
+  continueBtn.classList.remove("hidden");
+  cvDisplay.innerHTML = "";
+});
+
+// Save design (placeholder for DB integration)
+saveBtn.addEventListener("click", () => {
+  if (!selectedDesign) {
+    alert("⚠️ Please select a design first!");
+    return;
+  }
+  alert(`✅ Design saved: ${selectedDesign}`);
+});
+</script>
+
+
+<script type="module" src="/UserWebPannel/CV/Preview02.js"></script>
+</body>
+</html>

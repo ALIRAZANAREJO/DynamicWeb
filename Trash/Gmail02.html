@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+<!-- Gmail Portal (Replaces Contact Form) -->
+<div id="gmailPortal" class="gmail-portal-card">
+  <h3 class="portal-title">Send Email</h3>
+
+  <div class="gp-field">
+    <label>To</label>
+    <input type="text" id="gp_to" readonly />
+  </div>
+
+  <div class="gp-field">
+    <label>Your Email</label>
+    <input type="email" id="gp_from" placeholder="your@email.com" />
+  </div>
+
+  <div class="gp-field">
+    <label>Subject</label>
+    <input type="text" id="gp_subject" placeholder="Enter subject" />
+  </div>
+
+  <div class="gp-field">
+    <label>Message</label>
+    <textarea id="gp_message" placeholder="Type your message..."></textarea>
+  </div>
+
+  <button class="gp-btn" onclick="sendGmail()">Send Email</button>
+</div>
+
+
+
+
+
+
+    <script>
+  // Auto-fill the TO email address from #contactEmail
+  document.addEventListener("DOMContentLoaded", () => {
+    const dynamicEmail = document.getElementById("contactEmail").innerText.trim();
+    document.getElementById("gp_to").value = dynamicEmail;
+  });
+
+  function sendGmail() {
+    const to = document.getElementById("gp_to").value;
+    const from = document.getElementById("gp_from").value;
+    const subject = document.getElementById("gp_subject").value;
+    const message = document.getElementById("gp_message").value;
+
+    const finalBody =
+      "From: " + from + "%0A%0A" +
+      message;
+
+    const url =
+      `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${finalBody}`;
+
+    window.open(url, "_blank");
+  }
+</script>
+
+</body>
+</html>

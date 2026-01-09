@@ -1,0 +1,56 @@
+.country-input-wrapper { position: relative; }
+/* .selected-country input{
+
+} */
+
+
+.selected-country {
+  padding: 0px 0px;
+  padding-left: 5px;
+   border: 2px solid #bbbbbb;
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
+  background-color: rgb(156, 156, 156);
+  color: #00469b;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.selected-country img { width: 24px; height: 18px; margin-right: 4px; }
+.selected-country .arrow { margin-left: 4px; font-size: 12px; }
+#BusNumber { border: none; padding: 15px; outline: none;background-color: #ffffff;  box-shadow: 0 0 8px rgba(255, 255, 255, 0);
+ }
+ /* Floating Label */
+.country-input-wrapper  label {
+  position: absolute;
+  top: 50%;
+  left: 80px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #aaa;
+  padding: 0 4px;
+  pointer-events: none;
+  transition: all 0.25s ease-in-out;
+}
+
+.country-dropdown {
+  position: absolute;
+  top: 100%;      /* directly under the full input wrapper */
+  left: 0;        /* start from left of wrapper */
+  width: 100%;    /* full width of input + flag area */
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  background: #fff;
+  display: none;
+  z-index: 1000;
+}
+
+.country-dropdown div {
+  display: flex; align-items: center; padding: 4px 8px; cursor: pointer;
+}
+.country-dropdown div:hover { background: #1472f7; }
+.country-dropdown img { width: 24px; height: 18px; margin-right: 8px; }

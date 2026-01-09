@@ -1,0 +1,106 @@
+body {
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.portfolio-container {
+  max-width: 1100px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  background: #161b22;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.05);
+}
+
+header img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #58a6ff;
+}
+
+header .intro h1 {
+  font-size: 28px;
+  color: #58a6ff;
+}
+
+header .intro h2 {
+  font-size: 18px;
+  color: #c9d1d9;
+  margin-top: -10px;
+}
+
+.skills-section, .education-section, .experience-section, .langs-section {
+  margin-top: 40px;
+  background: #161b22;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(255,255,255,0.05);
+}
+
+.skills-grid, .edu-grid, .exp-grid {
+  display: grid;
+  gap: 15px;
+}
+
+.skills-grid {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.skill-card {
+  background: #21262d;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.skill-card:hover {
+  background: #58a6ff;
+  color: #0d1117;
+  transform: translateY(-3px);
+}
+
+.edu-card, .exp-card {
+  background: #21262d;
+  padding: 15px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.edu-card:hover, .exp-card:hover {
+  transform: translateY(-4px);
+  background: #30363d;
+}
+
+h3 {
+  color: #58a6ff;
+  margin-bottom: 15px;
+}
+
+ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+  header img {
+    margin-bottom: 10px;
+  }
+}

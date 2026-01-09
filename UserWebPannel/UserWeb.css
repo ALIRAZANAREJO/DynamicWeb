@@ -1,0 +1,224 @@
+ * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #2994ff49, #8c7bfd40);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header & nav */
+    header {
+      width: 100%;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background: rgba(255, 255, 255, 0);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(236, 236, 236, 0.63);
+      border-radius: 20px;
+    }
+
+    .nav button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0);
+      color: #000000;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      background: rgba(0, 89, 255, 0.6);
+      color: #ffffff;
+    }
+
+    /* Hamburger button */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 25px;
+      height: 20px;
+      cursor: pointer;
+      position: absolute;
+      right: 20px;
+      top: 18px;
+    }
+
+    .hamburger span {
+      height: 3px;
+      width: 100%;
+      background: #fff;
+      border-radius: 2px;
+    }
+
+    /* Sections */
+    /* main {
+
+    } */
+
+    .content {
+      display: none;
+      max-width: 10000px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+
+    /* h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    } */
+
+    /* p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    } */
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive nav */
+    @media (max-width: 768px) {
+      .nav {
+        display: none;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        border-radius: 10px;
+        padding: 15px;
+      }
+
+      .nav.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .nav button {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+    
+
+
+.image-upload-circle {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+
+  /* BACKGROUND IMAGE */
+  background-image: url("/Assets/user\ \(2\).png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.image-upload-circle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-sizing: border-box;
+
+  border: 2px solid transparent;
+
+  /* Ultra-many dashes, alternating colors */
+  background: conic-gradient(
+     #ff7dec 0deg 5deg, transparent 5deg 10deg,
+     #ff7dec 10deg 15deg, transparent 15deg 20deg,
+     #ff7dec 20deg 25deg, transparent 25deg 30deg,
+     #ff7dec 30deg 35deg, transparent 35deg 40deg,
+     #ff7dec 40deg 45deg, transparent 45deg 50deg,
+     #ff7dec 50deg 55deg, transparent 55deg 60deg,
+     #ff7dec 60deg 65deg, transparent 65deg 70deg,
+     #ff7dec 70deg 75deg, transparent 75deg 80deg,
+     #ff7dec 80deg 85deg, transparent 85deg 90deg,
+     #ff7dec 90deg 95deg, transparent 95deg 100deg,
+     #ff7dec 100deg 105deg, transparent 105deg 110deg,
+     #ff7dec 110deg 115deg, transparent 115deg 120deg,
+    #ff7dec 120deg 125deg, transparent 125deg 130deg,
+    #3776ff 130deg 135deg, transparent 135deg 140deg,
+    #3776ff 140deg 145deg, transparent 145deg 150deg,
+    #3776ff 150deg 155deg, transparent 155deg 160deg,
+    #3776ff 160deg 165deg, transparent 165deg 170deg,
+    #3776ff 170deg 175deg, transparent 175deg 180deg,
+    #3776ff 180deg 185deg, transparent 185deg 190deg,
+    #3776ff 190deg 195deg, transparent 195deg 200deg,
+    #3776ff 200deg 205deg, transparent 205deg 210deg,
+    #3776ff 210deg 215deg, transparent 215deg 220deg,
+    #3776ff 220deg 225deg, transparent 225deg 230deg,
+    #3776ff 230deg 235deg, transparent 235deg 240deg,
+    #c74eff 240deg 245deg, transparent 245deg 250deg,
+    #c74eff 250deg 255deg, transparent 255deg 260deg,
+    #c74eff 260deg 265deg, transparent 265deg 270deg,
+    #c74eff 270deg 275deg, transparent 275deg 280deg,
+    #c74eff 280deg 285deg, transparent 285deg 290deg,
+    #c74eff 290deg 295deg, transparent 295deg 300deg,
+    #c74eff 300deg 305deg, transparent 305deg 310deg,
+    #c74eff 310deg 315deg, transparent 315deg 320deg,
+    #c74eff 320deg 325deg, transparent 325deg 330deg,
+    #c74eff 330deg 335deg, transparent 335deg 340deg,
+    #c74eff 340deg 345deg, transparent 345deg 350deg,
+    #c74eff 350deg 355deg, transparent 355deg 360deg
+  );
+
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 2px), #000 0) content-box;
+  -webkit-mask-composite: destination-out;
+  mask: radial-gradient(farthest-side, #0000 calc(100% - 2px), #000 0) content-box;
+  mask-composite: exclude;
+
+  animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

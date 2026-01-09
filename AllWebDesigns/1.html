@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="AllDesigns" class="content">
+  <h2>Choose Your Web Design</h2>
+
+  <div id="mainDesignCards" class="design-grid">
+    <!-- 1 Portfolio -->
+    <div class="design-card" data-design="Portfolio">
+      <img src="/Assets/Portfolio.webp" alt="Portfolio">
+      <h3>Portfolio</h3>
+      <p class="subhd-1">Personal Creative Developer</p>
+      <p>Clean and modern portfolio designs highlighting individual skills, creativity, coding excellence, and professional photography projects in one seamless presentation.</p>
+    </div>
+
+    <!-- 2 Company -->
+    <div class="design-card" data-design="Company">
+      <img src="/Assets/Company.png" alt="Company">
+      <h3>Company</h3>
+      <p class="subhd-2">Service Organization Industrial</p>
+      <p>Professional company websites showcasing services, organizational structure, industrial projects, and corporate values in a clear, global-standard layout for client trust.</p>
+    </div>
+
+    <!-- 3 Business -->
+    <div class="design-card" data-design="Business">
+      <img src="/Assets/Business.png" alt="Business">
+      <h3>Business</h3>
+      <p class="subhd-3">Corporate Startup Enterprise</p>
+      <p>Modern business websites combining corporate professionalism, startup innovation, small business branding, and enterprise-level design for worldwide client engagement.</p>
+    </div>
+
+    <!-- 4 Product -->
+    <div class="design-card" data-design="Product">
+      <img src="/Assets/Product.png" alt="Product">
+      <h3>Product</h3>
+      <p class="subhd-4">Physical Digital SaaS</p>
+      <p>Elegant product showcases highlighting physical goods, digital solutions, SaaS applications, and landing pages that engage customers and drive conversions globally.</p>
+    </div>
+
+    <!-- 5 Agency -->
+    <div class="design-card" data-design="Agency">
+      <img src="/Assets/Agency01.png" alt="Agency">
+      <h3>Agency</h3>
+      <p class="subhd-5">Digital Creative Marketing</p>
+      <p>Professional agency websites displaying digital marketing strategies, creative visuals, brand growth solutions, and security management with high-quality design standards.</p>
+    </div>
+
+    <!-- 6 Blog -->
+    <div class="design-card" data-design="Blog">
+      <img src="/Assets/Blog.png" alt="Blog">
+      <h3>Blog</h3>
+      <p class="subhd-6">Personal Tech Travel</p>
+      <p>Blog websites that deliver personal storytelling, tech insights, travel journeys, and culinary experiences in a visually appealing, professional format for global readers.</p>
+    </div>
+
+    <!-- 7 Education -->
+    <div class="design-card" data-design="Education">
+      <img src="/Assets/Education.png" alt="Education">
+      <h3>Education</h3>
+      <p class="subhd-7">School Online Academy</p>
+      <p>Educational websites providing school, online courses, coaching, and academy programs with a clear professional interface for efficient global learning and engagement.</p>
+    </div>
+
+    <!-- 8 Appointment -->
+    <div class="design-card" data-design="Appointment">
+      <img src="/Assets/Appointment.png" alt="Appointment">
+      <h3>Appointment</h3>
+      <p class="subhd-8">Booking Consultation Scheduling</p>
+      <p>Appointment and booking websites with intuitive scheduling for doctors, salons, consultants, and events, ensuring smooth professional interactions worldwide.</p>
+    </div>
+  </div>
+
+  <button type="button" id="loginBtn">Generate Website with Google Login</button>
+</div>
+
+<style>
+:root{
+  --card:#fff;
+  --accent:#0d6efd;
+  --muted:#555;
+  --shadow:0 8px 20px rgba(15,23,42,0.08);
+  --radius:12px;
+}
+
+/* Typography bold, straight */
+h2{ margin:0 0 18px 0; font-size:22px; font-weight:800; color:#08102a; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+.design-card h3{ margin:0; font-size:16px; font-weight:800; color:#09132a; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+.design-card p{ margin:0; font-size:14px; color:var(--muted); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height:1.5; }
+
+/* Grid */
+.design-grid{
+  display:grid;
+  gap:18px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+}
+
+/* Cards */
+.design-card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:16px;
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:10px;
+  cursor:pointer;
+  border:2px solid rgba(15,23,42,0.05);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .15s ease;
+}
+
+.design-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(15,23,42,0.10);
+}
+
+.design-card.selected{
+  border:2.5px solid #003d99;
+  box-shadow: 0 12px 30px rgba(13,110,253,0.10);
+  transform: translateY(-4px);
+}
+
+/* Sub-HD colors */
+.subhd-1{ color:#5bc0de; }
+.subhd-2{ color:#9370db; }
+.subhd-3{ color:#1e90ff; }
+.subhd-4{ color:#ffd700; }
+.subhd-5{ color:#ff7f50; }
+.subhd-6{ color:#ffa500; }
+.subhd-7{ color:#20b2aa; }
+.subhd-8{ color:#90ee90; }
+
+/* Gen + Login Button */
+#loginBtn {
+  width: 260px;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  background: linear-gradient(90deg, rgba(255,182,193,0.7) 0%, rgba(173,216,230,0.5) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(13,110,253,0.12);
+  transition: transform .12s ease, background .12s ease;
+  display:block;
+  margin:30px auto;
+  text-align:center;
+  text-transform: uppercase;
+}
+
+#loginBtn:hover{
+  transform: translateY(-3px);
+  background: linear-gradient(90deg, rgba(255,182,193,0.9) 0%, rgba(173,216,230,0.7) 100%);
+}
+.design-card img{
+  width:100%;
+  max-width:280px;
+  height:160px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:12px; /* space before HD */
+  user-select:none;
+  border: 2px solid rgba(0,0,0,0.05);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.design-card:hover img{
+  transform: scale(1.03);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+}
+
+/* Responsive */
+@media (max-width:720px){
+  .design-grid{ grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
+
+@media (max-width:540px){
+  .design-grid{ grid-template-columns: repeat(2, 1fr); }
+  .design-card{ padding:12px; }
+  .design-card p{ font-size:13px; }
+}
+
+@media (max-width:400px){
+  .design-grid{ grid-template-columns: repeat(1, 1fr); gap:12px; }
+  .design-card{ padding:10px; border-radius:10px; }
+  .design-card h3{ font-size:14px; }
+  .design-card p{ font-size:12px; }
+  #loginBtn{ width:100%; margin-top:20px; }
+}
+</style>
+
+</body>
+</html>

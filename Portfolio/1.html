@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Personal Intro — Portfolio</title>
+  <meta name="description" content="Simple, beautiful personal intro portfolio (HTML/CSS/JS).">
+  <style>
+    :root{
+      --bg:#0f1724; /* deep slate */
+      --card:#0b1220;
+      --muted:#98a0b3;
+      --accent:#6ee7b7; /* soft mint */
+      --glass: rgba(255,255,255,0.04);
+      --maxw:1100px;
+      --ff: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:var(--ff);background:linear-gradient(180deg,#071025 0%,var(--bg) 100%);color:#e6eef8}
+    .wrap{max-width:var(--maxw);margin:40px auto;padding:28px;display:grid;grid-template-columns:380px 1fr;gap:32px;align-items:start}
+
+    /* card */
+    .card{background:linear-gradient(180deg,var(--card),transparent);border-radius:14px;padding:26px;box-shadow:0 6px 30px rgba(2,6,23,0.6);backdrop-filter:blur(6px)}
+
+    /* left column */
+    .profile{display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center}
+    .avatar{width:160px;height:160px;border-radius:999px;overflow:hidden;border:4px solid rgba(255,255,255,0.06)}
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    h1{font-size:28px;margin:0}
+    .role{color:var(--muted);margin-top:4px;font-size:14px}
+    .intro{color:var(--muted);font-size:14px;line-height:1.5}
+    .cta{display:flex;gap:10px;margin-top:6px}
+    .btn{background:linear-gradient(90deg,var(--accent),#5eead4);color:#062023;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600;box-shadow:0 6px 18px rgba(110,231,183,0.08)}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:9px 12px}
+
+    .meta{width:100%;margin-top:8px;display:flex;flex-direction:column;gap:8px}
+    .meta .row{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}
+
+    /* right column */
+    .content{display:flex;flex-direction:column;gap:18px}
+    .hero{display:flex;align-items:center;gap:18px}
+    .greeting{font-size:18px;color:var(--muted);margin:0}
+    .name{font-size:34px;margin:0;line-height:1}
+    .typewriter{color:var(--accent);font-weight:700}
+    .summary{color:var(--muted);margin-top:6px;font-size:15px}
+
+    .skills{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+    .skill{background:var(--glass);padding:8px 10px;border-radius:8px;color:var(--muted);font-size:13px}
+
+    .timeline{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:18px;border-radius:12px}
+    .timeline h3{margin:0 0 8px 0}
+    .line{display:flex;flex-direction:column;gap:12px}
+    .line .item{display:flex;gap:12px;align-items:flex-start}
+    .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:6px;flex:0 0 10px}
+    .item .txt{color:var(--muted);font-size:14px}
+
+    .contact{display:flex;gap:12px;align-items:center}
+    .contact a{color:var(--muted);text-decoration:none;font-size:14px}
+
+    footer{color:var(--muted);text-align:center;margin-top:18px;font-size:13px}
+
+    /* small screens */
+    @media (max-width:920px){
+      .wrap{grid-template-columns:1fr;padding:18px;margin:20px}
+      .avatar{width:120px;height:120px}
+      .name{font-size:26px}
+    }
+
+    /* subtle entrance */
+    .fade-up{opacity:0;transform:translateY(10px);animation:up 600ms cubic-bezier(.2,.9,.3,1) forwards}
+    .delay-1{animation-delay:80ms}.delay-2{animation-delay:160ms}.delay-3{animation-delay:240ms}
+    @keyframes up{to{opacity:1;transform:none}}
+
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <!-- LEFT: profile card -->
+    <aside class="card profile fade-up delay-1">
+      <div class="avatar">
+        <!-- Replace with your photo -->
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Profile">
+      </div>
+      <h1 id="displayName">Your Name</h1>
+      <div class="role">Frontend Developer · UI/UX Enthusiast</div>
+      <p class="intro">I build clean, accessible interfaces for web and mobile. I focus on performance, delightful animations, and pragmatic design.</p>
+
+      <div class="cta">
+        <a class="btn" id="downloadBtn" href="#">Download CV</a>
+        <a class="btn ghost" id="contactBtn" href="#contact">Contact</a>
+      </div>
+
+      <div class="meta">
+        <div class="row"><span>Location</span><span>Karachi, PK</span></div>
+        <div class="row"><span>Experience</span><span>5+ years</span></div>
+        <div class="row"><span>Email</span><span>you@domain.com</span></div>
+      </div>
+    </aside>
+
+    <!-- RIGHT: detail -->
+    <section class="content">
+      <div class="card hero fade-up delay-2">
+        <p class="greeting">Hello — I’m</p>
+        <h2 class="name"> <span id="firstName">Your</span> <span id="lastName">Name</span></h2>
+        <div class="typewriter" id="typewriter">I build beautiful web apps.</div>
+        <p class="summary">I’m a product-focused developer who builds clean interfaces and delightful user experiences. I collaborate with designers and product teams to ship fast and reliable web applications.</p>
+
+        <div class="skills" aria-label="skills list">
+          <div class="skill">HTML</div>
+          <div class="skill">CSS / Sass</div>
+          <div class="skill">JavaScript</div>
+          <div class="skill">React</div>
+          <div class="skill">Accessibility</div>
+          <div class="skill">Performance</div>
+        </div>
+      </div>
+
+      <div class="card timeline fade-up delay-3">
+        <h3>Experience & Education</h3>
+        <div class="line">
+          <div class="item">
+            <div class="dot"></div>
+            <div class="txt"><strong>Senior Frontend Developer</strong> — Acme Co. <br><small class="muted">2022 — Present</small><br>Lead frontend for the marketing product; improved load time by 40%.</div>
+          </div>
+
+          <div class="item">
+            <div class="dot"></div>
+            <div class="txt"><strong>B.S. Computer Science</strong> — National University <br><small class="muted">2016 — 2020</small></div>
+          </div>
+        </div>
+
+        <hr style="border:none;height:1px;background:rgba(255,255,255,0.03);margin:14px 0">
+
+        <div id="contact" class="contact">
+          <a href="mailto:you@domain.com">you@domain.com</a>
+          <a href="https://github.com" target="_blank" rel="noopener">Github</a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+
+      <footer>Made with ♥ — Simple personal portfolio template</footer>
+    </section>
+  </main>
+
+  <script>
+    // ---------------- Typewriter (simple loop) ----------------
+    const phrases = [
+      'I build beautiful web apps.',
+      'I craft accessible experiences.',
+      'I love clean code & great design.'
+    ];
+    const el = document.getElementById('typewriter');
+    let idx = 0;
+    let char = 0;
+    let forward = true;
+    let delay = 40;
+
+    function tick(){
+      const text = phrases[idx];
+      if(forward){
+        char++;
+        el.textContent = text.slice(0,char);
+        if(char === text.length){
+          forward = false;
+          setTimeout(tick, 900);
+          return;
+        }
+      } else {
+        char--;
+        el.textContent = text.slice(0,char);
+        if(char === 0){
+          forward = true;
+          idx = (idx + 1) % phrases.length;
+        }
+      }
+      setTimeout(tick, delay);
+    }
+    tick();
+
+    // ---------------- Smooth scroll for contact and download (small helpers) ----------------
+    document.getElementById('contactBtn').addEventListener('click', (e)=>{
+      e.preventDefault();
+      document.getElementById('contact').scrollIntoView({behavior:'smooth',block:'center'});
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', (e)=>{
+      // Example: create a fake download (replace with your real CV link)
+      e.preventDefault();
+      const a = document.createElement('a');
+      a.href = '#'; // put your cv.pdf link here
+      a.download = 'CV.pdf';
+      a.click();
+    });
+
+    // ---------------- Fill demo name from URL params (optional) ----------------
+    const params = new URLSearchParams(location.search);
+    const name = params.get('name');
+    if(name){
+      const parts = name.split(' ');
+      document.getElementById('displayName').textContent = name;
+      document.getElementById('firstName').textContent = parts[0] || '';
+      document.getElementById('lastName').textContent = parts.slice(1).join(' ') || '';
+    }
+  </script>
+</body>
+</html>

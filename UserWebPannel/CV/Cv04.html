@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Select CV Design</title>
+
+  <style>
+    :root{
+      --accent:#007bff;
+      --accent-dark:#0056b3;
+      --bg:linear-gradient(135deg,#e3f2fd,#f8f9fa);
+      --card-shadow: 0 6px 15px rgba(0,0,0,0.08);
+      --radius:12px;
+      --gap:20px;
+      font-family: Inter, system-ui, -apple-system, "Poppins", "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    html,body{height:100%; margin:0; background:var(--bg); color:#222;}
+    .wrap{max-width:1100px; margin:32px auto; padding:20px; box-sizing:border-box;}
+
+    h1{
+      text-align:center; color:var(--accent); font-size:1.6rem; margin:0 0 18px;
+    }
+
+    /* GRID */
+    .cv-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+      gap:var(--gap);
+      align-items:start;
+    }
+
+    .cv-card{
+      background:#fff;
+      border-radius:var(--radius);
+      overflow:hidden;
+      border:2px solid #e6e9ee;
+      box-shadow:var(--card-shadow);
+      cursor:pointer;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      display:flex; flex-direction:column; width:100%;
+    }
+
+    .cv-card img{ width:100%; height:150px; object-fit:cover; display:block; }
+    .cv-card h3{ margin:0; padding:12px; font-size:1rem; text-align:center; color:#222; background:#fafafa; flex:0 0 auto; }
+
+    .cv-card:hover{ transform:translateY(-6px); box-shadow:0 12px 30px rgba(0,0,0,0.12); border-color:var(--accent); }
+    .cv-card.selected{ border-color:var(--accent); box-shadow:0 0 18px rgba(0,123,255,0.22); background:#f0f7ff; }
+
+    /* ACTIONS */
+    .actions{ display:flex; justify-content:center; margin-top:22px; gap:12px; }
+    .btn{
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      padding:12px 26px;
+      border-radius:10px;
+      font-size:1rem;
+      cursor:pointer;
+      transition:background .15s ease, transform .08s ease;
+    }
+    .btn:hover{ background:var(--accent-dark); transform:translateY(-2px); }
+
+    /* PREVIEW */
+    .preview-wrap{ display:none; margin-top:20px; position:relative; width:100%; }
+    .preview-top-left {
+      position:absolute; left:14px; top:14px; z-index:30;
+      display:flex; gap:8px; align-items:center;
+    }
+    .back-btn{
+      background:rgba(255,255,255,0.95);
+      border:1px solid #ddd;
+      color:#333;
+      padding:8px 10px;
+      border-radius:8px;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(0,0,0,0.06);
+    }
+    .back-btn:hover{ background:#fff; transform:translateY(-2px); }
+
+    .preview-iframe {
+      width:100%;
+      height:calc(100vh - 180px);
+      min-height:420px;
+      border-radius:12px;
+      border:1px solid #ddd;
+      overflow:hidden;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.08);
+    }
+
+    /* fallback message when iframe can't load */
+    .preview-fallback{
+      padding:24px;
+      border-radius:12px;
+      background:#fff;
+      border:1px dashed #ddd;
+      min-height:320px;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width:720px){
+      .cv-card img{ height:130px; }
+      .preview-iframe{ height:60vh; min-height:360px; }
+      .back-btn{ padding:8px 10px; font-size:.95rem; }
+      h1{ font-size:1.3rem; margin-bottom:14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🎨 Choose Your CV Design</h1>
+
+    <!-- Grid (will be hidden when preview is shown) -->
+    <div id="cvGrid" class="cv-grid" aria-live="polite">
+      <!-- Replace/extend these cards as needed; data-design must point to the design html file -->
+      <div class="cv-card" data-design="/UserWebPannel/CV/Preview02.html">
+        <img src="/Assets/1.png" alt="Elegant Blue">
+        <h3>Elegant Blue</h3>
+      </div>
+
+      <div class="cv-card" data-design="/UserWebPannel/CV/Preview.html">
+        <img src="/Assets/2.png" alt="Professional Gray">
+        <h3>Professional Gray</h3>
+      </div>
+
+      <div class="cv-card" data-design="/UserWebPannel/CV/cvDesign3.html">
+        <img src="/Assets/3.png" alt="Minimal White">
+        <h3>Minimal White</h3>
+      </div>
+
+      <div class="cv-card" data-design="/UserWebPannel/CV/cvDesign4.html">
+        <img src="/Assets/4.jpg" alt="Creative Accent">
+        <h3>Creative Accent</h3>
+      </div>
+
+      <div class="cv-card" data-design="/UserWebPannel/CV/cvDesign5.html">
+        <img src="/Assets/5.png" alt="Modern Black">
+        <h3>Modern Black</h3>
+      </div>
+
+      <div class="cv-card" data-design="/UserWebPannel/CV/cvDesign6.html">
+        <img src="/Assets/6.png" alt="Modern Blue">
+        <h3>Modern Blue</h3>
+      </div>
+
+      <div class="cv-card" data-design="/UserWebPannel/CV/cvDesign7.html">
+        <img src="/Assets/7.png" alt="Classic White">
+        <h3>Classic White</h3>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="actions" aria-hidden="false">
+      <button id="continueBtn" class="btn">Continue</button>
+      <button id="clearSelection" class="btn" style="background:#6c757d;">Clear</button>
+    </div>
+
+    <!-- Preview area (hidden until Continue) -->
+    <div id="previewWrap" class="preview-wrap" role="region" aria-label="Design preview">
+      <div class="preview-top-left" aria-hidden="false">
+        <button id="backBtn" class="back-btn" title="Back to designs">← Back</button>
+      </div>
+
+      <!-- iframe used so the selected HTML runs with its own scripts/styles -->
+      <iframe id="previewFrame" class="preview-iframe" src="" frameborder="0" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
+
+      <!-- fallback message (hidden by default) -->
+      <div id="previewFallback" class="preview-fallback" style="display:none;">
+        <strong>Preview couldn't load.</strong>
+        <p>It looks like the selected design file couldn't be loaded in an embedded preview. You can still open it in a new tab by clicking the button below.</p>
+        <div style="margin-top:12px;">
+          <a id="openInNewTab" href="#" target="_blank" rel="noopener" class="btn">Open in new tab</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const grid = document.getElementById('cvGrid');
+      const cards = Array.from(grid.querySelectorAll('.cv-card'));
+      const continueBtn = document.getElementById('continueBtn');
+      const clearBtn = document.getElementById('clearSelection');
+      const previewWrap = document.getElementById('previewWrap');
+      const previewFrame = document.getElementById('previewFrame');
+      const fallback = document.getElementById('previewFallback');
+      const openInNewTab = document.getElementById('openInNewTab');
+      const backBtn = document.getElementById('backBtn');
+
+      let selectedDesign = localStorage.getItem('selectedDesign') || null;
+
+      // Utility: deselect all
+      function clearSelectedVisual(){
+        cards.forEach(c => c.classList.remove('selected'));
+      }
+
+      // Restore previous selection (if any)
+      if(selectedDesign){
+        const prev = cards.find(c => c.dataset.design === selectedDesign);
+        if(prev) prev.classList.add('selected');
+      }
+
+      // Card click: only select visually, don't load immediately
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          clearSelectedVisual();
+          card.classList.add('selected');
+          selectedDesign = card.dataset.design;
+          localStorage.setItem('selectedDesign', selectedDesign);
+        });
+      });
+
+      // Clear selection button
+      clearBtn.addEventListener('click', () => {
+        clearSelectedVisual();
+        selectedDesign = null;
+        localStorage.removeItem('selectedDesign');
+      });
+
+      // Continue: hide grid, show preview iframe with the selected design
+      continueBtn.addEventListener('click', () => {
+        if(!selectedDesign){
+          alert('Please select a design first!');
+          return;
+        }
+
+        // Clear any previous fallback
+        fallback.style.display = 'none';
+        previewFrame.style.display = '';
+        previewWrap.style.display = 'block';
+
+        // set iframe src to selected design
+        previewFrame.src = selectedDesign;
+
+        // Also update open-in-new-tab link
+        openInNewTab.href = selectedDesign;
+
+        // Hide the grid area (replace)
+        grid.style.display = 'none';
+        document.querySelector('.actions').style.display = 'none';
+
+        // push history state so back button works
+        try {
+          history.pushState({ view: 'preview', design: selectedDesign }, '', '#preview');
+        } catch(e){ /* ignore */ }
+      });
+
+      // Back button: hide preview, show grid
+      backBtn.addEventListener('click', () => {
+        // hide iframe (stop it)
+        previewFrame.src = 'about:blank';
+        previewWrap.style.display = 'none';
+
+        grid.style.display = '';
+        document.querySelector('.actions').style.display = '';
+
+        // clear fallback if any
+        fallback.style.display = 'none';
+
+        // update history
+        try {
+          history.pushState({ view: 'grid' }, '', '#grid');
+        } catch(e){}
+      });
+
+      // If iframe fails to load (e.g., CORS or blocked), show fallback
+      previewFrame.addEventListener('error', () => {
+        previewFrame.style.display = 'none';
+        fallback.style.display = '';
+      });
+
+      // Also handle load event — sometimes load succeeds; if content blocked, fallback still might be needed
+      previewFrame.addEventListener('load', () => {
+        // If the iframe ends up at about:blank (we cleared it), do nothing.
+        if(previewFrame.src === 'about:blank' || previewFrame.src === '') return;
+
+        // Check if iframe loaded cross-origin content — we can't inspect it, but show it.
+        // If it loaded a blocking page, the user still sees it; keep fallback hidden.
+        fallback.style.display = 'none';
+      });
+
+      // Browser Back / Forward handling
+      window.addEventListener('popstate', (e) => {
+        const state = e.state || {};
+        if(state.view === 'preview'){
+          // show preview
+          if(state.design){
+            selectedDesign = state.design;
+            previewFrame.src = selectedDesign;
+            previewWrap.style.display = 'block';
+            grid.style.display = 'none';
+            document.querySelector('.actions').style.display = 'none';
+          }
+        } else {
+          // show grid
+          previewFrame.src = 'about:blank';
+          previewWrap.style.display = 'none';
+          grid.style.display = '';
+          document.querySelector('.actions').style.display = '';
+        }
+      });
+
+      // Accessibility: keyboard support for Enter on cards
+      cards.forEach(card => {
+        card.tabIndex = 0;
+        card.addEventListener('keydown', (ev) => {
+          if(ev.key === 'Enter' || ev.key === ' '){
+            ev.preventDefault();
+            card.click();
+          }
+        });
+      });
+
+    })();
+  </script>
+
+  <!-- <script type="module" src="/UserWebPannel/CV/Preview02.js"></script> -->
+</body>
+</html>

@@ -1,0 +1,93 @@
+/* HEADER BACKGROUND */
+#homed {
+  width: 100%;
+  padding: 6rem 0;
+  background-image: url("Assets/header-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* LAYOUT POSITIONING */
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3rem;
+}
+
+.left-box {
+  max-width: 550px;
+}
+
+.heroName {
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+/* PROFILE PIC UNDER NAME */
+.Profpic {
+  width: clamp(80px, 20vw, 150px);
+  height: clamp(80px, 20vw, 150px);
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+}
+
+/* SMALL GRADIENT IMG */
+.image-gradient {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+}
+
+/* DESCRIPTION */
+.description {
+  color: rgb(200, 200, 200);
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  margin-top: 1rem;
+}
+
+/* 3D MODEL RIGHT SIDE */
+.robot-3d {
+  width: clamp(260px, 38vw, 700px);
+  height: clamp(260px, 38vw, 700px);
+}
+
+/* BUTTON ROW */
+.buttons-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.play-label {
+  color: white;
+}
+
+/* MOBILE & TABLET */
+@media (max-width: 1024px) {
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .right-box {
+    margin-top: 2rem;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+  #homed {
+    padding: 4rem 0;
+  }
+
+  .robot-3d {
+    width: clamp(200px, 55vw, 350px);
+    height: clamp(200px, 55vw, 350px);
+  }
+}

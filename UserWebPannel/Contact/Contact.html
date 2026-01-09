@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Contact Page</title>
+  <link rel="stylesheet" href="/UserWebPannel/Contact/Contact-Us.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="left-panel">
+      <a href="../../index.html">
+        <img src="/Assets/AR Logo.jpg" class="logo" alt="Logo" />
+      </a>
+      <h2>Contact Us</h2>
+
+<div class="contact-box" onclick="openGmailCompose()">
+  <img src="/Assets/gmail.png" alt="Gmail Icon"/>
+  <span>Gmail</span>
+</div>
+<div  class="contact-box" onclick="window.location.href='mailto:arnstormbreaker@gmail.com'">
+  <img src="https://cdn-icons-png.flaticon.com/512/281/281769.png" alt="Gmail Icon" />
+  <span>Email</span>
+</div>
+      <!-- <button class="email-btn" onclick="window.location.href='mailto:arnstormbreaker@gmail.com'">
+        📧 Send Email
+      </button> -->
+
+
+<script>
+  function openWhatsAppChat() {
+    const phoneNumber = "923072268688"; // Your WhatsApp number in international format (no +)
+    const message = "Hello! I want to contact you from your website.";
+
+    const whatsappWebURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+    // Open in new tab or popup, guaranteed chat with message
+    window.open(whatsappWebURL, "_blank", "width=600,height=600");
+  }
+  function openWhatsAppChat1() {
+    const phoneNumber = "923333094143"; // Your WhatsApp number in international format (no +)
+    const message = "Hello! I want to contact you from your website.";
+
+    const whatsappWebURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+    // Open in new tab or popup, guaranteed chat with message
+    window.open(whatsappWebURL, "_blank", "width=600,height=600");
+  }
+</script>
+
+
+
+
+
+      <div class="contact-box"  onclick="openWhatsAppChat()">
+        <img src="../../Clintsimgs/MuhammadBux.png" alt="Manzoor Hussain" />
+        <div>
+          <strong>Muhammad Bukhsh</strong><br />
+          <small>Operation Manager</small>
+        </div>
+      </div>
+
+      <div class="contact-box"  onclick="openWhatsAppChat1()">
+        <img src="../../Clintsimgs/Manzoor.png" alt="Manzoor Hussain" />
+        <div>
+          <strong>Manzoor Hussain</strong><br />
+          <small>Operation Supervisor</small>
+        </div>
+      </div>
+    </div> 
+    <div class="right-panel">
+
+   
+    <form id="contact-form">     
+        <label>Name</label>
+  <input type="text" name="name" placeholder="Your Name" required />
+
+        <label>Email</label>
+  <input type="email" name="email" placeholder="Your Email" required />
+
+        <label>Phone</label>
+        <input type="tel" name="Phone" placeholder="Your Phone Number" required />
+
+        <label>Message</label>
+  <textarea name="message" rows="5" placeholder="Type Your Message" required></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div> 
+
+  <!-- <form id="contact-form">
+  <h2>Contact Us</h2>
+  <input type="text" name="name" placeholder="Your Name" required />
+  <input type="email" name="email" placeholder="Your Email" required />
+  <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+  <button type="submit">Submit</button>
+</form>  -->
+
+<div class="popup" id="popup">
+  ✅ Your message was sent successfully. Thank you!<br>
+  Please wait a few seconds for a reply from the company.
+</div>
+<script>
+  function openGmailCompose() {
+    const recipient = "arnstormbreaker@gmail.com"; // change to your email
+    const subject = "Contact from Website";
+    const body = "Hello, I want to get in touch with Meer Security Services.";
+    const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipient)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    window.open(url, "_blank");
+  }
+</script>
+  <script type="module" src="/UserWebPannel/Contact/Contact-Us.js"></script>
+</body>
+</html>

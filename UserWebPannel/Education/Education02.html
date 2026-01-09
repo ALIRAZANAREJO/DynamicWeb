@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Education Ball — Demo</title>
+<style>
+  :root{
+    --size-large: 320px;
+    --size-small: 110px;
+    --gap-angle: 2deg;     /* small gap between arcs */
+    --dur-spin: 18s;
+    --shadow: 0 8px 30px rgba(6,21,50,0.12);
+    --bg: linear-gradient(180deg,#f5f8ff,#eef4ff);
+    --card-radius: 14px;
+    --pad: 18px;
+
+    --c-school: #007bff;
+    --c-college: #22c55e;
+    --c-uni: #ffc107;
+    --c-master: #e83e8c;
+    --c-phd: #ef4444;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family: Inter, system-ui, Arial;
+    background: var(--bg);
+    color:#0b2540;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 28px;
+  }
+
+  /* stage centers everything */
+  .stage {
+    width:100%;
+    max-width:1100px;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:40px;
+  }
+
+  /* ---- Ball wrapper & rotor ----
+     wrapper handles placement (translate to right & scale)
+     rotor handles rotation (so we can read rotation from computedStyle)
+  */
+  .ball-wrapper{
+    width:var(--size-large);
+    height:var(--size-large);
+    display:grid;
+    place-items:center;
+    position:relative;
+    transition: transform 650ms cubic-bezier(.22,.9,.3,1), right 650ms, left 650ms;
+    z-index:50;
+  }
+  .ball-wrapper.small-right{
+    position:fixed;
+    right:28px;
+    top:28px;
+    transform: scale(0.45);
+    width:var(--size-small);
+    height:var(--size-small);
+  }
+
+  .rotor{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    position:relative;
+    display:grid;
+    place-items:center;
+    transform-origin:center;
+    animation: spin linear infinite;
+    animation-duration: var(--dur-spin);
+  }
+
+  @keyframes spin { from{ transform: rotate(0deg)} to{ transform: rotate(360deg)} }
+
+  /* ring with 5 arcs. we add tiny gaps using repeated stops */
+  .ring {
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    padding:18%;
+    /* produce arcs with little gaps */
+    background:
+      conic-gradient(
+        var(--c-school) 0deg calc(72deg - var(--gap-angle)),
+        transparent calc(72deg - var(--gap-angle)) 72deg,
+        var(--c-college) 72deg calc(144deg - var(--gap-angle)),
+        transparent calc(144deg - var(--gap-angle)) 144deg,
+        var(--c-uni) 144deg calc(216deg - var(--gap-angle)),
+        transparent calc(216deg - var(--gap-angle)) 216deg,
+        var(--c-master) 216deg calc(288deg - var(--gap-angle)),
+        transparent calc(288deg - var(--gap-angle)) 288deg,
+        var(--c-phd) 288deg calc(360deg - var(--gap-angle)),
+        transparent calc(360deg - var(--gap-angle)) 360deg
+      );
+    box-shadow: var(--shadow);
+    display:grid;
+    place-items:center;
+  }
+
+  /* inner white core */
+  .core {
+    width:58%;
+    height:58%;
+    background: #fff;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    font-weight:700;
+    color:#0b2540;
+    box-shadow: 0 6px 18px rgba(11,37,64,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+    user-select:none;
+    cursor:pointer;
+    transition: transform 220ms ease;
+  }
+  .core.small { transform: scale(0.95); }
+
+  /* labels placed around ring (clickable) */
+  .label {
+    position:absolute;
+    font-size:13px;
+    font-weight:600;
+    color:#06233f;
+    pointer-events:auto;
+    user-select:none;
+    cursor:pointer;
+    padding:6px 8px;
+    border-radius:8px;
+    background: rgba(255,255,255,0.75);
+    transform-origin:center;
+    transition: transform 200ms ease, box-shadow 180ms;
+  }
+  .label:hover{ transform: translateY(-6px); box-shadow: 0 8px 18px rgba(6,21,50,0.12) }
+
+  /* positions relative to rotor center */
+  .label.school { top:6%; left:50%; transform: translate(-50%,0); }
+  .label.college { top:30%; right:6%; transform: translate(0,-50%); }
+  .label.uni { bottom:6%; left:60%; transform: translate(-50%,0); }
+  .label.master { bottom:6%; left:20%; transform: translate(-50%,0); }
+  .label.phd { top:30%; left:6%; transform: translate(0,-50%); }
+
+  /* tiny color markers to the left of label text */
+  .label .dot {
+    display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:8px;
+    vertical-align:middle;
+  }
+  .label.school .dot{ background:var(--c-school)}
+  .label.college .dot{ background:var(--c-college)}
+  .label.uni .dot{ background:var(--c-uni)}
+  .label.master .dot{ background:var(--c-master)}
+  .label.phd .dot{ background:var(--c-phd)}
+
+  /* forms container (center overlay) */
+  .forms {
+    width: min(760px, 92%);
+    max-height: 82vh;
+    overflow:auto;
+    display:none; /* hidden by default */
+    gap:18px;
+    position:relative;
+    z-index:40;
+    transition: opacity 280ms ease, transform 300ms ease;
+  }
+  .forms.show { display:flex; flex-direction:column; align-items:stretch; animation: fadeInUp 320ms ease both; }
+  @keyframes fadeInUp { from{ opacity:0; transform: translateY(12px)} to{ opacity:1; transform: translateY(0)} }
+
+  .card {
+    background: #fff;
+    border-radius: var(--card-radius);
+    padding: var(--pad);
+    box-shadow: 0 10px 30px rgba(6,21,50,0.06);
+    border-left: 8px solid transparent;
+  }
+  .card h3 { margin:0 0 6px; font-size:18px; color:#06233f }
+  .row { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+  .full{ grid-column: 1 / -1; }
+  label{ display:block; font-size:13px; margin:8px 0 6px; color:#16324a }
+  input[type="text"], select, textarea, input[type="file"]{
+    width:100%; padding:10px 12px; border-radius:10px; border:1px solid #e6eef6; font-size:14px;
+    background:#fbfdff; color:#082033;
+  }
+  textarea{ min-height:80px; resize:vertical; }
+
+  .card .add-btn {
+    margin-top:12px;
+    padding:10px 14px; border-radius:10px; border:none; cursor:pointer;
+    background: linear-gradient(90deg,#0b63ff,#2a8bff); color:#fff; font-weight:700;
+  }
+
+  .doc-row{ display:grid; grid-template-columns: 1fr auto; gap:8px; margin-top:10px; align-items:center }
+  .doc-row input[type="text"]{ padding:8px 10px }
+  .doc-row .remove { background:#ff4d6d; border:none; color:#fff; padding:8px 10px; border-radius:8px; cursor:pointer }
+
+  .submit-row{ display:flex; justify-content:flex-end; gap:12px; margin-top:6px }
+
+  /* colored border helpers for card */
+  .card.school { border-left-color: var(--c-school); }
+  .card.college { border-left-color: var(--c-college); }
+  .card.uni { border-left-color: var(--c-uni); }
+  .card.master { border-left-color: var(--c-master); }
+  .card.phd { border-left-color: var(--c-phd); }
+
+  /* responsive */
+  @media (max-width:860px){
+    .row{ grid-template-columns: 1fr; }
+    .ball-wrapper.small-right{ right:14px; top:14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <!-- Ball area -->
+  <div class="ball-wrapper" id="ballWrapper" aria-hidden="false">
+    <div class="rotor" id="rotor" role="button" aria-label="Education wheel">
+      <div class="ring" aria-hidden="true"></div>
+
+      <!-- center clickable core -->
+      <div class="core" id="ballCenter" title="Click center to close forms">EDU</div>
+
+      <!-- labels around the ring (clickable) -->
+      <div class="label school" data-degree="school"><span class="dot"></span><span>School</span></div>
+      <div class="label college" data-degree="college"><span class="dot"></span><span>College</span></div>
+      <div class="label uni" data-degree="uni"><span class="dot"></span><span>University</span></div>
+      <div class="label master" data-degree="master"><span class="dot"></span><span>Master</span></div>
+      <div class="label phd" data-degree="phd"><span class="dot"></span><span>PhD</span></div>
+    </div>
+  </div>
+
+  <!-- Forms (center) -->
+  <div class="forms" id="forms">
+    <!-- SCHOOL CARD -->
+    <div class="card school" data-degree="school" id="card-school" style="display:none">
+      <h3>School</h3>
+      <div class="row">
+        <div class="full">
+          <label>Institution Name</label>
+          <input type="text" id="school-inst" placeholder="e.g. ABC High School">
+        </div>
+        <div>
+          <label>Degree</label>
+          <select id="school-degree">
+            <option>Matriculation / O-Levels</option>
+            <option>High School</option>
+          </select>
+        </div>
+        <div>
+          <label>Field of Study</label>
+          <input type="text" id="school-field" placeholder="e.g. Science">
+        </div>
+      </div>
+
+      <label>Marksheet (PDF or Image)</label>
+      <input type="file" id="school-marksheet" accept=".pdf,image/*">
+
+      <label>Certificate (PDF or Image)</label>
+      <input type="file" id="school-cert" accept=".pdf,image/*">
+
+      <div id="school-docs"></div>
+      <button class="add-btn" onclick="addExtraDoc('school')">＋ Add New Document</button>
+    </div>
+
+    <!-- COLLEGE -->
+    <div class="card college" data-degree="college" id="card-college" style="display:none">
+      <h3>College</h3>
+      <div class="row">
+        <div class="full">
+          <label>Institution Name</label>
+          <input type="text" id="college-inst" placeholder="e.g. City College">
+        </div>
+        <div>
+          <label>Degree</label>
+          <select id="college-degree">
+            <option>Intermediate / A-Levels</option>
+            <option>Diploma</option>
+          </select>
+        </div>
+        <div>
+          <label>Field of Study</label>
+          <input type="text" id="college-field" placeholder="e.g. Pre-Medical">
+        </div>
+      </div>
+
+      <label>Marksheet (PDF or Image)</label>
+      <input type="file" id="college-marksheet" accept=".pdf,image/*">
+
+      <label>Certificate (PDF or Image)</label>
+      <input type="file" id="college-cert" accept=".pdf,image/*">
+
+      <div id="college-docs"></div>
+      <button class="add-btn" onclick="addExtraDoc('college')">＋ Add New Document</button>
+    </div>
+
+    <!-- UNIVERSITY -->
+    <div class="card uni" data-degree="uni" id="card-uni" style="display:none">
+      <h3>University</h3>
+      <div class="row">
+        <div class="full">
+          <label>Institution Name</label>
+          <input type="text" id="uni-inst" placeholder="e.g. National University">
+        </div>
+        <div>
+          <label>Degree</label>
+          <select id="uni-degree">
+            <option>BSc</option>
+            <option>BA</option>
+            <option>BEng</option>
+          </select>
+        </div>
+        <div>
+          <label>Field of Study</label>
+          <input type="text" id="uni-field" placeholder="e.g. Computer Science">
+        </div>
+      </div>
+
+      <label>Marksheet (PDF or Image)</label>
+      <input type="file" id="uni-marksheet" accept=".pdf,image/*">
+
+      <label>Certificate (PDF or Image)</label>
+      <input type="file" id="uni-cert" accept=".pdf,image/*">
+
+      <div id="uni-docs"></div>
+      <button class="add-btn" onclick="addExtraDoc('uni')">＋ Add New Document</button>
+    </div>
+
+    <!-- MASTER -->
+    <div class="card master" data-degree="master" id="card-master" style="display:none">
+      <h3>Master</h3>
+      <div class="row">
+        <div class="full">
+          <label>Institution Name</label>
+          <input type="text" id="master-inst" placeholder="e.g. Institute of Advanced Studies">
+        </div>
+        <div>
+          <label>Degree</label>
+          <select id="master-degree">
+            <option>MSc</option>
+            <option>MA</option>
+            <option>MBA</option>
+          </select>
+        </div>
+        <div>
+          <label>Field of Study</label>
+          <input type="text" id="master-field" placeholder="e.g. Data Science">
+        </div>
+      </div>
+
+      <label>Marksheet (PDF or Image)</label>
+      <input type="file" id="master-marksheet" accept=".pdf,image/*">
+
+      <label>Certificate (PDF or Image)</label>
+      <input type="file" id="master-cert" accept=".pdf,image/*">
+
+      <div id="master-docs"></div>
+      <button class="add-btn" onclick="addExtraDoc('master')">＋ Add New Document</button>
+    </div>
+
+    <!-- PHD -->
+    <div class="card phd" data-degree="phd" id="card-phd" style="display:none">
+      <h3>PhD</h3>
+      <div class="row">
+        <div class="full">
+          <label>Institution Name</label>
+          <input type="text" id="phd-inst" placeholder="e.g. Research University">
+        </div>
+        <div>
+          <label>Degree</label>
+          <select id="phd-degree">
+            <option>PhD</option>
+            <option>DPhil</option>
+          </select>
+        </div>
+        <div>
+          <label>Field of Study</label>
+          <input type="text" id="phd-field" placeholder="e.g. Neuroscience">
+        </div>
+      </div>
+
+      <label>Marksheet (PDF or Image)</label>
+      <input type="file" id="phd-marksheet" accept=".pdf,image/*">
+
+      <label>Certificate (PDF or Image)</label>
+      <input type="file" id="phd-cert" accept=".pdf,image/*">
+
+      <div id="phd-docs"></div>
+      <button class="add-btn" onclick="addExtraDoc('phd')">＋ Add New Document</button>
+    </div>
+
+    <div class="submit-row card" style="display:none" id="submitCard">
+      <div style="flex:1"></div>
+      <button id="submitBtn" class="add-btn">Save All</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* --- Utilities & mappings --- */
+const sectorNames = ['school','college','uni','master','phd'];
+const colorMap = {
+  school: getComputedStyle(document.documentElement).getPropertyValue('--c-school') || '#007bff',
+  college: getComputedStyle(document.documentElement).getPropertyValue('--c-college') || '#22c55e',
+  uni: getComputedStyle(document.documentElement).getPropertyValue('--c-uni') || '#ffc107',
+  master: getComputedStyle(document.documentElement).getPropertyValue('--c-master') || '#e83e8c',
+  phd: getComputedStyle(document.documentElement).getPropertyValue('--c-phd') || '#ef4444'
+};
+
+/* Elements */
+const ballWrapper = document.getElementById('ballWrapper');
+const rotor = document.getElementById('rotor');
+const core = document.getElementById('ballCenter');
+const forms = document.getElementById('forms');
+const submitCard = document.getElementById('submitCard');
+
+/* Set rotor rotation animation inline so computedStyle has matrix */
+rotor.style.animation = `spin ${getComputedStyle(document.documentElement).getPropertyValue('--dur-spin') || '18s'} linear infinite`;
+
+/* Compute rotation angle (deg) from transform matrix */
+function getRotorRotationDeg(){
+  const st = window.getComputedStyle(rotor).transform;
+  if(!st || st === 'none') return 0;
+  // matrix(a, b, c, d, e, f)
+  const values = st.match(/matrix\((.+)\)/);
+  if(!values) return 0;
+  const nums = values[1].split(',').map(n => parseFloat(n));
+  const a = nums[0], b = nums[1];
+  const angle = Math.atan2(b, a) * 180 / Math.PI;
+  return (angle + 360) % 360;
+}
+
+/* Map click angle to sector (account for rotor rotation) */
+function angleToSector(clickAngleDeg){
+  const rotDeg = getRotorRotationDeg();
+  // compensate current rotation: find angle in rotor's original coordinate
+  const trueAngle = (clickAngleDeg - rotDeg + 360) % 360;
+  const sectorSize = 360 / sectorNames.length; // 72
+  const index = Math.floor(trueAngle / sectorSize);
+  return sectorNames[(index + sectorNames.length) % sectorNames.length];
+}
+
+/* Determine angle from event */
+function getClickAngle(e){
+  const rect = rotor.getBoundingClientRect();
+  const cx = rect.left + rect.width/2;
+  const cy = rect.top + rect.height/2;
+  const x = e.clientX - cx;
+  const y = e.clientY - cy;
+  const deg = (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+  return deg;
+}
+
+/* Open form for given sector */
+function openForm(sector){
+  // show forms container
+  forms.classList.add('show');
+  // hide all cards, reveal selected with style
+  sectorNames.forEach(s => {
+    const el = document.getElementById('card-'+s);
+    if(!el) return;
+    if(s === sector){
+      el.style.display = 'block';
+      // ensure colored border matches sector
+      el.classList.add(s);
+    } else {
+      el.style.display = 'none';
+      el.classList.remove(s);
+    }
+  });
+  // show submit row
+  submitCard.style.display = 'flex';
+  // move ball to small-right
+  ballWrapper.classList.add('small-right');
+}
+
+/* Close forms and return ball center */
+function closeForms(){
+  forms.classList.remove('show');
+  // hide all cards
+  sectorNames.forEach(s => {
+    const el = document.getElementById('card-'+s);
+    if(el) el.style.display = 'none';
+  });
+  submitCard.style.display = 'none';
+  ballWrapper.classList.remove('small-right');
+}
+
+/* rotor click -> detect sector and open */
+rotor.addEventListener('click', (e) => {
+  // if click is inside white core (center), treat as center click instead
+  const coreRect = core.getBoundingClientRect();
+  if(e.clientX >= coreRect.left && e.clientX <= coreRect.right && e.clientY >= coreRect.top && e.clientY <= coreRect.bottom){
+    // center clicked -> close all
+    closeForms();
+    return;
+  }
+
+  const deg = getClickAngle(e);
+  const sector = angleToSector(deg);
+  openForm(sector);
+  e.stopPropagation();
+});
+
+/* labels clickable too */
+document.querySelectorAll('.label').forEach(lbl => {
+  lbl.addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    const sector = lbl.dataset.degree;
+    openForm(sector);
+  });
+});
+
+/* clicking center explicitly closes */
+core.addEventListener('click', (ev) => { ev.stopPropagation(); closeForms(); });
+
+/* clicking outside closes forms and restores ball */
+document.addEventListener('click', (e) => {
+  const insideBall = ballWrapper.contains(e.target);
+  const insideForms = forms.contains(e.target);
+  if(!insideBall && !insideForms){
+    closeForms();
+  }
+});
+
+/* --- Extra docs functionality per card --- */
+function addExtraDoc(sector){
+  const container = document.getElementById(sector+'-docs');
+  const row = document.createElement('div');
+  row.className = 'doc-row';
+  row.innerHTML = `
+    <input type="text" placeholder="Document name (e.g. Diploma, Award)">
+    <input type="file" accept=".pdf,image/*">
+    <button class="remove" type="button">Remove</button>
+  `;
+  // remove handler
+  row.querySelector('.remove').addEventListener('click', () => row.remove());
+  container.appendChild(row);
+  row.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+/* Provide a small visual guide on first load (auto-show school then close) */
+window.addEventListener('load', () => {
+  // tiny intro: highlight school label then restore
+  setTimeout(()=> {
+    // briefly open school for 1400ms then close
+    openForm('school');
+    setTimeout(()=> closeForms(), 1400);
+  }, 800);
+});
+
+/* --- Submit (collect data) --- */
+document.getElementById('submitBtn').addEventListener('click', () => {
+  const payload = {};
+  sectorNames.forEach(s => {
+    const card = document.getElementById('card-'+s);
+    const inst = card.querySelector('input[type="text"]') ? card.querySelector('input[type="text"]').value.trim() : '';
+    const degree = card.querySelector('select') ? card.querySelector('select').value : '';
+    const field = card.querySelectorAll('input[type="text"]')[1] ? card.querySelectorAll('input[type="text"]')[1].value.trim() : '';
+    const marksheet = card.querySelector('input[type="file"]') ? card.querySelectorAll('input[type="file"]')[0].files[0] || null : null;
+    const cert = card.querySelectorAll('input[type="file"]')[1] ? card.querySelectorAll('input[type="file"]')[1].files[0] || null : null;
+
+    // collect extra docs
+    const extras = [];
+    card.querySelectorAll('.doc-row').forEach(row => {
+      const name = row.querySelector('input[type="text"]').value.trim();
+      const file = row.querySelector('input[type="file"]').files[0] || null;
+      if(name || file) extras.push({ name, file });
+    });
+
+    payload[s] = { institution: inst, degree, field, marksheet, cert, extras };
+  });
+
+  console.log('Collected payload (File objects included):', payload);
+  alert('Data collected — check console. Next step: wire to your backend / storage.');
+});
+</script>
+</body>
+</html>

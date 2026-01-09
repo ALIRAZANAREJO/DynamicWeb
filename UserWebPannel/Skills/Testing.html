@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Form with Skills</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  form { max-width: 400px; margin: auto; display: flex; flex-direction: column; gap: 12px; }
+  input, button { padding: 10px; font-size: 14px; }
+  button { background: #00337f; color: white; border: none; cursor: pointer; }
+  button:hover { background: #0055cc; }
+
+  .search-box { position: relative; width: 100%; }
+  .search-input { width: 100%; padding: 10px; font-size: 14px; }
+  .dropdown { 
+    position: absolute; 
+    top: 100%; left: 0; 
+    width: 100%; 
+    background: #fff; 
+    border: 1px solid #ccc; 
+    max-height: 150px; 
+    overflow-y: auto; 
+    display: none;
+    z-index: 10;
+  }
+  .dropdown div { padding: 8px; cursor: pointer; }
+  .dropdown div:hover { background: #f0f0f0; }
+
+  .selected-container { 
+    margin-top: 10px; 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 6px;
+  }
+  .skill-tag {
+    background: #00337f; 
+    color: #fff; 
+    padding: 6px 10px; 
+    border-radius: 6px; 
+    font-size: 14px; 
+    display: flex; 
+    align-items: center; 
+    gap: 6px;
+  }
+  .skill-tag input {
+    width: 40px;
+    border: none;
+    background: transparent;
+    color: yellow;
+    font-weight: bold;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<h2>User Registration with Skills</h2>
+<form id="userForm">
+  <input type="text" id="cnic" placeholder="Enter CNIC" required>
+  <input type="text" id="name" placeholder="Enter Name" required>
+  <input type="text" id="phone" placeholder="Enter Phone" required>
+  <input type="file" id="image" accept="image/*" required>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" class="search-input" placeholder="">
+    <div class="dropdown" id="dropdown"></div>
+  </div>
+  <div class="selected-container" id="selectedContainer"></div>
+
+  <button type="submit">Submit</button>
+</form>
+
+<script type="module">
+// ---------------- Firebase Config ----------------
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+// Your Firebase Config (replace with yours)
+const firebaseConfig = {
+    apiKey: "AIzaSyCmL8qcjg4S6NeY3erraq_XhlDJ7Ek2s_E",
+    authDomain: "palestine-web.firebaseapp.com",
+    databaseURL: "https://palestine-web-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "palestine-web",
+    storageBucket: "palestine-web.appspot.com",
+    messagingSenderId: "35190212487",
+    appId: "1:35190212487:web:0a699bb1fa7b1a49113522",
+    measurementId: "G-8TE04Z9ZFW"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const storage = getStorage(app);
+
+// ---------------- Skills Search Engine ----------------
+const skills = ["HTML", "CSS", "JavaScript", "Python", "Node.js", "React", "SQL", "Java", "C++"];
+let selectedSkills = {}; // { HTML: "70%", CSS: "100%" }
+
+const input = document.getElementById("searchInput");
+const dropdown = document.getElementById("dropdown");
+const selectedContainer = document.getElementById("selectedContainer");
+
+// Typing effect
+let messages = ["Search your skills...", "Try HTML, CSS, Python...", "Select and set %"];
+let msgIndex = 0, charIndex = 0, typing;
+function typeEffect() {
+  if (charIndex < messages[msgIndex].length) {
+    input.setAttribute("placeholder", messages[msgIndex].substring(0, charIndex+1));
+    charIndex++;
+    typing = setTimeout(typeEffect, 100);
+  } else {
+    setTimeout(() => {
+      msgIndex = (msgIndex + 1) % messages.length;
+      charIndex = 0;
+      typeEffect();
+    }, 1500);
+  }
+}
+typeEffect();
+input.addEventListener("focus", () => clearTimeout(typing));
+
+// Dropdown filter
+input.addEventListener("input", () => {
+  let val = input.value.toLowerCase();
+  dropdown.innerHTML = "";
+  if (val) {
+    let filtered = skills.filter(skill => skill.toLowerCase().includes(val));
+    if (filtered.length) {
+      dropdown.style.display = "block";
+      filtered.forEach(skill => {
+        let div = document.createElement("div");
+        div.textContent = skill;
+        div.onclick = () => selectSkill(skill);
+        dropdown.appendChild(div);
+      });
+    } else {
+      dropdown.style.display = "none";
+    }
+  } else {
+    dropdown.style.display = "none";
+  }
+});
+
+// Select skill
+function selectSkill(skill) {
+  if (!selectedSkills[skill]) {
+    selectedSkills[skill] = "100%"; // default
+    let tag = document.createElement("div");
+    tag.className = "skill-tag";
+    tag.innerHTML = `
+      <span>${skill}</span>
+      <input type="text" value="100%" maxlength="4">
+    `;
+    let inputBox = tag.querySelector("input");
+    inputBox.addEventListener("input", () => {
+      selectedSkills[skill] = inputBox.value;
+    });
+    selectedContainer.appendChild(tag);
+  }
+  input.value = "";
+  dropdown.style.display = "none";
+}
+
+// ---------------- Submit Form ----------------
+document.getElementById("userForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  
+  let cnic = document.getElementById("cnic").value;
+  let name = document.getElementById("name").value;
+  let phone = document.getElementById("phone").value;
+  let imageFile = document.getElementById("image").files[0];
+
+  if (!cnic || !name || !phone || !imageFile) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  try {
+    // Upload image to Firebase Storage
+    const storageRef = sRef(storage, "images/" + cnic + "_" + imageFile.name);
+    await uploadBytes(storageRef, imageFile);
+    const downloadURL = await getDownloadURL(storageRef);
+
+    // Save to Realtime Database
+    await set(ref(db, "users/" + cnic), {
+      Cnic: cnic,
+      Name: name,
+      Phone: phone,
+      ImageUrl: downloadURL,
+      Skills: selectedSkills
+    });
+
+    alert("Data Saved Successfully!");
+    document.getElementById("userForm").reset();
+    selectedContainer.innerHTML = "";
+    selectedSkills = {};
+  } catch (err) {
+    console.error(err);
+    alert("Error: " + err.message);
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Operation M Registration</title>
+      <link rel="stylesheet" href="/UserWebPannel/OPM.css">
+      <link rel="stylesheet" href="/Navbar/navbar.css">
+      <link rel="stylesheet" href="/Searcch.Css">
+  
+  </head>
+  <body>
+        <a href="/index.html" class="logo-link">
+  <img src="/image/MeerLOGO.png" alt="Logo" class="logo-img">
+</a>
+      <div class="background-image"></div>
+  
+      <!-- <div class="form" id="Data"> -->
+          <div class="Apply-Form">
+              <div class="image-upload-container">
+                <label for="ImageUpload"></label>
+                <input type="file" id="ImageUpload" style="display: none;" />
+                <div class="image-upload-circle">
+                  <img class="profile" id="image-preview" src="" alt="........Please Upload Your Profile Pic">
+                </div>
+                              </div>
+                
+                <script>
+                  function openImageUpload() {
+                    document.getElementById('ImageUpload').click();
+                  }
+                
+                  document.getElementById('ImageUpload').addEventListener('change', function() {
+                    var file = this.files[0];
+                    if (file) {
+                      var reader = new FileReader();
+                      reader.onload = function(e) {
+                        document.getElementById('image-preview').src = e.target.result;
+                      }
+                      reader.readAsDataURL(file);
+                    }
+                  });
+                </script>
+              <h3 id="Hd3">Apply For Operation Manager</h3>
+              
+                
+     <div class="input-container">
+      <div class="input-wrapper">
+          <input type="text" id="Name" placeholder="" required>
+          <label for="Name">Enter Name</label>
+      </div>
+  
+      <div class="input-wrapper">
+          <input type="text" id="Fname" placeholder=" " value="" required>
+          <label for="Fname">Father Name</label>
+      </div>
+
+      <div class="input-wrapper">
+          <input type="text" id="Lisnt" placeholder="" value="" required>
+          <label for="Lisnt">Email</label>
+      </div>  
+
+      <div class="input-wrapper">
+                  <input id="Cnic" type="text" placeholder="" required>
+          <label for="Cnic">CNIC-No</label>
+      </div>
+  
+      <div class="input-wrapper">
+          <input type="number" id="Phone" placeholder="" value="" required>
+          <label for="Phone">Phone-No</label>
+      </div>
+  
+    <div class="input-wrapper">
+          <input type="date" id="Dob" placeholder=" " value="" required>
+          <label for="Dob">Date Of Birth</label>
+      </div>
+  
+      <div class="input-wrapper">
+          <input type="text" id="Caddres" placeholder="" value="" required>
+          <label for="Caddres">Current Address</label>
+      </div>
+  
+      <div class="input-wrapper">
+          <input type="text" id="Paddres" placeholder="" value="" required>
+          <label for="Paddres">Permanent Address</label>
+      </div>
+  
+      <div class="input-wrapper">
+          <input type="text" id="Qual" placeholder="" value="" required>
+          <label for="Qual">Qualification</label>
+      </div>
+
+     <div class="input-wrapper">
+     <select type="text" id="Rarmy" placeholder="" value="" required>
+        <option placeholder="" value=""></option>
+        <option placeholder="" value="Civil">Civil</option>
+        <option placeholder="" value="Army">Army</option>
+        <option placeholder="" value="Air-Force">Air-Force</option>
+        <option placeholder="" value="Navy">Navy</option>
+        <option placeholder="" value="Strategic Plans Division">Strategic Plans Division</option>
+        <option placeholder="" value="Rangers">Rangers</option>
+        <option placeholder="" value="Mujahid Force">Mujahid Force</option>
+        <option placeholder="" value="Police">Police</option>
+    </select>
+          <label for="Rarmy">Civil Or Ex-Armed-Force</label>
+    </div>
+
+      <div class="input-wrapper">
+      <select type="text" id="Citybox" placeholder="" value="" required>
+          <option placeholder="" value=""></option>
+          <option placeholder="" value="Karachi">Karachi</option>
+          <option placeholder="" value="Hyderabad">Hyderabad</option>
+          <option placeholder="" value="Faisalabad">Faisalabad</option>
+          <option placeholder="" value="Mirpur Khas">Mirpur Khas</option>
+          <option placeholder="" value="Islamabad">Islamabad</option>
+          <option placeholder="" value="Lahore">Lahore</option>
+          <option placeholder="" value="Multan">Multan</option>   
+          <option placeholder="" value="Peshawar">Peshawar</option>
+      </select>
+          <label for="Citybox">Select City</label>
+      </div>
+     
+      <div class="input-wrapper">
+          <input type="file" class="pdf" id="pdfUpload" accept="application/pdf" placeholder="" value="" required>
+          <div id="pdfFileNameDisplay"></div>
+          <label class="lbs"  for="pdfUpload">Select CV</label>
+      </div>
+     
+  </div>
+  
+          <select style="display: none;" id="containerSelect9">
+              <option style="display: none;" value="resContainer9">resContainer9</option>
+          </select>
+          
+          <button class="sbbt" id="submitBtn">Submit</button>
+          <!-- <button class="sbbt" id="recallBtn">Recall</button> 
+          <button class="sbbt" id="updateBtn">Update</button>
+          <button class="sbbt" id="deleteBtn">Delete</button> -->
+    </div>
+    </div>
+  
+  
+  <script  src="/Navbar/navbar.js"></script>
+    <script type="module" src="/UserWebPannel/OPM.js"></script>
+  </body>
+  </html>
+  
+  
+  

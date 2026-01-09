@@ -1,0 +1,147 @@
+/* MAIN BACKGROUND */
+#homed {
+    background: url("/Assets/BACK001.") center/cover no-repeat;
+    background-color: black;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* GLOBAL HEIGHT-BASED SCALING  */
+:root {
+    --scale: calc(0.9vh + 0.3vw); /* master scaling variable */
+}
+
+/* CONTENT WRAPPER */
+.content {
+    margin-top: calc(10 * var(--scale));
+    max-width: 55rem;
+    z-index: 10;
+}
+
+/* TAG BOX */
+.tag-box {
+    width: calc(22 * var(--scale));
+    height: calc(6 * var(--scale));
+    border-radius: 50px;
+    background: linear-gradient(to right, #656565, #7f42a7, #6600c5, #5300a0);
+    animation: animationGradient 2.5s linear infinite;
+    margin-bottom: calc(3 * var(--scale));
+}
+.texthd {
+    font-size: calc(2.6 * var(--scale));
+    padding-left: calc(3  * var(--scale));
+    color: rgba(255,255,255,0.5);
+}
+
+/* NAME + IMAGE */
+.heroName {
+    font-size: calc(6.5 * var(--scale));
+    color: white;
+    font-weight: 700;
+    display: inline-block;
+    line-height: 1.1;
+}
+#heroProfileImg {
+    width: calc(10 * var(--scale));
+    height: calc(10 * var(--scale));
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: calc(2 * var(--scale));
+    vertical-align: middle;
+    transform: translateY(calc(-1 * var(--scale)));
+}
+
+/* AUTO TYPE */
+#typedOutput {
+    font-size: calc(3 * var(--scale));
+    color: #dcdcdc;
+    margin-top: calc(1 * var(--scale));
+}
+
+/* DESCRIPTION */
+.description {
+    font-size: calc(2.1 * var(--scale));
+    line-height: 1.55;
+    color: rgb(210,210,210);
+    max-width: 38rem;
+    margin-top: calc(1.5 * var(--scale));
+}
+
+/* BUTTONS */
+.btn-row {
+    margin-top: calc(6 * var(--scale));
+    display: flex;
+    align-items: center;
+    gap: calc(3 * var(--scale));
+}
+.main-btn {
+    font-size: calc(2 * var(--scale));
+    padding: calc(1.8 * var(--scale)) calc(3 * var(--scale));
+    border-radius: 12px;
+}
+.play-text {
+    font-size: calc(2 * var(--scale));
+    color: white;
+}
+
+/* ROBOT 3D MODEL (WIDTH + HEIGHT SCALE) */
+.robot-3d {
+    position: absolute;
+    top: calc(-8 * var(--scale));
+    right: calc(-5 * var(--scale));
+    width: calc(50vw + 20vh);
+    height: calc(50vw + 20vh);
+    max-width: 900px;
+    max-height: 900px;
+    z-index: 2;
+}
+
+/* SMALL HEIGHT FIX (important for laptops like 800px height) */
+@media (max-height: 850px) {
+    :root {
+        --scale: calc(0.65vh + 0.28vw);
+    }
+    .robot-3d {
+        width: calc(40vw + 18vh);
+        height: calc(40vw + 18vh);
+    }
+}
+
+/* VERY SMALL HEIGHT (600px laptops / tablets) */
+@media (max-height: 650px) {
+    :root {
+        --scale: calc(0.55vh + 0.25vw);
+    }
+    .robot-3d {
+        width: calc(35vw + 15vh);
+        height: calc(35vw + 15vh);
+    }
+}
+
+/* TINY HEIGHT (phone landscape, 500px) */
+@media (max-height: 520px) {
+    :root {
+        --scale: calc(0.48vh + 0.22vw);
+    }
+}
+
+/* PHONE WIDTH STRUCTURE ONLY */
+@media (max-width: 768px) {
+    .content {
+        margin-left: 5vw;
+    }
+    .robot-3d {
+        position: relative;
+        margin: 5rem auto 0;
+        width: calc(55vw + 20vh);
+        height: calc(55vw + 20vh);
+        right: 0;
+        top: 0;
+    }
+}
+
+/* GRADIENT ANIMATION */
+@keyframes animationGradient {
+    to { background-position: 200%; }
+}

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- ================= EDUCATION FORM ================= -->
+<div id="educationForm">
+
+  <!-- SCHOOL -->
+  <div class="edu-card">
+    <div class="edu-header" onclick="toggleEduCard(this)">
+      <h3>School</h3>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="edu-body">
+      <label>School Name</label>
+      <input type="text" placeholder="Enter your school name">
+
+      <label>Degree</label>
+      <select>
+        <option value="">Select degree</option>
+        <option>Matriculation / O-Levels</option>
+        <option>High School</option>
+      </select>
+
+      <label>Field of Study</label>
+      <input type="text" placeholder="e.g. Science, Arts, Commerce">
+
+      <label>Marksheet</label>
+      <input type="file" accept=".pdf,.jpg,.png">
+
+      <label>Certificate</label>
+      <input type="file" accept=".pdf,.jpg,.png">
+
+      <label>Notes</label>
+      <textarea placeholder="Extra details..."></textarea>
+    </div>
+  </div>
+
+  <!-- COLLEGE -->
+  <div class="edu-card">
+    <div class="edu-header" onclick="toggleEduCard(this)">
+      <h3>College</h3>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="edu-body">
+      <label>College Name</label>
+      <input type="text" placeholder="Enter your college name">
+
+      <label>Degree</label>
+      <select>
+        <option value="">Select degree</option>
+        <option>Intermediate / A-Levels</option>
+        <option>Diploma</option>
+      </select>
+
+      <label>Field of Study</label>
+      <input type="text" placeholder="e.g. Pre-Medical, Pre-Engineering, Arts">
+
+      <label>Marksheet</label>
+      <input type="file" accept=".pdf,.jpg,.png">
+
+      <label>Certificate</label>
+      <input type="file" accept=".pdf,.jpg,.png">
+
+      <label>Notes</label>
+      <textarea placeholder="Extra details..."></textarea>
+    </div>
+  </div>
+
+  <!-- UNIVERSITY -->
+  <div class="edu-card">
+    <div class="edu-header" onclick="toggleEduCard(this)">
+      <h3>University</h3>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="edu-body">
+      <label>University Name</label>
+      <input type="text" placeholder="Enter your university name">
+
+      <label>Degree</label>
+      <select>
+        <option value="">Select degree</option>
+        <option>Bachelor of Science</option>
+        <option>Bachelor of Arts</option>
+        <option>Bachelor of Engineering</option>
+      </select>
+
+      <label>Field of Study</label>
+      <input type="text" placeholder="e.g. Computer Science, Business">
+
+      <label>Marksheet</label>
+      <input type="file" accept=".pdf,.jpg,.png">
+
+      <label>Certificate</label>
+      <input type="file" accept=".pdf,.jpg,.png">
+
+      <label>Notes</label>
+      <textarea placeholder="Extra details..."></textarea>
+    </div>
+  </div>
+
+  <!-- MASTER -->
+  <div class="edu-card">
+    <div class="edu-header" onclick="toggleEduCard(this)">
+      <h3>Master</h3>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="edu-body">
+      <label>University Name</label>
+      <input type="text" placeholder="Enter your university name">
+
+      <label>Degree</label>
+      <select>
+        <option value="">Select degree</option>
+        <option>Master of Science</option>
+        <option>Master of Arts</option>
+        <option>MBA</option>
+      </select>
+
+      <label>Field of Study</label>
+      <input type="text" placeholder="e.g. AI, Data Science, Finance">
+
+      <label>Marksheet</label>
+      <input type="file" accept=".pdf,.jpg,.png">
+
+      <label>Certificate</label>
+      <input type="file" accept=".pdf,.jpg,.png">
+
+      <label>Notes</label>
+      <textarea placeholder="Extra details..."></textarea>
+    </div>
+  </div>
+
+  <!-- PHD -->
+  <div class="edu-card">
+    <div class="edu-header" onclick="toggleEduCard(this)">
+      <h3>PhD</h3>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="edu-body">
+      <label>University Name</label>
+      <input type="text" placeholder="Enter your university name">
+
+      <label>Degree</label>
+      <select>
+        <option value="">Select degree</option>
+        <option>PhD in Science</option>
+        <option>PhD in Engineering</option>
+        <option>PhD in Humanities</option>
+      </select>
+
+      <label>Field of Study</label>
+      <input type="text" placeholder="e.g. Quantum Computing, Neuroscience">
+
+      <label>Marksheet</label>
+      <input type="file" accept=".pdf,.jpg,.png">
+
+      <label>Certificate</label>
+      <input type="file" accept=".pdf,.jpg,.png">
+
+      <label>Notes</label>
+      <textarea placeholder="Extra details..."></textarea>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <button class="sbbt" id="submitBtn">Submit</button>
+</div>
+
+<style>
+#educationForm {
+  margin: 20px auto;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.edu-card {
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.edu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.4);
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.edu-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+.edu-header .arrow {
+  transition: transform 0.3s ease;
+}
+.edu-card.active .arrow {
+  transform: rotate(180deg);
+}
+.edu-body {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+.edu-card.active .edu-body {
+  display: flex;
+}
+.edu-body label {
+  font-size: 14px;
+  margin-top: 6px;
+}
+.edu-body input,
+.edu-body select,
+.edu-body textarea {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+.edu-body textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+.sbbt {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #0059ff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  align-self: flex-end;
+}
+</style>
+
+<script>
+function toggleEduCard(header) {
+  const card = header.parentElement;
+  card.classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+
+now all these ides add in this datbase code dont change formate any thing only insert ids js code const fname = document.getElementById('Fname'); then insert like const schh= document.getElementById('Fname'); 

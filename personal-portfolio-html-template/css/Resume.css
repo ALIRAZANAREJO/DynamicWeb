@@ -1,0 +1,186 @@
+/* ---------- Popup Overlay ---------- */
+.popup-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+
+/* ---------- Card / Popup ---------- */
+.popup-card {
+  background: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 1100px;  /* Wider on large screens */
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  padding: 25px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+  animation: scaleIn 0.3s ease;
+  overflow: hidden;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* ---------- Close Button ---------- */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+  background: #ff4d4f;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+.close-btn:hover {
+  background: #d9363e;
+  transform: scale(1.1);
+}
+/* ---------- PDF Wrapper & Viewer ---------- */
+.pdf-wrapper {
+  width: 100%;
+  max-width: 950px;   /* Big on large screens */
+  height: 900px;    /* Restrict height for popup */
+  overflow: auto;     /* Enable scroll if PDF taller than wrapper */
+  flex: none;
+  border-radius: 6px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+  background: #fff;
+}
+
+/* Remove absolute positioning for iframe */
+.pdf-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* ---------- Responsive A4 for small screens ---------- */
+@media screen and (max-width: 1024px) {
+  .pdf-wrapper {
+    max-width: 90%;
+    max-height: 80%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .pdf-wrapper {
+    max-width: 95%;
+    max-height: 75%;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .pdf-wrapper {
+    max-width: 95%;
+    max-height: 70%;
+  }
+}
+.btn-play{
+    margin-left: 50px;
+}
+
+/* ---------- Buttons ---------- */
+.main-btn, .action-btn {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #4b3ff0, #6c5dfc);
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 15px rgba(75,63,240,0.35);
+
+}
+.main-btn:hover, .action-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(75,63,240,0.45);
+  background: linear-gradient(135deg, #3921c9, #5a3df3);
+}
+
+/* ---------- Popup Actions Container ---------- */
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  width: 100%;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ---------- Responsive ---------- */
+@media screen and (max-width: 1024px) {
+  .popup-card {
+    max-width: 90%;
+    height: 85%;
+    padding: 20px;
+  }
+  .pdf-wrapper {
+    max-width: 90%;
+    padding-bottom: 141.42%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .popup-card {
+    max-width: 95%;
+    height: 85%;
+    padding: 15px;
+  }
+  .pdf-wrapper {
+    max-width: 95%;
+    padding-bottom: 141.42%;
+  }
+  .main-btn, .action-btn {
+    width: 48%;
+    font-size: 14px;
+    padding: 10px 0;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .popup-card {
+    max-width: 95%;
+    height: 80%;
+    padding: 10px;
+  }
+  .pdf-wrapper {
+    max-width: 95%;
+    padding-bottom: 141.42%;
+  }
+  .main-btn, .action-btn {
+    width: 100%;
+  }
+}

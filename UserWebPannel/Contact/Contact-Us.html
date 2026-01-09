@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+  <h1>Submitted Messages</h1>
+  <ul id="messagesList"></ul>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "your-app.firebaseapp.com",
+      databaseURL: "https://your-app.firebaseio.com",
+      projectId: "your-app",
+      storageBucket: "your-app.appspot.com",
+      messagingSenderId: "your_id",
+      appId: "your_app_id"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const messagesList = document.getElementById("messagesList");
+
+    db.ref("messages").on("child_added", snapshot => {
+      const data = snapshot.val();
+      const li = document.createElement("li");
+      li.textContent = `${data.name} | ${data.email} | ${data.phone} → ${data.message}`;
+      messagesList.appendChild(li);
+    });
+  </script>
+</body>
+</html>

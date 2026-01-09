@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Skills Search — Vanilla JS</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#fff;
+      --muted:#6b7280;
+      --accent:#00337f;
+      --radius:12px;
+      --gap:10px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    body{
+      margin:0;
+      min-height:100vh;
+      background:linear-gradient(180deg, #eef2ff 0%, var(--bg) 100%);
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:32px;
+    }
+    .app {
+      width:960px;
+      max-width:96%;
+      background:var(--card);
+      border-radius:16px;
+      box-shadow:0 8px 30px rgba(3,20,60,0.08);
+      padding:20px;
+    }
+    h1{ margin:0 0 12px 0; font-size:20px; color:#071340;}
+    .search-row{ display:flex; gap:12px; align-items:center; margin-bottom:12px;}
+    .search {
+      flex:1;
+      position:relative;
+    }
+    input.search-input{
+      width:100%;
+      padding:14px 44px 14px 14px;
+      border-radius:12px;
+      border:1px solid #e6e9f2;
+      font-size:15px;
+      outline:none;
+      box-shadow:none;
+      background:transparent;
+    }
+    .search .stop-hint{
+      position:absolute; right:8px; top:50%; transform:translateY(-50%);
+      font-size:12px; color:var(--muted);
+      padding:6px 8px; border-radius:8px;
+    }
+
+    .dropdown{
+      position:relative;
+    }
+    .results {
+      position:absolute;
+      top:calc(100% + 8px);
+      left:0;
+      right:0;
+      background:var(--card);
+      border-radius:12px;
+      box-shadow:0 10px 30px rgba(8,20,50,0.08);
+      max-height:320px;
+      overflow:auto;
+      padding:12px;
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+      gap:8px;
+      z-index:30;
+    }
+    .skill-tile{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      padding:8px;
+      border-radius:10px;
+      cursor:pointer;
+      border:1px solid transparent;
+      transition:all .12s ease;
+    }
+    .skill-tile:hover{ transform:translateY(-3px); border-color: #eef2ff; box-shadow:0 6px 18px rgba(3,20,60,0.04);}
+    .skill-icon{
+      width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; color:#fff;
+      flex-shrink:0;
+    }
+    .skill-info{ flex:1; min-width:0; }
+    .skill-name{ font-size:14px; color:#071340; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;}
+    .skill-meta{ font-size:12px; color:var(--muted); margin-top:4px; display:flex; justify-content:space-between; align-items:center;}
+    .percent-badge{
+      background:rgba(255,255,255,0.9);
+      padding:4px 6px; border-radius:8px; font-weight:600; font-size:12px; border:1px solid rgba(0,0,0,0.06);
+    }
+
+    /* Selected container */
+    .selected-wrap{ margin-top:14px; display:flex; gap:8px; flex-wrap:wrap; }
+    .selected-card{
+      display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:12px; background:linear-gradient(180deg,#fff,#fbfdff); border:1px solid #eef2ff;
+      box-shadow:0 8px 22px rgba(6,18,60,0.03);
+    }
+    .selected-info{ display:flex; flex-direction:column; min-width:110px; }
+    .selected-name{ font-weight:700; font-size:13px; color:#071340; }
+    .selected-controls{ display:flex; gap:8px; align-items:center; margin-left:6px; }
+    .percent-editable{
+      padding:6px 8px; border-radius:10px; background:rgba(0,0,0,0.03); cursor:pointer; user-select:none; font-weight:700;
+    }
+    .percent-edit-input{
+      width:60px; padding:6px 8px; border-radius:8px; border:1px solid #e6e9f2; outline:none;
+    }
+    .btn {
+      padding:8px 12px; border-radius:10px; border:0; cursor:pointer; font-weight:700;
+    }
+    .btn-primary{ background:var(--accent); color:#fff; }
+    .btn-ghost{ background:transparent; color:var(--accent); border:1px dashed rgba(0,51,127,0.08); }
+
+    .footer{
+      display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:16px;
+      color:var(--muted); font-size:13px;
+    }
+    /* small screens */
+    @media (max-width:560px){
+      .results{ grid-template-columns:repeat(2,1fr); }
+      .app{ padding:14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" role="application" aria-label="Skills search">
+    <h1>Skills search (vanilla JS)</h1>
+
+    <div class="search-row">
+      <div class="search dropdown" style="flex:1;">
+        <input id="searchInput" class="search-input" placeholder="" aria-label="Search skills" autocomplete="off" />
+        <div class="stop-hint">Click input to stop auto typing</div>
+
+        <div id="results" class="results" hidden aria-hidden="true"></div>
+      </div>
+
+      <button id="submitBtn" class="btn btn-primary" title="Save selected skills">Save</button>
+      <button id="clearBtn" class="btn btn-ghost" title="Clear selected">Clear</button>
+    </div>
+
+    <div id="selectedWrap" class="selected-wrap" aria-live="polite"></div>
+
+    <div class="footer">
+      <div>Selected count: <span id="count">0</span></div>
+      <div style="font-size:12px; color:var(--muted)">Inline edit % by clicking the number</div>
+    </div>
+  </div>
+
+  <script>
+ // ====== Predefined skills (UI controlled) ======
+const SKILLS = [
+  { key:'html', name:'HTML', icon:'🟧', color:'#e44d26', defaultPercent:100 },
+  { key:'css', name:'CSS', icon:'🎨', color:'#2965f1', defaultPercent:95 },
+  { key:'javascript', name:'JavaScript', icon:'✨', color:'#f0db4f', defaultPercent:92 },
+  { key:'nodejs', name:'Node.js', icon:'⬢', color:'#83cd29', defaultPercent:100 },
+  { key:'python', name:'Python', icon:'🐍', color:'#3776ab', defaultPercent:88 },
+  { key:'react', name:'React', icon:'⚛️', color:'#61dafb', defaultPercent:85 },
+  { key:'sql', name:'SQL', icon:'🗄️', color:'#0f172a', defaultPercent:80 },
+  { key:'git', name:'Git', icon:'🔧', color:'#f34f29', defaultPercent:82 },
+  { key:'docker', name:'Docker', icon:'🐳', color:'#2496ed', defaultPercent:75 },
+  { key:'php', name:'PHP', icon:'🐘', color:'#777bb4', defaultPercent:70 },
+];
+
+// ====== State ======
+const state = {
+  selected: new Map() // key -> {key,name,icon,color,percent}
+};
+
+// ====== UI elements ======
+const input = document.getElementById('searchInput');
+const resultsEl = document.getElementById('results');
+const selectedWrap = document.getElementById('selectedWrap');
+const countEl = document.getElementById('count');
+const saveBtn = document.getElementById('saveBtn');
+const clearBtn = document.getElementById('clearBtn');
+
+// ====== Auto-typing placeholder logic ======
+const lines = [
+  'Search skills: try "HTML", "JavaScript", "Python"...',
+  'Click the input to stop auto-typing and type yourself.',
+  'Type "nodejs" or "html" to see pre-defined result cards.'
+];
+let typing = true;
+let lineIndex = 0;
+let charIndex = 0;
+let typingTimer = null;
+
+function startTyping(){
+  typing = true;
+  charIndex = 0;
+  lineIndex = 0;
+  typeLoop();
+}
+
+function stopTyping(){
+  typing = false;
+  if(typingTimer) { clearTimeout(typingTimer); typingTimer = null; }
+}
+
+function typeLoop(){
+  if(!typing) return;
+  const line = lines[lineIndex];
+  input.setAttribute('placeholder', line.slice(0, charIndex));
+  charIndex++;
+  if(charIndex <= line.length){
+    typingTimer = setTimeout(typeLoop, 60 + Math.random()*80);
+  } else {
+    typingTimer = setTimeout(()=>{
+      charIndex = 0;
+      lineIndex = (lineIndex + 1) % lines.length;
+      typeLoop();
+    }, 900);
+  }
+}
+
+input.addEventListener('focus', () => stopTyping());
+
+// ====== Rendering results (dropdown) ======
+function renderResults(filter){
+  resultsEl.innerHTML = '';
+  const q = (filter || '').trim().toLowerCase();
+  const matches = SKILLS.filter(s => {
+    if(!q) return true;
+    return s.name.toLowerCase().includes(q) || s.key.toLowerCase().includes(q);
+  });
+
+  if(matches.length === 0){
+    const el = document.createElement('div');
+    el.style.padding = '12px';
+    el.style.color = 'var(--muted)';
+    el.textContent = 'No skills found.';
+    resultsEl.appendChild(el);
+  }
+
+  matches.forEach(s => {
+    const tile = document.createElement('div');
+    tile.className = 'skill-tile';
+    tile.setAttribute('role','button');
+    tile.setAttribute('tabindex','0');
+
+    const icon = document.createElement('div');
+    icon.className = 'skill-icon';
+    icon.style.background = s.color;
+    icon.textContent = s.icon;
+
+    const info = document.createElement('div');
+    info.className = 'skill-info';
+    const name = document.createElement('div');
+    name.className = 'skill-name';
+    name.textContent = s.name;
+
+    const meta = document.createElement('div');
+    meta.className = 'skill-meta';
+    const desc = document.createElement('span');
+    desc.textContent = s.key;
+    const percent = document.createElement('span');
+    percent.className = 'percent-badge';
+    percent.textContent = s.defaultPercent + '%';
+
+    meta.appendChild(desc);
+    meta.appendChild(percent);
+    info.appendChild(name);
+    info.appendChild(meta);
+
+    tile.appendChild(icon);
+    tile.appendChild(info);
+
+    tile.addEventListener('click', () => {
+      addSelectedSkill(s.key);
+      hideResults();
+      input.value = '';
+    });
+
+    resultsEl.appendChild(tile);
+  });
+
+  resultsEl.hidden = false;
+  resultsEl.setAttribute('aria-hidden','false');
+}
+
+function hideResults(){
+  resultsEl.hidden = true;
+  resultsEl.setAttribute('aria-hidden','true');
+}
+
+// ====== Add selected skill ======
+function addSelectedSkill(key){
+  const skill = SKILLS.find(s=>s.key===key);
+  if(!skill) return;
+  if(state.selected.has(key)){
+    flashSelectedCard(key);
+    return;
+  }
+  const obj = { ...skill, percent: skill.defaultPercent };
+  state.selected.set(key, obj);
+  renderSelected();
+  updateSelectedSkillsPreview(); // 👈 keep first div updated
+}
+
+function flashSelectedCard(key){
+  const card = document.querySelector(`[data-selected="${key}"]`);
+  if(!card) return;
+  card.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:220});
+}
+
+// ====== Render selected area ======
+function renderSelected(){
+  selectedWrap.innerHTML = '';
+  for(const [key, s] of state.selected){
+    const card = document.createElement('div');
+    card.className = 'selected-card';
+    card.setAttribute('data-selected', key);
+
+    const icon = document.createElement('div');
+    icon.className = 'skill-icon';
+    icon.style.background = s.color;
+    icon.style.width = '44px';
+    icon.style.height = '44px';
+    icon.style.borderRadius = '10px';
+    icon.style.fontSize = '20px';
+    icon.textContent = s.icon;
+
+    const info = document.createElement('div');
+    info.className = 'selected-info';
+    const name = document.createElement('div');
+    name.className = 'selected-name';
+    name.textContent = s.name;
+    const keyEl = document.createElement('div');
+    keyEl.style.fontSize='12px'; keyEl.style.color='var(--muted)'; keyEl.textContent = s.key;
+
+    info.appendChild(name);
+    info.appendChild(keyEl);
+
+    const controls = document.createElement('div');
+    controls.className = 'selected-controls';
+
+    const percentWrap = document.createElement('div');
+    percentWrap.style.display='flex'; percentWrap.style.alignItems='center'; percentWrap.style.gap='6px';
+
+    const percentEl = document.createElement('div');
+    percentEl.className = 'percent-editable';
+    percentEl.textContent = s.percent + '%';
+    percentEl.title = 'Click to edit percent';
+    percentWrap.appendChild(percentEl);
+
+    const rem = document.createElement('button');
+    rem.className = 'btn';
+    rem.style.fontSize='12px';
+    rem.textContent = 'Remove';
+    rem.addEventListener('click', () => {
+      state.selected.delete(key);
+      renderSelected();
+      updateSelectedSkillsPreview(); // 👈 update preview when removed
+    });
+
+    controls.appendChild(percentWrap);
+    controls.appendChild(rem);
+    card.appendChild(icon);
+    card.appendChild(info);
+    card.appendChild(controls);
+
+    percentEl.addEventListener('click', () => {
+      const inputPct = document.createElement('input');
+      inputPct.type = 'number';
+      inputPct.min = 0;
+      inputPct.max = 100;
+      inputPct.value = s.percent;
+      inputPct.className = 'percent-edit-input';
+      percentWrap.replaceChild(inputPct, percentEl);
+      inputPct.focus();
+      inputPct.select();
+
+      function commit(){
+        let v = parseInt(inputPct.value) || 0;
+        if(v < 0) v = 0;
+        if(v > 100) v = 100;
+        s.percent = v;
+        state.selected.set(key, s);
+        renderSelected();
+        updateSelectedSkillsPreview(); // 👈 update preview when edited
+      }
+      function cancel(){ renderSelected(); }
+
+      inputPct.addEventListener('blur', commit);
+      inputPct.addEventListener('keydown', (ev) => {
+        if(ev.key === 'Enter'){ ev.preventDefault(); commit(); }
+        if(ev.key === 'Escape'){ ev.preventDefault(); cancel(); }
+      });
+    });
+
+    selectedWrap.appendChild(card);
+  }
+
+  countEl.textContent = state.selected.size;
+  updateSelectedSkillsPreview(); // 👈 always sync preview
+}
+
+// ====== search input behaviour ======
+input.addEventListener('input', (ev) => {
+  const q = ev.target.value;
+  renderResults(q);
+});
+
+input.addEventListener('focus', () => renderResults(input.value || ''));
+
+// Save button
+saveBtn.addEventListener('click', () => {
+  const selectedArray = Array.from(state.selected.values())
+    .map(s => ({ key: s.key, name: s.name, percent: s.percent }));
+  saveToDatabase(selectedArray);
+});
+
+// Clear button
+clearBtn.addEventListener('click', () => {
+  state.selected.clear();
+  renderSelected();
+  updateSelectedSkillsPreview();
+});
+
+// ====== Placeholder DB save function ======
+function saveToDatabase(selectedSkills){
+  console.log('Saving to DB (placeholder):', selectedSkills);
+  saveBtn.textContent = 'Saved ✓';
+  setTimeout(()=> saveBtn.textContent = 'Save', 1200);
+}
+
+// ====== Preview in First Div ======
+function updateSelectedSkillsPreview() {
+  const previewContainer = document.getElementById('selectedSkillsPreview');
+  if (!previewContainer) return; // if not present, skip
+  previewContainer.innerHTML = "";
+
+  if (!state.selected || state.selected.size === 0) {
+    previewContainer.innerHTML = "<p style='color: gray;'>No skills selected</p>";
+    return;
+  }
+
+  state.selected.forEach(skill => {
+    const tag = document.createElement("span");
+    tag.className = "skill-tag";
+    tag.textContent = skill.name;
+    previewContainer.appendChild(tag);
+  });
+}
+
+// ====== Initialization ======
+renderResults('');
+renderSelected();
+startTyping();
+updateSelectedSkillsPreview();
+
+
+  </script>
+  
+</body>
+</html>

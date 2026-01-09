@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Select Skills (Merged)</title>
+  <link rel="stylesheet" href="/UserWebPannel/Skills/skill05.css">
+</head>
+<body>
+
+  <!-- SEARCH (unchanged UI + behavior) -->
+  <div class="search-wrap">
+    <h2>Select Skills</h2>
+    <input id="searchInput" type="text" placeholder="" aria-label="Search skills" autocomplete="off" />
+    <div class="hint">Click input to open skill picker • Use ↑ ↓ ← → and Enter to choose</div>
+
+    <div id="panel" class="panel" aria-hidden="true">
+      <div style="margin-top:8px" id="cards" class="cards"></div>
+    </div>
+  </div>
+
+  <!-- UNIFIED Selected Skills Panel (used by both systems) -->
+  <div id="selectedWrap">
+    <h3 style="margin:10px 0 6px">Selected Skills</h3>
+    <div id="selectedContainer" class="selected-list"></div>
+  </div>
+
+  <button id="submitBtn" class="primary">Save Skills & Go Back</button>
+
+  <!-- STEP-2: Fields explorer (separate UI) -->
+  <div id="fieldsSystem">
+    <div id="fieldsMain">
+      <h2 style="margin:18px 0 12px">Explore Fields</h2>
+      <div id="fieldsContainer" class="field-row"></div>
+
+      <button id="step2Back" class="back-btn">← Back</button>
+
+      <div id="subcatContainer" class="subcat-area" style="display:none">
+        <div id="subcatGrid" class="subcat-grid"></div>
+      </div>
+
+      <div id="skillsContainer" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <h3 id="skillsTitle" style="margin:0">Skills</h3>
+        </div>
+        <div id="skillsGrid" class="skills-grid"></div>
+      </div>
+    </div>
+  </div>
+
+<script src="./UserWebPannel/Skills/skills05.js"></script>
+</body>
+</html>

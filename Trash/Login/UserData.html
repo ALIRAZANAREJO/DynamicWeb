@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Login</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: sans-serif;
+      background: #f5f5f5;
+    }
+    #loginBtn {
+      padding: 12px 24px;
+      background: #4285f4;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #loginBtn:hover {
+      background: #3367d6;
+    }
+  </style>
+</head>
+<body>
+
+<button id="loginBtn">Login with Google</button>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getStorage, ref as storageRef, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCmL8qcjg4S6NeY3erraq_XhlDJ7Ek2s_E",
+  authDomain: "palestine-web.firebaseapp.com",
+  projectId: "palestine-web",
+  storageBucket: "palestine-web.appspot.com",
+  messagingSenderId: "35190212487",
+  appId: "1:35190212487:web:0a699bb1fa7b1a49113522"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const storage = getStorage(app);
+const provider = new GoogleAuthProvider();
+
+const loginBtn = document.getElementById("loginBtn");
+
+loginBtn.addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    const email = user.email;
+    const photoURL = user.photoURL;
+
+    console.log("Logged in:", email, photoURL);
+
+    // Convert ptprp image to base64 string
+    const response = await fetch(photoURL);
+    const blob = await response.blob();
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = async () => {
+      const base64data = reader.result;
+
+      // Store image in Firebase Storage under "ptprpPics/{email}.png"
+      const sanitizedEmail = email.replace(/[.@]/g, "_");
+      const imgRef = storageRef(storage, `ptprpPics/${sanitizedEmail}.png`);
+      await uploadString(imgRef, base64data, 'data_url');
+
+      // Optional: get download URL
+      const downloadURL = await getDownloadURL(imgRef);
+      console.log("ptprp image stored at:", downloadURL);
+
+      // Redirect to User.html with email
+      const encodedEmail = encodeURIComponent(email);
+      window.location.href = `User.html?email=${encodedEmail}`;
+    }
+
+  } catch (err) {
+    console.error("Login error:", err);
+    alert("Login failed.");
+  }
+});
+</script>
+
+</body>
+</html>

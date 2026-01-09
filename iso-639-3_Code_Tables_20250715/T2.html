@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Language Input Optimized</title>
+<style>
+  .selected-container { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:5px; }
+  .tag { background:#007BFF; color:white; padding:5px 10px; border-radius:5px; display:flex; align-items:center; }
+  .tag span { margin-left:5px; cursor:pointer; }
+  .dropdown { border:1px solid #ccc; max-height:200px; overflow-y:auto; display:none; position:absolute; background:white; z-index:100; width:100%; }
+  .dropdown-item { padding:5px; cursor:pointer; }
+  .dropdown-item:hover { background:#f0f0f0; }
+  input.search-input { width:100%; padding:8px; box-sizing:border-box; }
+</style>
+</head>
+<body>
+
+<div class="input-wrapper">
+  <label for="Paddres">Languages</label>
+  <input type="text" id="Paddres">
+</div>
+
+<script>
+const input = document.getElementById("Paddres");
+input.style.opacity = "0";
+input.style.position = "absolute";
+input.style.pointerEvents = "none";
+
+const selectedContainer = document.createElement("div");
+selectedContainer.className = "selected-container";
+input.parentNode.insertBefore(selectedContainer, input);
+
+const dropdown = document.createElement("div");
+dropdown.className = "dropdown";
+input.parentNode.appendChild(dropdown);
+
+let selectedLanguages = [];
+let languages = [];
+
+const searchInput = document.createElement("input");
+searchInput.type = "text";
+searchInput.placeholder = "Search languages...";
+searchInput.className = "search-input";
+selectedContainer.parentNode.insertBefore(searchInput, selectedContainer.nextSibling);
+
+function updateInputValue() {
+  input.value = selectedLanguages.join(", ");
+}
+
+function addLanguage(lang) {
+  if (!selectedLanguages.includes(lang)) {
+    selectedLanguages.push(lang);
+    renderTags();
+  }
+  searchInput.value = "";
+  dropdown.style.display = "none";
+}
+
+function renderTags() {
+  selectedContainer.innerHTML = "";
+  selectedLanguages.forEach(l => {
+    const tag = document.createElement("div");
+    tag.className = "tag";
+    tag.innerHTML = `${l} <span onclick="removeLanguage('${l}')">&times;</span>`;
+    selectedContainer.appendChild(tag);
+  });
+  updateInputValue();
+}
+
+function removeLanguage(lang) {
+  selectedLanguages = selectedLanguages.filter(l => l !== lang);
+  renderTags();
+}
+
+// Debounce function
+function debounce(fn, delay) {
+  let timeout;
+  return function(...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
+// Optimized search
+const handleSearch = debounce(function () {
+  const value = this.value.toLowerCase();
+  dropdown.innerHTML = "";
+  if (!value) {
+    dropdown.style.display = "none";
+    return;
+  }
+  // Limit results for performance
+  const filtered = languages.filter(l => l.toLowerCase().startsWith(value)).slice(0, 50);
+  filtered.forEach(l => {
+    const option = document.createElement("div");
+    option.className = "dropdown-item";
+    option.textContent = l;
+    option.onclick = () => addLanguage(l);
+    dropdown.appendChild(option);
+  });
+  dropdown.style.display = filtered.length ? "block" : "none";
+}, 200);
+
+searchInput.addEventListener("input", handleSearch);
+
+searchInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter" && dropdown.firstChild) {
+    e.preventDefault();
+    addLanguage(dropdown.firstChild.textContent);
+  }
+});
+
+// Load CSV
+fetch("iso-639-3.csv")
+  .then(res => res.text())
+  .then(text => {
+    const rows = text.split("\n").slice(1); // skip header
+    languages = rows.map(r => {
+      const cols = r.split(",");
+      return cols[6] ? cols[6].trim() : null; // Ref_Name column
+    }).filter(Boolean);
+  })
+  .catch(err => console.error("CSV load error:", err));
+
+</script>
+
+</body>
+</html>

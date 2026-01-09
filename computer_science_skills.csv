@@ -1,0 +1,168 @@
+Category,Subcategory,Skill,Icon
+Computer Science,Programming,C,🧑‍💻
+Computer Science,Programming,C++,🧑‍💻
+Computer Science,Programming,Java,🧑‍💻
+Computer Science,Programming,Python,🧑‍💻
+Computer Science,Programming,JavaScript,🧑‍💻
+Computer Science,Programming,TypeScript,🧑‍💻
+Computer Science,Programming,PHP,🧑‍💻
+Computer Science,Programming,Ruby,🧑‍💻
+Computer Science,Programming,Go (Golang),🧑‍💻
+Computer Science,Programming,Rust,🧑‍💻
+Computer Science,Programming,Swift,🧑‍💻
+Computer Science,Programming,Kotlin,🧑‍💻
+Computer Science,Programming,Dart,🧑‍💻
+Computer Science,Programming,R,🧑‍💻
+Computer Science,Programming,MATLAB,🧑‍💻
+Computer Science,Programming,Scala,🧑‍💻
+Computer Science,Programming,Haskell,🧑‍💻
+Computer Science,Programming,Objective-C,🧑‍💻
+Computer Science,Programming,Perl,🧑‍💻
+Computer Science,Programming,Lua,🧑‍💻
+Computer Science,Programming,F#,🧑‍💻
+Computer Science,Programming,C#,🧑‍💻
+Computer Science,Programming,Julia,🧑‍💻
+Computer Science,Programming,Bash,🧑‍💻
+Computer Science,Programming,PowerShell,🧑‍💻
+Computer Science,Programming,Fortran,🧑‍💻
+Computer Science,Programming,COBOL,🧑‍💻
+Computer Science,Programming,Lisp,🧑‍💻
+Computer Science,Programming,Prolog,🧑‍💻
+Computer Science,Programming,Erlang,🧑‍💻
+Computer Science,Programming,Elixir,🧑‍💻
+Computer Science,Programming,Ada,🧑‍💻
+Computer Science,Programming,Groovy,🧑‍💻
+Computer Science,Programming,Crystal,🧑‍💻
+Computer Science,Programming,Nim,🧑‍💻
+Computer Science,Programming,Assembly,🧑‍💻
+Computer Science,Programming,Solidity,🧑‍💻
+Computer Science,Programming,VHDL,🧑‍💻
+Computer Science,Programming,Verilog,🧑‍💻
+Computer Science,Programming,Scheme,🧑‍💻
+Computer Science,Web Development - Frontend,HTML,🎨
+Computer Science,Web Development - Frontend,CSS,🎨
+Computer Science,Web Development - Frontend,Sass / SCSS,🎨
+Computer Science,Web Development - Frontend,React.js,🎨
+Computer Science,Web Development - Frontend,Angular,🎨
+Computer Science,Web Development - Frontend,Vue.js,🎨
+Computer Science,Web Development - Frontend,Svelte,🎨
+Computer Science,Web Development - Frontend,Next.js,🎨
+Computer Science,Web Development - Frontend,Nuxt.js,🎨
+Computer Science,Web Development - Frontend,Remix,🎨
+Computer Science,Web Development - Frontend,SolidJS,🎨
+Computer Science,Web Development - Frontend,Alpine.js,🎨
+Computer Science,Web Development - Frontend,jQuery,🎨
+Computer Science,Web Development - Frontend,Bootstrap,🎨
+Computer Science,Web Development - Frontend,Tailwind CSS,🎨
+Computer Science,Web Development - Frontend,Bulma,🎨
+Computer Science,Web Development - Frontend,Foundation CSS,🎨
+Computer Science,Web Development - Frontend,Material UI,🎨
+Computer Science,Web Development - Frontend,Ant Design,🎨
+Computer Science,Web Development - Frontend,Chakra UI,🎨
+Computer Science,Web Development - Frontend,PrimeFaces,🎨
+Computer Science,Web Development - Frontend,Semantic UI,🎨
+Computer Science,Web Development - Frontend,Web Components,🎨
+Computer Science,Web Development - Frontend,LitElement,🎨
+Computer Science,Web Development - Frontend,Stencil.js,🎨
+Computer Science,Web Development - Frontend,Ember.js,🎨
+Computer Science,Web Development - Frontend,Backbone.js,🎨
+Computer Science,Web Development - Frontend,D3.js,🎨
+Computer Science,Web Development - Frontend,Chart.js,🎨
+Computer Science,Web Development - Frontend,Highcharts,🎨
+Computer Science,Web Development - Frontend,ApexCharts,🎨
+Computer Science,Web Development - Frontend,Three.js,🎨
+Computer Science,Web Development - Frontend,WebGL,🎨
+Computer Science,Web Development - Frontend,Babylon.js,🎨
+Computer Science,Web Development - Frontend,Anime.js,🎨
+Computer Science,Web Development - Frontend,GSAP,🎨
+Computer Science,Web Development - Frontend,Velocity.js,🎨
+Computer Science,Web Development - Frontend,Framer Motion,🎨
+Computer Science,Web Development - Frontend,ScrollMagic,🎨
+Computer Science,Web Development - Frontend,FullPage.js,🎨
+Computer Science,Web Development - Frontend,AOS,🎨
+Computer Science,Web Development - Frontend,Swiper.js,🎨
+Computer Science,Web Development - Frontend,Slick Carousel,🎨
+Computer Science,Web Development - Frontend,Lodash,🎨
+Computer Science,Web Development - Frontend,Underscore.js,🎨
+Computer Science,Web Development - Frontend,Day.js,🎨
+Computer Science,Web Development - Frontend,Moment.js,🎨
+Computer Science,Web Development - Frontend,Handlebars.js,🎨
+Computer Science,Web Development - Frontend,Mustache.js,🎨
+Computer Science,Web Development - Frontend,Pug,🎨
+Computer Science,Web Development - Backend,Node.js,⚙️
+Computer Science,Web Development - Backend,Express.js,⚙️
+Computer Science,Web Development - Backend,NestJS,⚙️
+Computer Science,Web Development - Backend,Koa.js,⚙️
+Computer Science,Web Development - Backend,Fastify,⚙️
+Computer Science,Web Development - Backend,Hapi.js,⚙️
+Computer Science,Web Development - Backend,Meteor.js,⚙️
+Computer Science,Web Development - Backend,Django,⚙️
+Computer Science,Web Development - Backend,Flask,⚙️
+Computer Science,Web Development - Backend,FastAPI,⚙️
+Computer Science,Web Development - Backend,Tornado,⚙️
+Computer Science,Web Development - Backend,Bottle,⚙️
+Computer Science,Web Development - Backend,CherryPy,⚙️
+Computer Science,Web Development - Backend,Ruby on Rails,⚙️
+Computer Science,Web Development - Backend,Sinatra,⚙️
+Computer Science,Web Development - Backend,Laravel,⚙️
+Computer Science,Web Development - Backend,Symfony,⚙️
+Computer Science,Web Development - Backend,CodeIgniter,⚙️
+Computer Science,Web Development - Backend,CakePHP,⚙️
+Computer Science,Web Development - Backend,Yii Framework,⚙️
+Computer Science,Web Development - Backend,Spring Boot,⚙️
+Computer Science,Web Development - Backend,Grails,⚙️
+Computer Science,Web Development - Backend,Micronaut,⚙️
+Computer Science,Web Development - Backend,Quarkus,⚙️
+Computer Science,Web Development - Backend,ASP.NET Core,⚙️
+Computer Science,Web Development - Backend,Blazor,⚙️
+Computer Science,Web Development - Backend,Phoenix,⚙️
+Computer Science,Web Development - Backend,Play Framework,⚙️
+Computer Science,Web Development - Backend,Vapor,⚙️
+Computer Science,Web Development - Backend,Mojolicious,⚙️
+Computer Science,Web Development - Backend,ColdFusion,⚙️
+Computer Science,Web Development - Backend,JHipster,⚙️
+Computer Science,Web Development - Backend,LoopBack,⚙️
+Computer Science,Web Development - Backend,AdonisJS,⚙️
+Computer Science,Web Development - Backend,FeathersJS,⚙️
+Computer Science,Web Development - Backend,RedwoodJS,⚙️
+Computer Science,Web Development - Backend,Hasura,⚙️
+Computer Science,Web Development - Backend,Strapi,⚙️
+Computer Science,Web Development - Backend,KeystoneJS,⚙️
+Computer Science,Web Development - Backend,Directus,⚙️
+Computer Science,Databases,MySQL,🗄️
+Computer Science,Databases,PostgreSQL,🗄️
+Computer Science,Databases,SQLite,🗄️
+Computer Science,Databases,MariaDB,🗄️
+Computer Science,Databases,MongoDB,🗄️
+Computer Science,Databases,Firestore,🗄️
+Computer Science,Databases,Firebase Realtime DB,🗄️
+Computer Science,Databases,CouchDB,🗄️
+Computer Science,Databases,Couchbase,🗄️
+Computer Science,Databases,Cassandra,🗄️
+Computer Science,Databases,DynamoDB,🗄️
+Computer Science,Databases,Oracle Database,🗄️
+Computer Science,Databases,Microsoft SQL Server,🗄️
+Computer Science,Databases,Redis,🗄️
+Computer Science,Databases,Neo4j,🗄️
+Computer Science,Databases,ArangoDB,🗄️
+Computer Science,Databases,OrientDB,🗄️
+Computer Science,Databases,HBase,🗄️
+Computer Science,Databases,RocksDB,🗄️
+Computer Science,Databases,InfluxDB,🗄️
+Computer Science,Databases,TimescaleDB,🗄️
+Computer Science,Databases,ClickHouse,🗄️
+Computer Science,Databases,VoltDB,🗄️
+Computer Science,Databases,TiDB,🗄️
+Computer Science,Databases,Amazon Aurora,🗄️
+Computer Science,Databases,Greenplum,🗄️
+Computer Science,Databases,Snowflake,🗄️
+Computer Science,Databases,BigQuery,🗄️
+Computer Science,Databases,Redshift,🗄️
+Computer Science,Databases,Teradata,🗄️
+Computer Science,Databases,IBM Db2,🗄️
+Computer Science,Databases,SAP HANA,🗄️
+Computer Science,Databases,Pinecone,🗄️
+Computer Science,Databases,Weaviate,🗄️
+Computer Science,Databases,Milvus,🗄️
+Computer Science,Databases,SurrealDB,🗄️
+Computer Science,Databases,Realm,🗄️

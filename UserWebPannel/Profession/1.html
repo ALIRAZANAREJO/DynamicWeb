@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profession Selector</title>
+<style>
+  body { font-family: Arial; padding: 20px; }
+  .input-wrapper { position: relative; width: 300px; }
+  #professionBox { display: flex; flex-wrap: wrap; gap: 5px; border: 1px solid #ccc; padding: 5px; border-radius: 6px; min-height: 40px; }
+  #professionBox input { border: none; flex: 1; padding: 5px; }
+  .tag { background: #007bff; color: #fff; padding: 3px 8px; border-radius: 4px; display: flex; align-items: center; }
+  .tag span { cursor: pointer; margin-left: 5px; }
+  #dropdown002 { position: absolute; top: 100%; left: 0; right: 0; border: 1px solid #ccc; border-top: none; max-height: 150px; overflow-y: auto; background: #fff; display: none; z-index: 100; }
+  #dropdown002 div { padding: 5px 10px; cursor: pointer; }
+  #dropdown002 div.active { background: #007bff; color: #fff; }
+</style>
+</head>
+<body>
+
+<h2>Select Professions</h2>
+
+<div class="input-wrapper">
+  <div id="professionBox">
+    <input type="text" id="professionInput" placeholder="Search professions...">
+  </div>
+  <div id="dropdown002"></div>
+</div>
+<div class="input-wrapper" style="position: relative; display: inline-block; width: 100%; margin-bottom: 15px;">
+  <input type="file" id="cnicImage1" accept="image/*" onchange="previewCnicImage(event, 'cnicPreview1')"
+         style="width: 100%; padding-right: 60px;">
+  <label for="cnicImage1">CNIC Front</label>
+  <img id="cnicPreview1" src="" alt="Preview"
+       style="position: absolute; bottom: 5px; right: 8px; width: 40px; height: 40px; border-radius: 6px; object-fit: cover; display: none; opacity: 0.9; pointer-events: none;">
+</div>
+
+<div class="input-wrapper" style="position: relative; display: inline-block; width: 100%; margin-bottom: 15px;">
+  <input type="file" id="cnicImage2" accept="image/*" onchange="previewCnicImage(event, 'cnicPreview2')"
+         style="width: 100%; padding-right: 60px;">
+  <label for="cnicImage2">CNIC Back</label>
+  <img id="cnicPreview2" src="" alt="Preview"
+       style="position: absolute; bottom: 5px; right: 8px; width: 40px; height: 40px; border-radius: 6px; object-fit: cover; display: none; opacity: 0.9; pointer-events: none;">
+</div>
+
+<div class="input-wrapper" style="position: relative; display: inline-block; width: 100%;">
+  <input type="file" id="profileImage" accept="image/*" onchange="previewCnicImage(event, 'profilePreview')"
+         style="width: 100%; padding-right: 60px;">
+  <label for="profileImage">Profile Picture</label>
+  <img id="profilePreview" src="" alt="Preview"
+       style="position: absolute; bottom: 5px; right: 8px; width: 40px; height: 40px; border-radius: 6px; object-fit: cover; display: none; opacity: 0.9; pointer-events: none;">
+</div>
+
+<script>
+function previewCnicImage(event, previewId) {
+  const file = event.target.files[0];
+  const preview = document.getElementById(previewId);
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      preview.src = e.target.result;
+      preview.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  } else {
+    preview.style.display = "none";
+  }
+}
+</script>
+
+
+<script type="module" src="/UserWebPannel/Profession/Profession.js"></script>
+
+</body>
+</html>

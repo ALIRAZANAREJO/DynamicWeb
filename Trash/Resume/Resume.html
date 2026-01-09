@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Resume Builder — Clean Preview</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+  /* ---------- PAGE LAYOUT ---------- */
+  :root{
+    --bg:#f4f6f8;
+    --panel:#fff;
+    --muted:#6b7280;
+    --accent:#0f172a;
+    --radius:10px;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);padding:20px;color:var(--accent);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 520px;gap:20px;align-items:start}
+  .panel{background:var(--panel);border-radius:var(--radius);box-shadow:0 8px 24px rgba(12,18,28,0.06);padding:16px;min-height:520px;overflow:auto}
+  .preview-panel{padding:0;align-self:start}
+
+  /* ---------- LEFT FORM (kept compact) ---------- */
+  .accordion{display:flex;flex-direction:column;gap:12px}
+  .section{border-radius:10px;border:1px solid rgba(15,23,42,0.05);background:#fff;overflow:hidden}
+  .section .head{font-size: 14px; display:flex;justify-content:space-between;align-items:center;padding:0px 14px;cursor:pointer}
+  .chev{transition:transform .2s}
+  .section[aria-expanded="true"] .chev{transform:rotate(90deg)}
+  .panel-body{display:none;padding:12px 14px;border-top:1px solid rgba(15,23,42,0.03)}
+  .section[aria-expanded="true"] .panel-body{display:block}
+  .form-row{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+  label{min-width:120px;color:var(--muted);font-size:.86rem}
+  .input, textarea, select{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);background:#fff;font-size:.95rem}
+  textarea{min-height:80px;resize:vertical}
+  .btn{background:#eef6ff;border-radius:8px;padding:8px 12px;border:1px solid rgba(12,18,28,0.04);cursor:pointer}
+  .btn.danger{background:#fff2f2;color:#b91c1c}
+  .item{border:1px dashed rgba(12,18,28,0.04);padding:10px;border-radius:8px;margin-bottom:10px}
+
+  /* ---------- RIGHT PREVIEW - Clean White Theme ---------- */
+  .resume {
+    width:100%;
+    background:#fff;
+    border-radius:8px;
+    box-shadow:0 8px 30px rgba(12,18,28,0.06);
+    padding:28px;
+    display:grid;
+    grid-template-columns: 220px 1fr;
+    gap:24px;
+  }
+
+  /* Left column (profile brief) */
+  .r-left{border-right:1px solid rgba(0,0,0,0.06);padding-right:18px}
+  .r-avatar{display:flex;justify-content:center}
+  .r-avatar img{width:140px;height:140px;border-radius:50%;object-fit:cover}
+  .r-name{padding-left:6px;margin-top:10px}
+  .r-name h1{margin:0;font-weight:600;font-size:1.35rem}
+  .r-name .title{color:var(--muted);font-size:.95rem;margin-top:6px}
+  .r-contact{margin-top:12px;font-size:.95rem}
+  .r-contact li{list-style:none;margin:8px 0;display:flex;align-items:center}
+  .r-contact span.icon{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;background:#0f172a;color:#fff;margin-right:10px;font-size:.85rem}
+
+  .r-left .section-block{margin-top:18px}
+  .r-left h4{margin:0 0 8px 0;font-size:.95rem}
+  .chip{display:inline-block;background:#f3f4f6;padding:6px 10px;border-radius:999px;margin:6px 6px 0 0;font-size:.88rem;color:var(--muted)}
+
+  /* Right column (content) */
+  .r-right h2.section-title{margin:0 0 12px 0;font-size:1rem;border-bottom:1px solid rgba(12,18,28,0.06);padding-bottom:8px}
+  .summary{color:var(--muted);line-height:1.45;margin-bottom:12px}
+  .exp-item, .edu-item, .proj-item, .cert-item {margin-bottom:14px}
+  .exp-item h3, .edu-item h3, .proj-item h3{margin:0;font-size:1rem}
+  .muted{color:var(--muted)}
+  .meta{font-size:.9rem;color:var(--muted);margin-top:6px}
+  .desc{margin-top:8px;color:#0b1220;line-height:1.45}
+
+  /* make preview compact to fit one page visually */
+  .resume{max-width:900px;margin:auto}
+  @media(max-width:1000px){ .wrap{grid-template-columns:1fr} .resume{grid-template-columns:1fr} .r-left{border-right:none;padding-right:0} }
+</style>
+</head>
+<body>
+
+<div class="wrap" role="application" aria-label="Resume builder">
+  <!-- LEFT: existing accordion form -->
+  <div class="panel" aria-hidden="false">
+    <header style="margin-bottom:8px">
+      <h2 style="margin:0">Resume Builder</h2>
+      <div class="muted" style="font-size:0.9rem">Edit fields — preview updates live on right.</div>
+    </header>
+
+    <div class="accordion" id="accordion">
+      <!-- Personal -->
+      <section class="section" data-key="personal" aria-expanded="true">
+        <div class="head" tabindex="0"><h3><i class="fa-solid fa-user"></i> Personal Information</h3><i class="fa-solid fa-chevron-right chev"></i></div>
+        <div class="panel-body">
+          <div class="form-row"><label>Full Name</label><input id="fullName" class="input" placeholder="Ali Reza Narejo"></div>
+          <div class="form-row"><label>Professional Title</label><input id="title" class="input" placeholder="Frontend Developer"></div>
+          <div class="form-row"><label>Email</label><input id="email" class="input" placeholder="name@example.com"><label>Phone</label><input id="phone" class="input" placeholder="+92 300 0000000"></div>
+          <div class="form-row"><label>Location</label><input id="location" class="input" placeholder="City, Country"><label>DOB</label><input id="dob" class="input" placeholder="DD/MM/YYYY"></div>
+          <div class="form-row"><label>Profile Photo</label><input id="profilePhoto" type="file" accept="image/*"></div>
+        </div>
+      </section>
+
+      <!-- Summary -->
+      <section class="section" data-key="summary" aria-expanded="false">
+        <div class="head" tabindex="0"><h3><i class="fa-solid fa-file-lines"></i> Professional Summary</h3><i class="fa-solid fa-chevron-right chev"></i></div>
+        <div class="panel-body"><div class="form-row"><label>Summary</label><textarea id="summaryText" class="input" placeholder="Three to four lines summarizing your experience."></textarea></div></div>
+      </section>
+
+      <!-- Education -->
+      <section class="section" data-key="education" aria-expanded="false">
+        <div class="head" tabindex="0"><h3><i class="fa-solid fa-graduation-cap"></i> Education</h3><i class="fa-solid fa-chevron-right chev"></i></div>
+        <div class="panel-body"><div id="education-list"></div><div style="margin-top:8px"><button id="add-education" class="btn">Add Education</button></div></div>
+      </section>
+
+      <!-- Experience -->
+      <section class="section" data-key="experience" aria-expanded="false">
+        <div class="head" tabindex="0"><h3><i class="fa-solid fa-briefcase"></i> Work Experience</h3><i class="fa-solid fa-chevron-right chev"></i></div>
+        <div class="panel-body"><div id="experience-list"></div><div style="margin-top:8px"><button id="add-experience" class="btn">Add Role</button></div></div>
+      </section>
+
+      <!-- Skills -->
+      <section class="section" data-key="skills" aria-expanded="false">
+        <div class="head" tabindex="0"><h3><i class="fa-solid fa-lightbulb"></i> Skills</h3><i class="fa-solid fa-chevron-right chev"></i></div>
+        <div class="panel-body"><div id="skills-list"></div><div style="margin-top:8px"><button id="add-skill" class="btn">Add Skill</button></div></div>
+      </section>
+
+      <!-- Projects / Custom -->
+      <section class="section" data-key="custom" aria-expanded="false">
+        <div class="head" tabindex="0"><h3><i class="fa-solid fa-layer-group"></i> Projects / Custom</h3><i class="fa-solid fa-chevron-right chev"></i></div>
+        <div class="panel-body"><div id="custom-list"></div><div style="margin-top:8px"><button id="add-custom" class="btn">Add Section</button></div></div>
+      </section>
+
+      <!-- Certificates -->
+      <section class="section" data-key="certificates" aria-expanded="false">
+        <div class="head" tabindex="0"><h3><i class="fa-solid fa-certificate"></i> Certificates</h3><i class="fa-solid fa-chevron-right chev"></i></div>
+        <div class="panel-body"><div id="certificates-list"></div><div style="margin-top:8px"><button id="add-certificate" class="btn">Add Certificate</button></div></div>
+      </section>
+
+      <!-- Languages -->
+      <section class="section" data-key="languages" aria-expanded="false">
+        <div class="head" tabindex="0"><h3><i class="fa-solid fa-language"></i> Languages</h3><i class="fa-solid fa-chevron-right chev"></i></div>
+        <div class="panel-body"><div id="languages-list"></div><div style="margin-top:8px"><button id="add-language" class="btn">Add Language</button></div></div>
+      </section>
+
+      <!-- Hobbies -->
+      <section class="section" data-key="hobbies" aria-expanded="false">
+        <div class="head" tabindex="0"><h3><i class="fa-solid fa-heart"></i> Hobbies & Interests</h3><i class="fa-solid fa-chevron-right chev"></i></div>
+        <div class="panel-body"><div id="hobbies-list"></div><div style="margin-top:8px"><button id="add-hobby" class="btn">Add Interest</button></div></div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- RIGHT: Preview (Clean White Theme, everything displayed on right column) -->
+  <div class="preview-panel">
+    <div class="resume" id="preview-resume">
+      <!-- LEFT (very small): avatar + top info -->
+      <div class="r-left">
+        <div class="r-avatar" id="pv-avatar"><img src="https://i.pinimg.com/564x/eb/57/6f/eb576ff023487bcb1fa3ad61ee7b23ee.jpg" alt="avatar"></div>
+        <div class="r-name" style="margin-top:12px">
+          <h1 id="pv-name">Your Name</h1>
+          <div class="title" id="pv-title">Professional Title</div>
+        </div>
+
+        <div class="r-contact">
+          <ul style="padding:0;margin-top:12px;">
+            <li><span class="icon">P</span><span id="pv-phone">+92 300 0000000</span></li>
+            <li><span class="icon">E</span><span id="pv-email">email@example.com</span></li>
+            <li><span class="icon">L</span><span id="pv-location">City, Country</span></li>
+          </ul>
+        </div>
+
+        <!-- Small left blocks (kept but will be repeated on right in full mode) -->
+        <div class="section-block" id="pv-left-skills"><h4>Skills</h4><div id="pv-left-skills-list"></div></div>
+        <div class="section-block" id="pv-left-langs"><h4>Languages</h4><div id="pv-left-langs-list"></div></div>
+        <div class="section-block" id="pv-left-certs"><h4>Certificates</h4><div id="pv-left-certs-list"></div></div>
+        <div class="section-block" id="pv-left-hobbies"><h4>Hobbies</h4><div id="pv-left-hobbies-list"></div></div>
+      </div>
+
+      <!-- RIGHT (main content): summary, experience, education, projects, etc -->
+      <div class="r-right">
+        <h2 class="section-title">Profile</h2>
+        <div class="summary" id="pv-summary">A concise career summary will appear here as you type.</div>
+
+        <div id="pv-experience">
+          <h2 class="section-title">Experience</h2>
+          <!-- items injected -->
+        </div>
+
+        <div id="pv-education">
+          <h2 class="section-title">Education</h2>
+          <!-- items injected -->
+        </div>
+
+        <div id="pv-projects">
+          <h2 class="section-title">Projects</h2>
+          <!-- items injected -->
+        </div>
+
+        <div id="pv-certificates-right">
+          <h2 class="section-title">Certificates</h2>
+          <!-- items injected -->
+        </div>
+
+        <div id="pv-languages-right">
+          <h2 class="section-title">Languages</h2>
+          <!-- items injected -->
+        </div>
+
+        <div id="pv-hobbies-right">
+          <h2 class="section-title">Hobbies & Interests</h2>
+          <!-- items injected -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FULL working JS -->
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{
+
+  // Utilities
+  const q = s => document.querySelector(s);
+  const qa = s => Array.from(document.querySelectorAll(s));
+  const debounce = (fn,t=120)=>{ let id; return (...a)=>{ clearTimeout(id); id=setTimeout(()=>fn(...a),t); }};
+
+  // triggerPreview declared early
+  function triggerPreview(){
+    const data = collectData();
+    renderPreview(data);
+    try{ localStorage.setItem('resumeDraft', JSON.stringify(data)); }catch(e){}
+  }
+  const debouncedPreview = debounce(triggerPreview,90);
+
+  // Accordion single-open
+  (function initAcc(){
+    const sections = qa('.section');
+    sections.forEach(s=>{
+      const head = s.querySelector('.head');
+      head.addEventListener('click', ()=> toggle(s));
+      head.addEventListener('keydown', (ev)=>{ if(ev.key==='Enter' || ev.key===' ') { ev.preventDefault(); toggle(s); }});
+    });
+    function toggle(section){
+      const all = qa('.section'); all.forEach(x=>{ if(x!==section) x.setAttribute('aria-expanded','false'); });
+      const cur = section.getAttribute('aria-expanded') === 'true';
+      section.setAttribute('aria-expanded', cur ? 'false' : 'true');
+    }
+  })();
+
+  // safe helpers
+  function escapeHtml(s=''){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;'); }
+  function escapeSafe(s=''){ return String(s).replaceAll('<','').replaceAll('>',''); }
+
+  function attachInputChange(node){ node.querySelectorAll('input,textarea,select').forEach(el=> el.addEventListener('input', debouncedPreview)); }
+  function attachRemove(node, selector){ node.querySelector(selector)?.addEventListener('click', ()=>{ node.remove(); triggerPreview(); }); }
+
+  // Item factories
+  function makeEducationItem(data={}){
+    const w=document.createElement('div'); w.className='item education-item';
+    w.innerHTML = `
+      <div class="form-row"><label>Institution</label><input class="input inst" placeholder="University" value="${escapeHtml(data.institution||'')}"></div>
+      <div class="form-row"><label>Degree / Field</label><input class="input degree" placeholder="BS Computer Science" value="${escapeHtml(data.degree||'')}"></div>
+      <div class="form-row"><label>Start</label><input class="input small start-year" placeholder="2018" value="${escapeHtml(data.start||'')}"><label>Graduation</label><input class="input small grad-year" placeholder="2022" value="${escapeHtml(data.grad||'')}"></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn danger remove-education">Remove</button></div>
+    `;
+    attachRemove(w, '.remove-education'); attachInputChange(w); return w;
+  }
+
+  function makeExperienceItem(data={}){
+    const w=document.createElement('div'); w.className='item experience-item';
+    w.innerHTML = `
+      <div class="form-row"><label>Job Title</label><input class="input job-title" placeholder="Frontend Developer" value="${escapeHtml(data.jobTitle||'')}"></div>
+      <div class="form-row"><label>Company</label><input class="input company" placeholder="Company name" value="${escapeHtml(data.company||'')}"></div>
+      <div class="form-row"><label>Start</label><input class="input small start" placeholder="2019" value="${escapeHtml(data.start||'')}"><label>End</label><input class="input small end" placeholder="2021 or Present" value="${escapeHtml(data.end||'')}"></div>
+      <div class="form-row"><label>Description</label><textarea class="input resp" placeholder="Responsibilities or achievements">${escapeHtml(data.resp||'')}</textarea></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn danger remove-experience">Remove</button></div>
+    `;
+    attachRemove(w,'.remove-experience'); attachInputChange(w); return w;
+  }
+
+  function makeSkillItem(data={}){
+    const w=document.createElement('div'); w.className='item skill-item';
+    w.innerHTML=`
+      <div class="form-row"><label>Skill</label><input class="input skill-name" placeholder="JavaScript" value="${escapeHtml(data.name||'')}"><label>Level</label>
+      <select class="input small skill-level"><option ${data.level==='Beginner'?'selected':''}>Beginner</option><option ${data.level==='Intermediate'?'selected':''}>Intermediate</option><option ${data.level==='Advanced'?'selected':''}>Advanced</option><option ${data.level==='Expert'?'selected':''}>Expert</option></select></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn danger remove-skill">Remove</button></div>
+    `;
+    attachRemove(w,'.remove-skill'); attachInputChange(w); return w;
+  }
+
+  function makeCustomItem(data={}){
+    const w=document.createElement('div'); w.className='item custom-item';
+    w.innerHTML=`
+      <div class="form-row"><label>Title</label><input class="input custom-title" placeholder="Project Title" value="${escapeHtml(data.title||'')}"></div>
+      <div class="form-row"><label>Content</label><textarea class="input custom-content" placeholder="Description...">${escapeHtml(data.content||'')}</textarea></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn danger remove-custom">Remove</button></div>
+    `;
+    attachRemove(w,'.remove-custom'); attachInputChange(w); return w;
+  }
+
+  function makeCertificateItem(data={}){
+    const w=document.createElement('div'); w.className='item certificate-item';
+    w.innerHTML=`
+      <div class="form-row"><label>Certificate</label><input class="input cert-name" placeholder="Certificate Title" value="${escapeHtml(data.name||'')}"></div>
+      <div class="form-row"><label>Issuer</label><input class="input cert-by" placeholder="Issuer" value="${escapeHtml(data.by||'')}"><label>Year</label><input class="input small cert-year" placeholder="2024" value="${escapeHtml(data.year||'')}"></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn danger remove-certificate">Remove</button></div>
+    `;
+    attachRemove(w,'.remove-certificate'); attachInputChange(w); return w;
+  }
+
+  function makeLanguageItem(data={}){
+    const w=document.createElement('div'); w.className='item language-item';
+    w.innerHTML=`
+      <div class="form-row"><label>Language</label><input class="input lang-name" placeholder="Urdu" value="${escapeHtml(data.lang||'')}"><label>Fluency</label>
+      <select class="input small lang-level"><option ${data.level==='Beginner'?'selected':''}>Beginner</option><option ${data.level==='Intermediate'?'selected':''}>Intermediate</option><option ${data.level==='Fluent'?'selected':''}>Fluent</option><option ${data.level==='Native'?'selected':''}>Native</option></select></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn danger remove-language">Remove</button></div>
+    `;
+    attachRemove(w,'.remove-language'); attachInputChange(w); return w;
+  }
+
+  function makeHobbyItem(data={}){
+    const w=document.createElement('div'); w.className='item hobby-item';
+    w.innerHTML=`
+      <div class="form-row"><label>Hobby</label><input class="input hobby-name" placeholder="Photography" value="${escapeHtml(data.hobby||'')}"></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn danger remove-hobby">Remove</button></div>
+    `;
+    attachRemove(w,'.remove-hobby'); attachInputChange(w); return w;
+  }
+
+  // Containers & add buttons
+  const educationList=q('#education-list'), experienceList=q('#experience-list'),
+        skillsList=q('#skills-list'), customList=q('#custom-list'),
+        certificatesList=q('#certificates-list'), languagesList=q('#languages-list'),
+        hobbiesList=q('#hobbies-list');
+
+  q('#add-education').addEventListener('click', ()=>{ educationList.appendChild(makeEducationItem()); triggerPreview(); });
+  q('#add-experience').addEventListener('click', ()=>{ experienceList.appendChild(makeExperienceItem()); triggerPreview(); });
+  q('#add-skill').addEventListener('click', ()=>{ skillsList.appendChild(makeSkillItem()); triggerPreview(); });
+  q('#add-custom').addEventListener('click', ()=>{ customList.appendChild(makeCustomItem()); triggerPreview(); });
+  q('#add-certificate').addEventListener('click', ()=>{ certificatesList.appendChild(makeCertificateItem()); triggerPreview(); });
+  q('#add-language').addEventListener('click', ()=>{ languagesList.appendChild(makeLanguageItem()); triggerPreview(); });
+  q('#add-hobby').addEventListener('click', ()=>{ hobbiesList.appendChild(makeHobbyItem()); triggerPreview(); });
+
+  // initial items
+  educationList.appendChild(makeEducationItem());
+  experienceList.appendChild(makeExperienceItem());
+  skillsList.appendChild(makeSkillItem());
+  customList.appendChild(makeCustomItem());
+  certificatesList.appendChild(makeCertificateItem());
+  languagesList.appendChild(makeLanguageItem());
+  hobbiesList.appendChild(makeHobbyItem());
+
+  // Wire up top-level inputs
+  ['#fullName','#title','#email','#phone','#location','#dob','#summaryText'].forEach(sel=>{
+    const el = q(sel); if(el) el.addEventListener('input', debouncedPreview);
+  });
+
+  // Profile photo handling (preview)
+  q('#profilePhoto').addEventListener('change', (e)=>{
+    const f = e.target.files?.[0]; if(!f) return;
+    const url = URL.createObjectURL(f);
+    const img = q('#pv-avatar img');
+    if(img){ img.src = url; } else { q('#pv-avatar').innerHTML = `<img src="${url}" alt="avatar">`; }
+  });
+
+  // collectData
+  function collectData(){
+    const personal = {
+      name: q('#fullName').value.trim(),
+      title: q('#title').value.trim(),
+      email: q('#email').value.trim(),
+      phone: q('#phone').value.trim(),
+      location: q('#location').value.trim(),
+      dob: q('#dob').value.trim(),
+      summary: q('#summaryText').value.trim()
+    };
+
+    const education = Array.from(educationList.querySelectorAll('.education-item')).map(item=>({
+      institution: item.querySelector('.inst').value.trim(),
+      degree: item.querySelector('.degree').value.trim(),
+      start: item.querySelector('.start-year').value.trim(),
+      grad: item.querySelector('.grad-year').value.trim()
+    })).filter(x=>x.institution||x.degree);
+
+    const experience = Array.from(experienceList.querySelectorAll('.experience-item')).map(item=>({
+      jobTitle: item.querySelector('.job-title').value.trim(),
+      company: item.querySelector('.company').value.trim(),
+      start: item.querySelector('.start').value.trim(),
+      end: item.querySelector('.end').value.trim(),
+      resp: item.querySelector('.resp').value.trim()
+    })).filter(x=>x.jobTitle||x.company);
+
+    const skills = Array.from(skillsList.querySelectorAll('.skill-item')).map(item=>({
+      name: item.querySelector('.skill-name').value.trim(),
+      level: item.querySelector('.skill-level').value.trim()
+    })).filter(x=>x.name);
+
+    const custom = Array.from(customList.querySelectorAll('.custom-item')).map(item=>({
+      title: item.querySelector('.custom-title').value.trim(),
+      content: item.querySelector('.custom-content').value.trim()
+    })).filter(x=>x.title||x.content);
+
+    const certificates = Array.from(certificatesList.querySelectorAll('.certificate-item')).map(item=>({
+      name: item.querySelector('.cert-name').value.trim(),
+      by: item.querySelector('.cert-by').value.trim(),
+      year: item.querySelector('.cert-year').value.trim()
+    })).filter(x=>x.name);
+
+    const languages = Array.from(languagesList.querySelectorAll('.language-item')).map(item=>({
+      lang: item.querySelector('.lang-name').value.trim(),
+      level: item.querySelector('.lang-level').value.trim()
+    })).filter(x=>x.lang);
+
+    const hobbies = Array.from(hobbiesList.querySelectorAll('.hobby-item')).map(item=>({
+      hobby: item.querySelector('.hobby-name').value.trim()
+    })).filter(x=>x.hobby);
+
+    return { personal, education, experience, skills, custom, certificates, languages, hobbies };
+  }
+
+  // renderPreview
+  function renderPreview(data){
+    // header left
+    q('#pv-name').textContent = data.personal.name || 'Your Name';
+    q('#pv-title').textContent = data.personal.title || 'Professional Title';
+    q('#pv-email').textContent = data.personal.email || '';
+    q('#pv-phone').textContent = data.personal.phone || '';
+    q('#pv-location').textContent = data.personal.location || '';
+
+    // left small lists
+    const leftSkills = q('#pv-left-skills-list'); leftSkills.innerHTML = '';
+    if(data.skills && data.skills.length){ data.skills.forEach(s=>{ const c=document.createElement('div'); c.className='chip'; c.textContent = s.name + (s.level? ' — '+s.level : ''); leftSkills.appendChild(c); }); }
+    else leftSkills.innerHTML = '<div class="muted">No skills</div>';
+
+    const leftLangs = q('#pv-left-langs-list'); leftLangs.innerHTML='';
+    if(data.languages && data.languages.length){ data.languages.forEach(l=>{ const c=document.createElement('div'); c.className='chip'; c.textContent = l.lang + (l.level? ' — '+l.level : ''); leftLangs.appendChild(c); }); }
+    else leftLangs.innerHTML = '<div class="muted">No languages</div>';
+
+    const leftCerts = q('#pv-left-certs-list'); leftCerts.innerHTML='';
+    if(data.certificates && data.certificates.length){ data.certificates.forEach(c=>{ const d=document.createElement('div'); d.className='chip'; d.textContent = c.name; leftCerts.appendChild(d); }); }
+    else leftCerts.innerHTML = '<div class="muted">No certificates</div>';
+
+    const leftHobbies = q('#pv-left-hobbies-list'); leftHobbies.innerHTML='';
+    if(data.hobbies && data.hobbies.length){ data.hobbies.forEach(h=>{ const d=document.createElement('div'); d.className='chip'; d.textContent = h.hobby; leftHobbies.appendChild(d); }); }
+    else leftHobbies.innerHTML = '<div class="muted">No hobbies</div>';
+
+    // right: summary
+    q('#pv-summary').textContent = data.personal.summary || 'A concise career summary will appear here as you type.';
+
+    // experience
+    const expContainer = q('#pv-experience'); expContainer.innerHTML = '<h2 class="section-title">Experience</h2>';
+    if(data.experience && data.experience.length){
+      data.experience.forEach(exp=>{
+        const d=document.createElement('div'); d.className='exp-item';
+        const h=document.createElement('h3'); h.textContent = exp.jobTitle || '';
+        const meta=document.createElement('div'); meta.className='meta'; meta.textContent = `${exp.start || ''} — ${exp.end || ''} • ${exp.company || ''}`;
+        const desc=document.createElement('div'); desc.className='desc';
+        if(exp.resp && exp.resp.includes('\n')){
+          const ul=document.createElement('ul');
+          exp.resp.split('\n').filter(Boolean).forEach(line=>{ const li=document.createElement('li'); li.textContent=line; ul.appendChild(li); });
+          desc.appendChild(ul);
+        } else { desc.textContent = exp.resp || ''; }
+        d.appendChild(h); d.appendChild(meta); d.appendChild(desc); expContainer.appendChild(d);
+      });
+    } else { expContainer.innerHTML += '<div class="muted">No experience added</div>'; }
+
+    // education
+    const eduContainer = q('#pv-education'); eduContainer.innerHTML = '<h2 class="section-title">Education</h2>';
+    if(data.education && data.education.length){
+      data.education.forEach(e=>{
+        const d=document.createElement('div'); d.className='edu-item';
+        const h=document.createElement('h3'); h.textContent = e.degree || e.institution;
+        const meta=document.createElement('div'); meta.className='meta'; meta.textContent = `${e.start || ''} — ${e.grad || ''} • ${e.institution || ''}`;
+        d.appendChild(h); d.appendChild(meta); eduContainer.appendChild(d);
+      });
+    } else { eduContainer.innerHTML += '<div class="muted">No education added</div>'; }
+
+    // projects/custom
+    const prContainer = q('#pv-projects'); prContainer.innerHTML = '<h2 class="section-title">Projects</h2>';
+    if(data.custom && data.custom.length){
+      data.custom.forEach(p=>{
+        const d=document.createElement('div'); d.className='proj-item';
+        const h=document.createElement('h3'); h.textContent = p.title || '';
+        const desc=document.createElement('div'); desc.className='desc';
+        if(p.content && p.content.includes('\n')){
+          const ul=document.createElement('ul');
+          p.content.split('\n').filter(Boolean).forEach(line=>{ const li=document.createElement('li'); li.textContent=line; ul.appendChild(li); });
+          desc.appendChild(ul);
+        } else { desc.textContent = p.content || ''; }
+        d.appendChild(h); d.appendChild(desc); prContainer.appendChild(d);
+      });
+    } else prContainer.innerHTML += '<div class="muted">No projects added</div>';
+
+    // certificates right
+    const certR = q('#pv-certificates-right'); certR.innerHTML = '<h2 class="section-title">Certificates</h2>';
+    if(data.certificates && data.certificates.length){
+      data.certificates.forEach(c=>{
+        const d=document.createElement('div'); d.className='cert-item';
+        const h=document.createElement('h3'); h.textContent = c.name + (c.by ? ' — '+c.by : '');
+        const meta=document.createElement('div'); meta.className='meta'; meta.textContent = c.year || '';
+        d.appendChild(h); d.appendChild(meta); certR.appendChild(d);
+      });
+    } else certR.innerHTML += '<div class="muted">No certificates added</div>';
+
+    // languages right
+    const langR = q('#pv-languages-right'); langR.innerHTML = '<h2 class="section-title">Languages</h2>';
+    if(data.languages && data.languages.length){
+      const ul=document.createElement('ul'); ul.className='clean';
+      data.languages.forEach(l=>{ const li=document.createElement('li'); li.textContent = `${l.lang}${l.level? ' — '+l.level : ''}`; ul.appendChild(li); });
+      langR.appendChild(ul);
+    } else langR.innerHTML += '<div class="muted">No languages added</div>';
+
+    // hobbies right
+    const hbR = q('#pv-hobbies-right'); hbR.innerHTML = '<h2 class="section-title">Hobbies & Interests</h2>';
+    if(data.hobbies && data.hobbies.length){
+      const div=document.createElement('div'); div.className='skill-grid';
+      data.hobbies.forEach(h=>{ const chip=document.createElement('div'); chip.className='chip'; chip.textContent = h.hobby; div.appendChild(chip); });
+      hbR.appendChild(div);
+    } else hbR.innerHTML += '<div class="muted">No hobbies added</div>';
+  }
+
+  // Load draft from localStorage
+  (function loadDraft(){
+    try{
+      const raw = localStorage.getItem('resumeDraft'); if(!raw) return;
+      const d = JSON.parse(raw);
+      if(d.personal){
+        q('#fullName').value = d.personal.name || '';
+        q('#title').value = d.personal.title || '';
+        q('#email').value = d.personal.email || '';
+        q('#phone').value = d.personal.phone || '';
+        q('#location').value = d.personal.location || '';
+        q('#dob').value = d.personal.dob || '';
+        q('#summaryText').value = d.personal.summary || '';
+      }
+      // clear lists and repopulate
+      educationList.innerHTML=''; experienceList.innerHTML=''; skillsList.innerHTML=''; customList.innerHTML=''; certificatesList.innerHTML=''; languagesList.innerHTML=''; hobbiesList.innerHTML='';
+      (d.education||[]).forEach(e=>educationList.appendChild(makeEducationItem(e)));
+      (d.experience||[]).forEach(e=>experienceList.appendChild(makeExperienceItem(e)));
+      (d.skills||[]).forEach(s=>skillsList.appendChild(makeSkillItem(s)));
+      (d.custom||[]).forEach(c=>customList.appendChild(makeCustomItem(c)));
+      (d.certificates||[]).forEach(c=>certificatesList.appendChild(makeCertificateItem(c)));
+      (d.languages||[]).forEach(l=>languagesList.appendChild(makeLanguageItem(l)));
+      (d.hobbies||[]).forEach(h=>hobbiesList.appendChild(makeHobbyItem(h)));
+    }catch(e){}
+    triggerPreview();
+  })();
+
+  // Initial render
+  triggerPreview();
+
+}); // DOMContentLoaded
+</script>
+</body>
+</html>

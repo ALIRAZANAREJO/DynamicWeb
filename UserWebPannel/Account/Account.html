@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment — AR House</title>
+
+<!-- ✅ Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<style>
+:root {
+  --bg: #0e0e0f;
+  --card: #171717;
+  --accent: #6ab8ff;
+  --muted: #bfbfbf;
+  --radius: 14px;
+  --border: 2px solid rgba(255,255,255,0.08);
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto;
+}
+body {
+  margin: 0;
+  background: linear-gradient(180deg,#0b0b0c 0%, #0f0f11 100%);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 24px;
+}
+.payment-container {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 32px;
+  max-width: 900px;
+  width: 100%;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.6);
+  border: var(--border);
+  position: relative;
+}
+.back-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  border-radius: 50px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.back-btn:hover {
+  background: var(--accent);
+  color: #111;
+}
+.header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.header h2 {
+  font-size: 30px;
+  margin: 0;
+  color: var(--accent);
+}
+.header p {
+  color: var(--muted);
+  margin: 6px 0 0;
+}
+.price {
+  font-weight: 700;
+  color: #fff;
+  margin-top: 8px;
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.tab-btn {
+  background: #ffffff;
+  color: #000000;
+  padding: 10px 18px;
+  border-radius: 24px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  font-weight: 600;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tab-btn i {
+  font-size: 16px;
+}
+.tab-btn.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #111;
+}
+.method {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+.method.active {
+  display: block;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+.method-content {
+  background: #1f1f20;
+  border-radius: var(--radius);
+  padding: 20px;
+  border: var(--border);
+}
+label {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 14px;
+}
+input, textarea {
+  width: 100%;
+  background: #111;
+  border: 1px solid #333;
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 4px;
+}
+input[type="file"] {
+  border: none;
+}
+.submit-btn {
+  margin-top: 18px;
+  background: var(--accent);
+  border: 0;
+  color: #111;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 28px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 250px;
+}
+.qr-box {
+  text-align: center;
+  margin-top: 10px;
+}
+.qr-box img {
+  width: 160px;
+  height: 160px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+.account-info {
+  background: #111;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+@media (max-width:600px){
+  .payment-container {padding: 20px;}
+  .header h2{font-size: 24px;}
+}
+.verify-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+}
+.verify-wrapper input {
+  width: 180px;
+  max-width: 50vw;
+  font-size: 0.85rem;
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: 2px solid  #6ab8ff;
+  background: transparent;
+  color: #fff;
+}
+.verify-wrapper input::placeholder {
+  color: #aaa;
+}
+.verify-wrapper button {
+  position: relative;
+  overflow: hidden;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 3px solid #3ea2ff;
+  color: #000000;
+  border-radius: 50px;
+  background: #3ea2ff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.verify-wrapper button span {
+  position: relative;
+  z-index: 2; /* ensures text stays above the sliding bg */
+}
+.verify-wrapper button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000;
+  border-radius: 50px;
+  transform: scaleX(0) scaleY(0);
+  transform-origin: right bottom;
+  transition: transform 0.4s ease;
+  z-index: 1; /* behind text */
+}
+.verify-wrapper button:hover::before {
+  transform: scaleX(1) scaleY(1);
+}
+.verify-wrapper button:hover {
+  color: #fff; /* text becomes white on hover */
+}
+
+/* Responsive */
+@media (max-width:700px){
+  .verify-wrapper {
+      display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  margin-bottom: 12px;
+  }
+  .verify-wrapper input, .verify-wrapper button {
+    width: 60%;
+  }
+}
+/* Responsive */
+@media (max-width:600px){
+  .verify-wrapper {
+     display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  position: static;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  margin-bottom: 15px;
+  width: 100%;
+  margin-top: -8px;
+  }
+  .verify-wrapper input{
+        width: 40%;
+  }
+  .verify-wrapper button{
+    width: 100%;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="payment-container">
+  
+<div class="verify-wrapper">
+  <input id="verifyEmail" type="email" placeholder="Enter your email to verify payment">
+  <button id="verifyBtn"><span>✅ Already Paid — Only Verify</span></button>
+</div>
+ <a href="/UserWebPannel/Account/Pakig.html"> <button class="back-btn"> <i class="fa-solid fa-arrow-left"></i> Back</button>
+</a>
+  <div class="header">
+    <h2 id="pkgName">Selected Package</h2>
+    <!-- <p id="pkgSubtitle">Subtitle</p> -->
+    <span class="price" id="pkgPrice">PKR 0  </span>
+<div class="pkgExpiry" id="pkgExpiry">0 Month</div> 
+ </div>
+
+<!-- Add Font Awesome CDN in <head> -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
+<div class="tabs">
+  <div class="tab-btn active" data-tab="jazzcash">
+    <img src="/images/jazzcash.png" alt="JazzCash" class="tab-icon" />
+    JazzCash
+  </div>
+  <div class="tab-btn" data-tab="easypaisa">
+    <img src="/images/esaypaisa.jpg" alt="EasyPaisa" class="tab-icon" />
+    EasyPaisa
+  </div>
+  <div class="tab-btn" data-tab="paypal">
+    <img src="/images/paypal.png" alt="PayPal" class="tab-icon" />
+    PayPal
+  </div>
+  <div class="tab-btn" data-tab="bank">
+    <i class="fa-solid fa-building-columns"></i>
+    Bank
+  </div>
+  <div class="tab-btn" data-tab="card">
+    <i class="fa-regular fa-credit-card"></i>
+    Card
+  </div>
+</div>
+
+<style>
+.tabs {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #000000;
+  padding: 10px 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  border: 2px solid transparent;
+  transition: 0.3s ease;
+}
+
+.tab-btn i,
+.tab-btn .tab-icon {
+  width: 40px;
+  height: 22px;
+  object-fit: contain;
+}
+
+/* .tab-btn:hover {
+  background: #252525;
+  border-color: #444;
+} 
+
+.tab-btn.active {
+  background: #f5b700;
+  color: #111;
+  border-color: #f5b700;
+} */
+</style>
+
+ <!-- JazzCash -->
+<div class="method active" id="jazzcash">
+  <div class="method-content">
+    <div class="qr-box">
+      <img src="/Assets/Jazz.jpg" alt="JazzCash QR">
+    </div>
+    <div class="account-info">
+      <strong>JazzCash Numbers:</strong><br>
+      +92 300 1234567<br>
+      +92 311 7654321
+    </div>
+    <label for="email">Your Email</label><input id="email" type="text" placeholder="Your Email">
+    <label>Transaction ID (optional)</label><input id="transactionid01" type="text" placeholder="Enter Transaction ID">
+    <label>Upload Payment Slip</label><input id="paymentslip01" type="file" accept="image/*,.pdf">
+    <button class="submit-btn">Submit for Verification</button>
+  </div>
+</div>
+
+<!-- Easypaisa -->
+<div class="method" id="easypaisa">
+  <div class="method-content">
+    <div class="qr-box">
+      <img src="/images/esaypaisa.jpg" alt="Easypaisa QR">
+    </div>
+    <div class="account-info">
+      <strong>EasyPaisa Numbers:</strong><br>
+      +92 300 9876543<br>
+      +92 312 1234567
+    </div>
+        <label for="email">Your Email</label><input id="email" type="text" placeholder="Your Email" >
+    <label>Transaction ID (optional)</label><input id="transactionid02" type="text" placeholder="Enter Transaction ID">
+    <label>Upload Payment Slip</label><input id="paymentslip02" type="file" accept="image/*,.pdf">
+    <button class="submit-btn">Submit for Verification</button>
+  </div>
+</div>
+
+<!-- PayPal -->
+<div class="method" id="paypal">
+  <div class="method-content">
+    <div class="account-info">
+      <strong>PayPal Account:</strong><br>
+      paypal.me/arhouse<br>
+      Or send to: payments@arhouse.com
+    </div>
+        <!-- <label>Your Email</label><input id="email" type="text" placeholder="Your Email"> -->
+    <label>Transaction ID (after payment)</label><input id="transactionid03" type="text" placeholder="Enter PayPal Transaction ID">
+      <label>CNIC Number</label><input id="Cnic" type="text" placeholder="Enter CNIC (optional)">
+    <button class="submit-btn">Submit for Verification</button>
+  </div>
+</div>
+
+<!-- Bank -->
+<div class="method" id="bank">
+  <div class="method-content">
+    <div class="account-info">
+      <strong>Bank Name:</strong> HBL<br>
+      <strong>Account Title:</strong> AR House Pvt Ltd<br>
+      <strong>IBAN:</strong> PK12HABB000123456789<br>
+      <strong>Branch Code:</strong> 00123
+    </div>
+    <label>Payer Name</label><input id="payern04" type="text" placeholder="Your name">
+        <!-- <label>Your Email</label><input id="email" type="text" placeholder="Your Email"> -->
+    <label>Phone Number</label><input id="telephone04" type="text" placeholder="03XX-XXXXXXX">
+    <label>CNIC Number</label><input id="Cnic" type="text" placeholder="Enter CNIC without dashes">
+    <label>Transaction ID</label><input id="transactionid04" type="text" placeholder="Enter Reference or Transaction ID">
+    <label>Upload Transfer Slip</label><input id="paymentslip04" type="file" accept="image/*,.pdf">
+    <button class="submit-btn">Submit for Verification</button>
+  </div>
+</div>
+
+<!-- Card -->
+<div class="method" id="card">
+  <div class="method-content">
+        <!-- <label>Your Email</label><input id="email" type="text" placeholder="Your Email"> -->
+    <label>Card Number</label><input id="cardnum05" type="text" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+    <label>Name on Card</label><input id="cardname05" type="text" placeholder="As printed on card">
+    <div style="display:flex;gap:10px;">
+      <div style="flex:1">
+        <label>Expiry (MM/YY)</label><input id="expiry05" type="text" placeholder="MM/YY" maxlength="5">
+      </div>
+      <div style="flex:1">
+        <label>CVV</label><input id="cvv05" type="password" placeholder="***" maxlength="4">
+      </div>
+    </div>
+    <label>CNIC Number</label><input id="Cnic" type="text" placeholder="Enter CNIC without dashes">
+    <button class="submit-btn">Pay Securely</button>
+  </div>
+</div>
+<script>
+// ==========================
+// DISPLAY PACKAGE IN ACCOUNT (3-LINE HEADER)
+// ==========================
+document.addEventListener("DOMContentLoaded", () => {
+
+    const storedPkg = sessionStorage.getItem("selectedPackage");
+    if (!storedPkg) return;
+
+    const pkg = JSON.parse(storedPkg);
+
+    // UI Elements
+    const pkgNameEl   = document.getElementById("pkgName");
+    const pkgPriceEl  = document.getElementById("pkgPrice");
+    const pkgExpiryEl = document.getElementById("pkgExpiry");
+
+    if (!pkgNameEl || !pkgPriceEl || !pkgExpiryEl) return;
+
+    // Extract values (fall back if missing)
+    const type   = pkg.type   || "Package";
+    const price  = pkg.price  || "0";
+    const pkr    = pkg.pkr    || "0";
+    const expiry = pkg.expiry || "0 Months";
+
+    // Update UI
+    pkgNameEl.textContent  = type;                             // Line 1: Package Name
+    pkgPriceEl.textContent = `Price = $${price} / PKR ${pkr}`; // Line 2: Price
+    pkgExpiryEl.textContent = `${expiry}onths`;                           // Line 3: Expiry Time
+
+    // Optional: update accent color if stored
+    if (pkg.accent) {
+        document.documentElement.style.setProperty('--accent', pkg.accent);
+    }
+
+});
+
+
+// ============ Tabs Switcher =============
+const tabBtns = document.querySelectorAll('.tab-btn');
+const methods = document.querySelectorAll('.method');
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    tabBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const target = btn.dataset.tab;
+    methods.forEach(m => m.classList.remove('active'));
+    document.getElementById(target).classList.add('active');
+  });
+});
+</script>
+
+<script type="module" src="/UserWebPannel/Account/Payment.js"></script>
+</body>
+</html>

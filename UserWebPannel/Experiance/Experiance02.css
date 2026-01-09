@@ -1,0 +1,333 @@
+/* ===== Reset & Base ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; overflow-x: hidden; }
+
+/* ===== Cards Container ===== */
+#experianceForm {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+  margin-top: 1vh;
+  flex-wrap: wrap;
+  width: 100%;
+  position: relative;
+}
+
+/* ===== Card ===== */
+.exp-card {
+  background: #ffffff00;
+  width: 100%;
+  max-width: 1400px;   /* allow wide rows */
+  transition: all 0.5s ease;
+  overflow: hidden;
+    padding-top: 20px;
+
+}
+
+.exp-header h3 {
+  font-size: 20px;
+  color: #1a73e8;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* ===== Row Layout ===== */
+.exp-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+/* ===== Row Layout ===== */
+.moress-docs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  max-width: 600px;
+}
+
+/* ============================
+   Floating Label (50% Transparent Top)
+   Works for your #experianceForm HTML
+============================ */
+
+.exp-group {
+  position: relative;
+  flex: 1;
+  min-width: 160px;
+}
+
+/* ===== Input Base ===== */
+.exp-input {
+  width: 100%;
+  padding: 14px 12px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  font-size: 15px;
+  background: none;
+  background-color: white;
+  transition: border-color 0.3s ease;
+}
+
+.exp-input:focus,
+.exp-input:valid {
+  border-color: #00469b;
+}
+
+
+
+
+
+
+/* ===== Row Layout ===== */
+.moress-docs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.moress-docs .exp-group{
+  position: relative;
+  flex: 1;
+  min-width: 160px;
+}
+
+/* ===== Input Base ===== */
+.moress-docs input{
+  width: 100%;
+  padding: 14px 12px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  font-size: 15px;
+  background: none;
+  background-color: white;
+  transition: border-color 0.3s ease;
+}
+
+.moress-docs input:focus,
+.moress-docs input:valid {
+  border-color: #00469b;
+}
+
+
+
+
+/* ============================
+   Floating Label Effect (Exact Match)
+   with White Lower Half on Focus
+============================ */
+
+/* Label Base */
+.moress-docs .exp-label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: #888;
+  padding: 0 6px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+/* Floating Label */
+.moress-docs .exp-input:focus + .exp-label,
+.moress-docs .exp-input:valid + .exp-label,
+select.moress-docs.exp-input:focus + .exp-label,
+select.moress-docs.exp-input:valid + .exp-label {
+  top: -1px;
+  font-size: 12px;
+  color:#00469b;
+}
+
+/* White Lower Half Background */
+.moress-docs .exp-input:focus + .exp-label::after,
+.moress-docs .exp-input:valid + .exp-label::after,
+select.exp-input:focus + .exp-label::after,
+select.exp-input:valid + .exp-label::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, white 40%, transparent 60%);
+  border-radius: 4px;
+  transition: all 0.25s ease;
+}
+
+/* File Inputs always fixed label */
+.moress-docs input[type="file"] + .exp-label {
+  top: -6px;
+  font-size: 12px;
+  color: #888;
+  background: white;
+}
+
+
+/* Label Base */
+.exp-label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: #888;
+  padding: 0 6px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+/* Floating Label */
+.exp-input:focus + .exp-label,
+.exp-input:valid + .exp-label,
+select.exp-input:focus + .exp-label,
+select.exp-input:valid + .exp-label {
+  top: -1px;
+  font-size: 12px;
+  color:#00469b;
+}
+
+/* White Lower Half Background */
+.exp-input:focus + .exp-label::after,
+.exp-input:valid + .exp-label::after,
+select.exp-input:focus + .exp-label::after,
+select.exp-input:valid + .exp-label::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, white 40%, transparent 60%);
+  border-radius: 4px;
+  transition: all 0.25s ease;
+}
+
+/* File Inputs always fixed label */
+.exp-input[type="file"] + .exp-label {
+  top: -6px;
+  font-size: 12px;
+  color: #888;
+  background: white;
+}
+
+
+
+
+
+
+
+/* ===== Add Document Button ===== */
+.exp-doc,.ser-doc,.pro-doc,.tem-doc {
+  background: linear-gradient(90deg, rgb(76, 133, 255) 0%, rgb(255, 141, 192) 100%);
+  color: #fff;
+  border: none;
+  padding: 15px 14px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14px;
+transition:transform .18s ease,
+ box-shadow .18s ease;}
+.exp-doc:hover,.ser-doc:hover, .pro-doc:hover, .tem-doc:hover { transform: translateY(-4px); }
+
+/* ===== Add Document Button ===== */
+.more-doc {
+  background: #0044ff;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+.more-doc:hover { background: #0056b3; }
+.remove-doc {
+  background: #1a73e8;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+.remove-doc:hover { background: #df1a00e4; }
+
+/* ===== Responsive ===== */
+@media(max-width: 768px) {
+  .exp-row { flex-direction: column; }
+  .exp-card { max-width: 100%; }
+}
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  text-align: center;
+  width: 350px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+.popup-content p {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.popup-content button {
+  background: royalblue;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* .popup-content button:hover {
+  background: darkblue;
+} */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+
+.remove-experience,
+.remove-doc {
+  background: crimson;
+  color: white;
+  border: none;
+  padding: 18px 6px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: 0.2s;
+}
+
+.remove-experience:hover,
+.remove-doc:hover {
+  background: darkred;
+}
+
+
+
+

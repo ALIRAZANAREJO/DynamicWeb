@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Experience Row Form</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      max-width: 1000px;
+      width: 95%;
+      overflow-x: auto;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap; /* responsive fallback */
+    }
+
+    .form-group {
+      flex: 1;
+      min-width: 180px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    input[type="file"] {
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.8px solid #ccc;
+      border-radius: 8px;
+      transition: border-color 0.3s ease;
+      background: #fff;
+    }
+
+    input:focus, select:focus {
+      border-color: #0077cc;
+      outline: none;
+    }
+
+    /* File input styling */
+    input[type="file"] {
+      border: 2px dashed #0077cc;
+      padding: 6px;
+      cursor: pointer;
+      border-radius: 8px;
+      background: #f1f9ff;
+    }
+
+    input[type="file"]::-webkit-file-upload-button {
+      background: #0077cc;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    input[type="file"]::-webkit-file-upload-button:hover {
+      background: #005fa3;
+    }
+  </style>
+</head>
+<body>
+
+  <form class="form-container">
+    <div class="form-row">
+
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="number">Work Duration</label>
+        <input type="number" id="number" name="number" placeholder="e.g. 2" required>
+      </div>
+
+      <div class="form-group">
+        <label for="unit">Choose Unit</label>
+        <select id="unit" name="unit" required>
+          <option value="">-- Select --</option>
+          <option value="months">Months</option>
+          <option value="years">Years</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="pdf">Upload PDF</label>
+        <input type="file" id="pdf" name="pdf" accept="application/pdf" required>
+      </div>
+
+    </div>
+  </form>
+
+</body>
+</html>
+
+<!-- promt 1
+also add global degrees of uni like when user select field like computer science then display its subcatogories like it,ai,programming, networking, cyber security, when he select medical then display list mbbs neurologist pharmacy, bds,whatever every types exixts in world also use make dropdown advance with arrow direction and entre key also when user type like cy then match result like show cyber security now show me whole structure also suggest me how we make more advance and what we missing when any user from world wide if he upload its expcation whats things we need to add and how its looks and also thing about creative and advance options for this form i think you understand my idea so think deep and then answer shortly and easy to undertsand me also show steps and no gen code 
+
+ok cleary listen all data will save with this button id       <button class="sbbt" id="submitBtn">Submit</button>
+ i have store data in database code first gen its html and css and then we will work at js because it will be to long we will distribute in 3 to 4 js files and forget user privecy and auto data delete expire data and add all importand features you define first only 
+ show me html and css then we will discuse because global select digrees these function are important 
+ so we work one by one
+
+
+
+ according to style now add option like if user want to upload its another documents 
+ in each degree then if he click add option then create input for "document name" 
+  with choose pdf or img  also make ui animated and proffesional because when we work
+   database code then we cant discuse about ui so make it perfect now animated feature
+    is make a circle like ball with one outer layer have 5 colors like school college 
+    uni master phd also always rotate slowly when page loge then scoll form will open 
+    and ball come to right side with small size for few seconds to display user how it
+     work and then comes to its with big size to its origional centre position and rotate
+      slowly when user click any degree then open its input means its form and ball will 
+      go to right side when i click uni then balls still a 
+ tright side but uni form will displayed according to its institde selected did you understand -->

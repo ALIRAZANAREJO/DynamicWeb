@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #0d1117;
+  color: #f0f6fc;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 900px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #58a6ff;
+  animation: fadeIn 1.5s ease;
+}
+
+h2 {
+  font-size: 1.2rem;
+  color: #8b949e;
+  font-weight: 400;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+h3 {
+  color: #58a6ff;
+  border-bottom: 2px solid #30363d;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.skills-container,
+.education-container,
+.experience-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  padding: 20px;
+  border-radius: 10px;
+  transition: transform 0.3s, border 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #58a6ff;
+}
+
+.education-card,
+.experience-card {
+  background: #161b22;
+  padding: 20px;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.education-card:hover,
+.experience-card:hover {
+  border-color: #58a6ff;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1rem; }
+  .card, .education-card, .experience-card { padding: 15px; }
+}

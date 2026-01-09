@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <style>
+#searchInput-wrapper {
+  position: relative;
+  max-width: 700px;  /* increased width */
+  margin: 0 auto;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 18px 24px; /* taller */
+  font-size: 20px;    /* bigger text */
+  font-weight: 700;   /* bold */
+  border-radius: 50px; /* 20% rounded corners */
+  border: 2px solid transparent;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  outline: none;
+  color: transparent; /* hide actual text for gradient overlay */
+  position: relative;
+}
+
+#searchInput::placeholder {
+  color: #a0a8b5;
+}
+
+#searchInput-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 18px 24px; /* match input */
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  gap: 0;
+  white-space: pre;
+  pointer-events: none;
+}
+
+#searchInput-text span.left {
+  background: linear-gradient(90deg, #5fd1ff, #a0e0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#searchInput-text span.right {
+  background: linear-gradient(90deg, #ff79c6, #ffc0ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#searchInput:hover, #searchInput:focus {
+  border-image: linear-gradient(to right, #ff79c6 50%, #5fd1ff 50%) 1;
+  box-shadow:
+    0 6px 20px rgba(95,209,255,0.4),
+    0 6px 20px rgba(255,121,198,0.4),
+    0 0 12px rgba(95,209,255,0.3),
+    0 0 12px rgba(255,121,198,0.3);
+  transition: all 0.3s ease;
+  border-bottom-left-radius: 50px;
+}
+
+</style>
+  <div class="search-wrap">
+  <input id="searchInput" type="text" placeholder="Search any skill" aria-label="Search skills" autocomplete="off" />
+</div>
+sty
+<script>const input = document.getElementById('searchInput');
+const wrapper = document.createElement('div');
+wrapper.id = 'searchInput-wrapper';
+input.parentNode.insertBefore(wrapper, input);
+wrapper.appendChild(input);
+
+const displayText = document.createElement('div');
+displayText.id = 'searchInput-text';
+wrapper.appendChild(displayText);
+
+const skillsList = ["HTML","CSS","JavaScript","Python","Node.js","React","SQL","Java","C++"];
+
+let autoTyping = true, autoTimer = null, typeIndex = 0, charIndex = 0, forward = true;
+
+function updateDisplay(value){
+  displayText.innerHTML = '';
+  const mid = Math.ceil(value.length/2);
+  const left = value.slice(0,mid);
+  const right = value.slice(mid);
+  if(left) displayText.appendChild(createSpan(left,'left'));
+  if(right) displayText.appendChild(createSpan(right,'right'));
+}
+
+function createSpan(text,className){
+  const span = document.createElement('span');
+  span.className = className;
+  span.textContent = text;
+  return span;
+}
+
+function startAutoType(){
+  if(autoTimer) clearInterval(autoTimer);
+  autoTyping = true; input.value=''; charIndex = 0; forward = true;
+  autoTimer = setInterval(()=>{
+    const word = skillsList[typeIndex % skillsList.length] || "skills";
+    if(forward){
+      charIndex++;
+      input.value = word.slice(0,charIndex);
+      updateDisplay(input.value);
+      if(charIndex >= word.length){ forward = false; }
+    } else {
+      charIndex--;
+      input.value = word.slice(0,charIndex);
+      updateDisplay(input.value);
+      if(charIndex <= 0){ forward = true; typeIndex++; }
+    }
+  }, 120);
+}
+
+function stopAutoTypeInstant(){
+  if(autoTimer) clearInterval(autoTimer);
+  autoTyping=false;
+  setTimeout(()=>{
+    input.value='';
+    updateDisplay('');
+    input.placeholder='Search any skill';
+  }, 100);
+}
+
+/* Input focus / click / open panel */
+input.addEventListener('focus', ()=>{ stopAutoTypeInstant(); });
+input.addEventListener('click', ()=>{ if(autoTyping) stopAutoTypeInstant(); });
+input.addEventListener('input', (e)=> updateDisplay(e.target.value) );
+
+/* start auto typing */
+startAutoType();
+</script>
+</body>
+</html>

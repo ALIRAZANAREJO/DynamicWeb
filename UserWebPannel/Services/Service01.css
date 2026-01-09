@@ -1,0 +1,285 @@
+/* ===== Reset & Base ===== */
+/* * { box-sizing: border-box; margin: 0; padding: 0; } */
+/* body { font-family: Arial, sans-serif; background: #f5f6fa; overflow-x: hidden; } */
+
+/* ===== Cards Container ===== */
+#servvicedForm {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+  margin-top: 1vh;
+  flex-wrap: wrap;
+  width: 100%;
+  position: relative;
+}
+
+/* ===== Card ===== */
+.ser-card {
+  background: #ffffff00;
+    padding-top: 20px;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 1400px;   /* allow wide rows */
+  transition: all 0.5s ease;
+  overflow: hidden;
+  
+}
+
+.ser-header h3 {
+  font-size: 20px;
+  color: #1a73e8;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* ===== Row Layout ===== */
+.ser-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.ser-group {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+}
+
+.file-group {
+  flex: 1.5;
+  min-width: 220px;
+}
+
+/* ===== Inputs & Labels ===== */
+.ser-input {
+ width: 100%;
+  padding: 14px 12px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  font-size: 15px;
+  background: none;
+  transition: border-color 0.3s ease;
+  background-color: white;
+}
+
+.ser-label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: #888;
+  background: #fff;
+  padding: 0 4px;
+  pointer-events: none;
+  transition: 0.25s ease;
+}
+
+/* Float label */
+.ser-input:focus,
+.ser-input:valid {
+  border-color: #1a73e8;
+}
+
+.ser-input:focus + .ser-label,
+.ser-input:valid + .ser-label {
+  top: -6px;
+  font-size: 12px;
+  color: #1a73e8;
+}
+
+/* File input always show label on top */
+.ser-input[type="file"] + .ser-label {
+  top: -6px;
+  font-size: 12px;
+  color: #888;
+}
+
+/* File Button Styling */
+input[type="file"]::file-selector-button {
+  background-color: #dbdbdb77;
+  color: #1a73e8;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 6px 10px;
+}
+/* input[type="file"]::file-selector-button:hover {
+  background-color: #1a73e8;
+  color: #fff;
+} */
+
+/* ===== Add Document Button ===== */
+/* .ser-doc {
+  background: #1a73e8;
+  color: #fff;
+  border: none;
+  padding: 15px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+.ser-doc:hover { background: #0056b3; } */
+/* ===== Add Document Button ===== */
+.more-doc {
+  background: #1a73e8;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+.more-doc:hover { background: #0056b3; }
+.remove-doc {
+  background: #1a73e8;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+.remove-doc:hover { background: #df1a00e4; }
+
+/* ===== Responsive ===== */
+@media(max-width: 768px) {
+  .ser-row { flex-direction: column; }
+  .ser-card { max-width: 100%; }
+}
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  text-align: center;
+  width: 350px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+.popup-content p {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.popup-content button {
+  background: royalblue;
+  color: white;
+  border: none;
+  padding: 18px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* .popup-content button:hover {
+  background: darkblue;
+} */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+
+.remove-service,
+.remove-doc {
+  background: crimson;
+  color: white;
+  border: none;
+  padding: 18px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: 0.2s;
+}
+
+.remove-service:hover,
+.remove-doc:hover {
+  background: darkred;
+}
+
+/* ============================
+   Floating Label Effect for .ser-group
+   with White Lower Half on Focus
+============================ */
+
+/* Label Base */
+.ser-group .ser-label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: #888;
+  padding: 0 6px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 2;
+  background: transparent;
+}
+
+/* Input Base */
+.ser-group .ser-input {
+  width: 100%;
+  padding: 14px 12px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* Floating Label Effect */
+.ser-group .ser-input:focus + .ser-label,
+.ser-group .ser-input:valid + .ser-label {
+  top: -1px;
+  /* font-size: 12px; */
+  color:#00469b;
+}
+
+/* White Lower Half Background */
+.ser-group .ser-input:focus + .ser-label::after,
+.ser-group .ser-input:valid + .ser-label::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, white 40%, transparent 60%);
+  border-radius: 4px;
+  transition: all 0.25s ease;
+}
+
+/* Remove Focus Shadow */
+.ser-group .ser-input:focus {
+  box-shadow: none;
+  outline: none;
+}
+/* Focus Border & No Shadow */
+.ser-group .ser-input:focus {
+  border-color: #00469b;
+  box-shadow: none;
+  outline: none;
+}

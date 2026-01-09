@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tag Dropdowns</title>
+<style>
+/* ===== Common Container ===== */
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 400px;
+  margin: 40px auto;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===== Shared Input Box ===== */
+.multi-input {
+  position: relative;
+  width: 100%;
+  min-height: 52px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background: white;
+  padding: 8px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.multi-input:focus-within {
+  border-color: #ff9ebc;
+  box-shadow: 0 0 8px rgba(255, 182, 193, 0.4);
+}
+
+.multi-input input {
+  border: none;
+  outline: none;
+  flex: 1;
+  min-width: 120px;
+  padding: 6px 0;
+  font-size: 15px;
+  background: transparent;
+}
+
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  width: 100%;
+}
+
+.tag {
+  background: linear-gradient(135deg, #ffb6c1, #add8e6);
+  color: #333;
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.tag span {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(5px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+.input-wrapper select,
+.dropdown{
+  background: white;
+  /* border: 1px solid #b3d9ff; */
+  max-height: 220px;
+  overflow-y: auto;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  color:#00469b;
+  /* z-index: 1000;   */
+}
+
+/* Hover + Focus Effects */
+
+.input-wrapper:hover,
+.input-wrapper select:hover,
+.dropdown div:hover,
+.hobby-dropdown01 div:hover,
+.dropdown01 div:hover {
+  background: linear-gradient(135deg, #ffecf7 0%, #e6f2ff 100%);
+  border-color:#00469b;
+  box-shadow: 0 0 10px rgba(128, 191, 255, 0.4);
+  cursor: pointer;
+}
+
+/* Dropdown container styling */
+
+.dropdown,
+.hobby-dropdown01,
+.dropdown01 {
+  background: white;
+  border: 1px solid #b3d9ff;
+  border-radius: 10px;
+  margin-top: 6px;
+  display: none;
+  max-height: 220px;
+  overflow-y: auto;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+}
+
+/* Dropdown options */
+.dropdown div,
+.hobby-dropdown01 div,
+.dropdown01 div {
+  padding: 10px 14px;
+  font-size: 15px;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+/* Hover state for JS dropdown options */
+
+.dropdown div:hover,
+.hobby-dropdown01 div:hover,
+.dropdown01 div:hover {
+  background: linear-gradient(135deg, #ffb3d9 0%, #b3e0ff 100%);
+  color: white;
+  border-radius: 6px;
+}
+
+/* Label floating (optional aesthetic alignment) */
+/* .input-wrapper label {
+  position: absolute;
+  top: -10px;
+  left: 14px;
+  font-size: 13px;
+  background: white;
+  color: #666;
+  padding: 0 6px;
+  border-radius: 4px;
+  pointer-events: none;
+} */
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+  .input-wrapper select,
+  .dropdown,
+  .hobby-dropdown01,
+  .dropdown01 {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .dropdown div,
+  .hobby-dropdown01 div,
+  .dropdown01 div {
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .input-wrapper select,
+  .dropdown,
+  .hobby-dropdown01,
+  .dropdown01 {
+    font-size: 13px;
+    border-radius: 6px;
+  }
+
+  .dropdown div,
+  .hobby-dropdown01 div,
+  .dropdown01 div {
+    padding: 8px;
+  }
+}
+
+
+/* 
+
+/* ===== Responsive ===== */
+@media (max-width: 500px) {
+  .input-section {
+    max-width: 90%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="input-section">
+  <!-- ===== Language Input ===== -->
+  <div class="input-wrapper">
+    <div class="multi-input" id="multiLangWrapper">
+      <div class="tag-container" id="langTags"></div>
+      <input type="text" id="Paddres" placeholder="Select Your Languages" autocomplete="off">
+    </div>
+    <div class="dropdown" id="langDropdown"></div>
+  </div>
+
+  <!-- ===== Hobby Input ===== -->
+  <div class="hobby-wrapper">
+    <div class="multi-input" id="hobbyWrapper">
+      <div class="tag-container" id="hobbyTags"></div>
+      <input type="text" id="Qual" placeholder="Select Your Hobbies" autocomplete="off">
+    </div>
+    <div class="dropdown" id="hobbyDropdown"></div>
+  </div>
+</div>
+
+<script>
+function createMultiSelect(inputId, dropdownId, tagContainerId, options) {
+  const input = document.getElementById(inputId);
+  const dropdown = document.getElementById(dropdownId);
+  const tagContainer = document.getElementById(tagContainerId);
+  let selected = [];
+  let highlightedIndex = -1;
+
+  input.addEventListener("input", () => {
+    const value = input.value.toLowerCase();
+    dropdown.innerHTML = "";
+    if (!value) {
+      dropdown.style.display = "none";
+      return;
+    }
+    const filtered = options.filter(opt => opt.toLowerCase().includes(value) && !selected.includes(opt));
+    if (filtered.length === 0) {
+      dropdown.style.display = "none";
+      return;
+    }
+    filtered.forEach((opt, index) => {
+      const div = document.createElement("div");
+      div.textContent = opt;
+      div.addEventListener("click", () => {
+        addTag(opt);
+        input.value = "";
+        dropdown.style.display = "none";
+      });
+      dropdown.appendChild(div);
+    });
+    dropdown.style.display = "block";
+    highlightedIndex = -1;
+  });
+
+  // Handle arrow key navigation
+  input.addEventListener("keydown", (e) => {
+    const items = dropdown.querySelectorAll("div");
+    if (dropdown.style.display === "block" && items.length > 0) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        highlightedIndex = (highlightedIndex + 1) % items.length;
+        updateHighlight(items);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        highlightedIndex = (highlightedIndex - 1 + items.length) % items.length;
+        updateHighlight(items);
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (highlightedIndex >= 0 && items[highlightedIndex]) {
+          items[highlightedIndex].click();
+        }
+      }
+    }
+  });
+
+  function updateHighlight(items) {
+    items.forEach((item, i) => item.classList.toggle("active", i === highlightedIndex));
+  }
+
+  function addTag(text) {
+    if (selected.includes(text)) return;
+    selected.push(text);
+
+    const tag = document.createElement("div");
+    tag.classList.add("tag");
+    tag.innerHTML = `${text} <span>&times;</span>`;
+    tag.querySelector("span").addEventListener("click", () => removeTag(text, tag));
+    tagContainer.appendChild(tag);
+  }
+
+  function removeTag(text, tagElement) {
+    selected = selected.filter(t => t !== text);
+    tagElement.remove();
+  }
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(`#${dropdownId}`) && !e.target.closest(`#${inputId}`)) {
+      dropdown.style.display = "none";
+    }
+  });
+}
+
+// ===== Language Dropdown =====
+createMultiSelect("Paddres", "langDropdown", "langTags",
+  ["English", "Urdu", "Arabic", "Chinese", "Spanish", "French", "German", "Japanese", "Korean", "Russian"]
+);
+
+// ===== Hobby Dropdown =====
+createMultiSelect("Qual", "hobbyDropdown", "hobbyTags",
+  ["Reading", "Traveling", "Photography", "Cooking", "Gardening", "Painting", "Cycling", "Gaming", "Writing", "Sports"]
+);
+</script>
+
+</body>
+</html>

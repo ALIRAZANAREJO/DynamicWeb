@@ -1,0 +1,20 @@
+icon,title,keywords
+fa-shield-alt,Security,security;cyber;guard;cctv;protection;firewall;privacy
+fa-code,Web Development,web;website;developer;frontend;backend;full stack;javascript;html;css;react;vue;node;php
+fa-paint-brush,Design,design;drawing;makup;artist;art;sketch;graphic;ui;ux;figma;photoshop;illustrator;logo;branding;identity
+fa-bullhorn,Marketing,marketing;seo;sem;ads;google ads;facebook ads;smm;digital marketing;growth;lead generation
+fa-mobile-alt,App Development,app;mobile;android;ios;flutter;react native;hybrid app;mobile ui;mobile ux
+fa-database,Data Management,database;data;sql;mysql;postgres;mongodb;big data;analytics;data science;etl;pipeline
+fa-cloud,Cloud Services,cloud;aws;azure;gcp;devops;docker;kubernetes;ci/cd;server;hosting
+fa-briefcase,Business,business;finance;accounting;audit;consulting;management;project management;startup;investment
+fa-pen-nib,Writing,writing;content writing;blog;article;copywriting;resume;cv;documentation
+fa-video,Video,video;editing;animation;vfx;motion graphics;media;filmmaking;videography
+fa-music,Music,music;audio;voiceover;sound;mixing;mastering;podcast
+fa-book,Education,education;training;teaching;tutor;course;elearning;school;academy
+fa-heartbeat,Health,health;medical;clinic;hospital;therapy;fitness;wellness;healthcare
+fa-building,Real Estate,real estate;property;construction;builder;architecture;rent;sale
+fa-truck,Transport,transport;delivery;logistics;shipping;cargo;fleet
+fa-utensils,Restaurant,restaurant;food;cafe;hotel;meal;chef;cooking;bakery
+fa-gavel,Legal,legal;law;lawyer;advocate;attorney;case;legal advice
+fa-robot,AI,ai;artificial intelligence;machine learning;deep learning;nlp;computer vision;automation
+fa-cog,Default,default;misc;other;general

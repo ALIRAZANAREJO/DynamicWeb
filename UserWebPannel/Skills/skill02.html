@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Select Skills</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #searchInput { width: 100%; padding: 10px; font-size: 16px; }
+    #dropdown { border: 1px solid #ccc; max-height: 150px; overflow-y: auto; display: none; }
+    #dropdown div { padding: 8px; cursor: pointer; }
+    #dropdown div:hover { background: #f0f0f0; }
+    #selectedContainer { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .skill-tag { background: #00337f; color: #fff; padding: 5px 10px; border-radius: 12px; display: flex; align-items: center; gap: 5px; }
+    .skill-tag input { width: 50px; padding: 2px; border-radius: 5px; border: none; font-size: 14px; }
+    .remove-btn { cursor: pointer; font-weight: bold; margin-left: 5px; }
+    button { margin-top: 20px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<h2>Select Skills</h2>
+<input type="text" id="searchInput" placeholder="Search skills...">
+<div id="dropdown"></div>
+
+<div id="selectedContainer"></div>
+
+<button onclick="saveSkills()">Save Skills & Go Back</button>
+
+<script>
+const skillsList = ["HTML","CSS","JavaScript","Python","Node.js","React","SQL","Java","C++"];
+let selectedSkills = JSON.parse(localStorage.getItem("selectedSkills")) || [];
+
+const input = document.getElementById("searchInput");
+const dropdown = document.getElementById("dropdown");
+const selectedContainer = document.getElementById("selectedContainer");
+
+// Render selected skills
+function renderSkills() {
+    selectedContainer.innerHTML = "";
+    selectedSkills.forEach(skillObj => {
+        const skill = skillObj.name;
+        const percent = skillObj.percent || "100%";
+
+        const tag = document.createElement("div");
+        tag.className = "skill-tag";
+        tag.innerHTML = `
+            <span>${skill}</span>
+            <input type="text" value="${percent}" maxlength="4">
+            <span class="remove-btn">×</span>
+        `;
+
+        // Update percent
+        tag.querySelector("input").addEventListener("input", e => {
+            skillObj.percent = e.target.value;
+        });
+
+        // Remove skill
+        tag.querySelector(".remove-btn").addEventListener("click", () => {
+            selectedSkills = selectedSkills.filter(s => s.name !== skill);
+            renderSkills();
+        });
+
+        selectedContainer.appendChild(tag);
+    });
+}
+renderSkills();
+
+// Search filter
+input.addEventListener("input", () => {
+    const val = input.value.toLowerCase();
+    dropdown.innerHTML = "";
+    if (val) {
+        const filtered = skillsList.filter(skill => skill.toLowerCase().includes(val));
+        dropdown.style.display = filtered.length ? "block" : "none";
+        filtered.forEach(skill => {
+            const div = document.createElement("div");
+            div.textContent = skill;
+            div.onclick = () => {
+                if (!selectedSkills.find(s => s.name === skill)) {
+                    selectedSkills.push({ name: skill, percent: "100%" });
+                }
+                renderSkills();
+                input.value = "";
+                dropdown.style.display = "none";
+            };
+            dropdown.appendChild(div);
+        });
+    } else {
+        dropdown.style.display = "none";
+    }
+});
+
+// Save to localStorage and go back
+function saveSkills() {
+    localStorage.setItem("selectedSkills", JSON.stringify(selectedSkills));
+    alert("Skills saved! You can now submit personal data.");
+    // Go back to personal page (adjust filename if needed)
+    window.location.href = "personal.html";
+}
+</script>
+
+</body>
+</html>

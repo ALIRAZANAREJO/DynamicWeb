@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Professional CV — Preview & PDF</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f6f8; --card:#ffffff; --panel:#243142; --muted:#6b6f76; --accent:#1e88e5; --accent-2:#0b72c3;
+}
+*{box-sizing:border-box}
+body{font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial; margin:0; background:var(--bg); color:#222}
+.container{max-width:1000px;margin:32px auto;padding:18px}
+
+/* Header */
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.topbar h2{font-size:1.05rem;margin:0;color:var(--panel)}
+.actions{display:flex;gap:10px}
+.btn{background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
+.btn.ghost{background:transparent;color:var(--panel);border:1px solid rgba(16,24,32,0.06)}
+
+/* resume */
+.resume{display:flex;gap:0;max-width:100%;background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(16,24,32,0.06);min-height:1400px}
+
+/* left panel */
+.left{flex:0 0 300px;background:linear-gradient(180deg,var(--panel),#16222a);color:#fff;padding:28px;display:flex;flex-direction:column;gap:18px}
+.profile{display:flex;flex-direction:column;align-items:center;gap:14px}
+.profile img{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid rgba(255,255,255,0.08);box-shadow:0 6px 18px rgba(2,8,23,0.2)}
+.section-head{display:flex;align-items:center;gap:10px;font-weight:700;color:rgba(255,255,255,0.95);text-transform:uppercase;font-size:0.8rem;letter-spacing:0.6px}
+.info-list{display:flex;flex-direction:column;gap:10px}
+.info-item{display:flex;gap:10px;align-items:center}
+.info-item .icon{width:28px;height:28px;border-radius:6px;background:rgba(0,0,0,0.08);display:inline-grid;place-items:center}
+.info-item span{font-size:0.95rem}
+
+/* right */
+.right{flex:1;padding:28px 30px;display:flex;flex-direction:column;gap:16px}
+.header-right{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin-bottom:12px}
+.fullname{font-size:1.8rem;font-weight:800;line-height:1}
+.fullname span{display:block;color:var(--accent)}
+.subtitle{color:var(--muted);margin-top:4px;font-size:0.95rem}
+
+/* sections */
+.section{margin-top:12px}
+.section .title{display:flex;align-items:center;gap:10px;font-size:1rem;margin-bottom:6px;font-weight:700}
+.section .title .ic{width:28px;height:28px;display:inline-grid;place-items:center;border-radius:6px;background:rgba(30,136,229,0.08);color:var(--accent-2)}
+.timeline{display:flex;flex-direction:column;gap:6px}
+.item{padding:8px 12px;border-radius:6px;background:rgba(16,24,32,0.02);display:flex;flex-direction:column}
+.item .meta{font-weight:600;margin-bottom:2px}
+.item p{margin:0;color:var(--muted);font-size:0.93rem}
+
+/* skills */
+.skills{display:flex;flex-direction:column;gap:8px}
+.skill-row{display:flex;flex-direction:column;gap:4px}
+.skill-row .meta{display:flex;justify-content:space-between;font-weight:600;font-size:0.92rem}
+.bar-wrap{height:10px;background:#e9eef5;border-radius:999px;overflow:hidden}
+.bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:999px;transition:width .6s ease}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:6px 10px;border-radius:999px;background:rgba(16,24,32,0.04);display:inline-flex;gap:6px;align-items:center}
+
+/* overlay */
+.overlay{position:fixed;inset:0;display:none;z-index:1200}
+.overlay.active{display:block}
+.overlay .backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.62);backdrop-filter:blur(4px)}
+.modal{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:transparent;padding:18px;border-radius:12px;max-width:980px;width:92%;}
+.opt-card{background:var(--card);padding:18px;border-radius:10px;display:flex;gap:12px;align-items:center;justify-content:center}
+.opt{flex:1;padding:12px 14px;border-radius:8px;background:rgba(16,24,32,0.03);cursor:pointer;text-align:center;font-weight:700}
+.viewer{background:var(--card);border-radius:10px;padding:14px;max-height:88vh;overflow:auto}
+.close-view{position:absolute;right:10px;top:10px;border-radius:8px;padding:8px;background:#fff;border:none;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <h2>CV Preview</h2>
+    <div class="actions">
+      <button id="saveBtn" class="btn">Save PDF</button>
+      <button id="displayDownloadBtn" class="btn ghost">Display & Download</button>
+    </div>
+  </div>
+  <div id="cvDisplay"></div>
+</div>
+
+<div id="overlay" class="overlay" aria-hidden="true">
+  <div class="backdrop"></div>
+  <div class="modal" role="dialog" aria-modal="true">
+    <div id="options" class="opt-card">
+      <div id="optDisplay" class="opt">Display</div>
+      <div id="optDownload" class="opt">Download</div>
+    </div>
+    <div id="viewerWrap" style="margin-top:12px;display:none">
+      <button id="closeViewer" class="close-view">✕</button>
+      <div id="viewer" class="viewer"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { getDatabase, ref, get, child, update } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js";
+import { getStorage, ref as sref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-storage.js";
+
+/* ---------- Firebase config (kept from your project) ---------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyCmL8qcjg4S6NeY3erraq_XhlDJ7Ek2s_E",
+  authDomain: "palestine-web.firebaseapp.com",
+  databaseURL: "https://palestine-web-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "palestine-web",
+  storageBucket: "palestine-web.appspot.com",
+  messagingSenderId: "35190212487",
+  appId: "1:35190212487:web:0a699bb1fa7b1a49113522",
+  measurementId: "G-8TE04Z9ZFW"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const storage = getStorage(app);
+
+const cvDisplay = document.getElementById('cvDisplay');
+const saveBtn = document.getElementById('saveBtn');
+const displayDownloadBtn = document.getElementById('displayDownloadBtn');
+const overlay = document.getElementById('overlay');
+const optDisplay = document.getElementById('optDisplay');
+const optDownload = document.getElementById('optDownload');
+const viewerWrap = document.getElementById('viewerWrap');
+const viewer = document.getElementById('viewer');
+const closeViewer = document.getElementById('closeViewer');
+
+let Cnic = localStorage.getItem('Cnic') || prompt('Enter CNIC:') || '12345';
+localStorage.setItem('Cnic',Cnic);
+
+function mapHobbyIcon(h){
+  const key = (h||'').toLowerCase();
+  if(key.includes('travel')) return '✈️';
+  if(key.includes('photo')) return '📸';
+  if(key.includes('music')) return '🎧';
+  if(key.includes('game')) return '🎮';
+  if(key.includes('read')) return '📚';
+  if(key.includes('fit')) return '🏋️';
+  return '⭐';
+}
+
+async function fetchData(){
+  const snap = await get(child(ref(db), `resContainer9/${Cnic}`));
+  if(!snap.exists()) throw new Error('No data');
+  return snap.val();
+}
+async function renderCV(data, container){
+  const personal = data.Personal||{};
+  const education = Object.values(data.Education||{}).filter(Boolean).slice(0,5);
+  const experience = Object.values(data.Experience||{}).filter(Boolean).slice(0,5);
+  const projects = Object.values(data.Project||{}).filter(Boolean).slice(0,3);
+  const skills = Object.values(data.Skills||{}).map(s=> typeof s==='string'?{name:s,percent:'0%'}:s).slice(0,10);
+  const langs = personal.Paddres?.split(',').filter(Boolean).slice(0,10)||[];
+  const hobbies = personal.Qual?.split(',').filter(Boolean).slice(0,10)||[];
+
+  // --- Get profile image from Storage if path, else fallback ---
+  let profileUrl = personal.ImageUrl || '/assets/default-profile.png';
+  if(profileUrl && !profileUrl.startsWith('http')){
+      try{
+          profileUrl = await getDownloadURL(sref(storage, profileUrl));
+      }catch(e){
+          console.warn('Profile image not found, using default.', e);
+          profileUrl = '/assets/default-profile.png';
+      }
+  }
+
+  container.innerHTML = `
+    <div class="resume" id="resumeContent">
+      <div class="left">
+        <div class="profile">
+          <img src="${profileUrl}" alt="Profile Image">
+        </div>
+        ${personal.Fname||personal.Cnic||personal.Phone||personal.Email||personal.Caddres?`
+        <div class="section-head">👤 Personal Info</div>
+        <div class="info-list">
+          ${personal.Fname?`<div class="info-item"><div class="icon">👤</div><span>Father: ${personal.Fname}</span></div>`:''}
+          ${personal.Cnic?`<div class="info-item"><div class="icon">🪪</div><span>CNIC: ${personal.Cnic}</span></div>`:''}
+          ${personal.Phone?`<div class="info-item"><div class="icon">📞</div><span>${personal.Phone}</span></div>`:''}
+          ${personal.Email?`<div class="info-item"><div class="icon">✉️</div><span>${personal.Email}</span></div>`:''}
+          ${personal.Caddres?`<div class="info-item"><div class="icon">📍</div><span>${personal.Caddres}</span></div>`:''}
+        </div>`:''}
+        ${langs.length? `<div class="section-head">🏷️ Languages</div><div class="chips">${langs.map(l=>`<div class="chip">🏷️ ${l}</div>`).join('')}</div>`:``}
+        ${hobbies.length? `<div class="section-head">🎯 Hobbies</div><div class="chips">${hobbies.map(h=>`<div class="chip">${mapHobbyIcon(h)} ${h}</div>`).join('')}</div>`:``}
+        ${skills.length? `<div class="section-head">🛠️ Skills</div><div class="skills">${skills.map(s=>`<div class="skill-row"><div class="meta"><div>${s.name}</div><div>${s.percent}</div></div><div class="bar-wrap"><div class="bar" style="width:${s.percent}"></div></div></div>`).join('')}</div>`:``}
+      </div>
+      <div class="right">
+        <div class="header-right">
+          <div class="fullname">${personal.Name||'Full Name'} <span>${personal.profession||'Profession'}</span></div>
+          <div class="subtitle">${personal.Aboutpera||''}</div>
+        </div>
+        ...
+      </div>
+    </div>
+  `;
+
+  // Animate skill bars
+  requestAnimationFrame(()=>document.querySelectorAll('.bar').forEach(b=>{
+    const w=b.style.width; b.style.width='0%'; setTimeout(()=>b.style.width=w,60);
+  }));
+}
+
+
+// PDF save function
+async function savePdf(data){
+  const node = document.getElementById('resumeContent');
+  const opt={margin:10,filename:`${Cnic}.pdf`,image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
+  const pdfBlob = await html2pdf().from(node).set(opt).outputPdf('blob');
+  const fileRef = sref(storage, `resumes/${Cnic}.pdf`);
+  await uploadBytes(fileRef, pdfBlob);
+  const url = await getDownloadURL(fileRef);
+  await update(ref(db),{[`resContainer9/${Cnic}/PDF`]:url});
+  return url;
+}
+
+// display/download modal
+async function downloadFlow(){
+  const snap = await get(child(ref(db), `resContainer9/${Cnic}/Access`));
+  const status = snap.exists()? snap.val().paymentStatus:null;
+  if(status!=='Verified'){ window.location.href='/payment.html'; return; }
+  const pdfSnap = await get(child(ref(db), `resContainer9/${Cnic}/PDF`));
+  let url = pdfSnap.exists()? pdfSnap.val():await savePdf();
+  const a = document.createElement('a'); a.href=url;a.download=`${Cnic}.pdf`;document.body.appendChild(a);a.click();a.remove();
+}
+
+displayDownloadBtn.addEventListener('click',()=>{overlay.classList.add('active');overlay.setAttribute('aria-hidden','false');viewerWrap.style.display='none';document.body.style.overflow='hidden';});
+optDisplay.addEventListener('click',async ()=>{
+  viewer.innerHTML=''; viewerWrap.style.display='block';
+  try{const data=await fetchData(); renderCV(data,viewer);}catch(e){viewer.innerHTML='<div style="padding:18px">Error loading CV</div>';}
+});
+optDownload.addEventListener('click',downloadFlow);
+closeViewer.addEventListener('click',()=>{overlay.classList.remove('active');overlay.setAttribute('aria-hidden','true');viewerWrap.style.display='none';document.body.style.overflow='';});
+saveBtn.addEventListener('click',async ()=>{
+  saveBtn.disabled=true; saveBtn.textContent='Saving...';
+  try{const data=await fetchData(); await savePdf(data); alert('PDF saved');}catch(e){alert('Failed');} 
+  saveBtn.disabled=false; saveBtn.textContent='Save PDF';
+});
+
+try{fetchData().then(d=>renderCV(d,cvDisplay)).catch(e=>cvDisplay.innerHTML='<div style="padding:18px">CV not found</div>');}catch(e){}
+</script>
+</body>
+</html>

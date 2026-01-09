@@ -1,0 +1,18 @@
+.cv-card {
+  border: 2px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, border 0.2s;
+}
+.cv-card:hover {
+  transform: scale(1.05);
+}
+.cv-card.selected {
+  border: 3px solid #007bff;
+  box-shadow: 0 0 15px rgba(0,123,255,0.5);
+}
+#continueBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

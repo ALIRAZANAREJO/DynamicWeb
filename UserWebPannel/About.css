@@ -1,0 +1,800 @@
+/* ===============================
+   FORM + GENERAL STRUCTURE
+=============================== */
+/* .Apply-Form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #e0e0e000;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  justify-content: center;
+  padding-bottom: -200px;
+} */
+
+/* MAIN WRAPPER */
+#selfVideoWrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    width: 100%;
+    max-width: 700px;        /* enough space for row layout */
+    margin: 0 auto;
+}
+
+/* INPUT SECTION */
+#selfVideoWrapper .input-wrapper {
+    flex: 0 0 260px;         /* FIXED width - video cannot shrink it */
+}
+
+#selfVideoWrapper .input-wrapper input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+}
+
+/* VIDEO PREVIEW BOX */
+#selfVideoWrapper .video-preview-container {
+    flex: 0 0 200px;         /* FIXED width - same size as input */
+    height: auto;
+    border-radius: 12px;
+    background: #000;
+    overflow: hidden;
+}
+
+#selfVideoWrapper .video-preview-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+}
+
+/* MOBILE VIEW */
+@media (max-width: 600px) {
+
+    #selfVideoWrapper {
+        flex-direction: column;      /* stacked layout */
+        align-items: center;
+    }
+
+    #selfVideoWrapper .input-wrapper,
+    #selfVideoWrapper .video-preview-container {
+        flex: none;
+        max-width: 260px;                /* fixed width on mobile also */
+    }
+}
+
+
+/* ================= PROFILE IMAGE UPLOAD ================= */
+.image-upload-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 22px;
+  position: relative;
+  margin-top: -10px;
+}
+
+.image-upload-circle {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    /* BACKGROUND IMAGE */
+  background-image: url("/Assets/user\ \(2\).png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+}
+
+/* Rotating dashed gradient border */
+.image-upload-circle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-sizing: border-box;
+
+  border: 2px solid transparent;
+
+  /* Many small dashes, gradient */
+background: conic-gradient(
+     #ff7dec 0deg 5deg, transparent 5deg 10deg,
+     #ff7dec 10deg 15deg, transparent 15deg 20deg,
+     #ff7dec 20deg 25deg, transparent 25deg 30deg,
+     #ff7dec 30deg 35deg, transparent 35deg 40deg,
+     #ff7dec 40deg 45deg, transparent 45deg 50deg,
+     #ff7dec 50deg 55deg, transparent 55deg 60deg,
+     #ff7dec 60deg 65deg, transparent 65deg 70deg,
+     #ff7dec 70deg 75deg, transparent 75deg 80deg,
+     #ff7dec 80deg 85deg, transparent 85deg 90deg,
+     #ff7dec 90deg 95deg, transparent 95deg 100deg,
+     #ff7dec 100deg 105deg, transparent 105deg 110deg,
+     #ff7dec 110deg 115deg, transparent 115deg 120deg,
+    #ff7dec 120deg 125deg, transparent 125deg 130deg,
+    #3776ff 130deg 135deg, transparent 135deg 140deg,
+    #3776ff 140deg 145deg, transparent 145deg 150deg,
+    #3776ff 150deg 155deg, transparent 155deg 160deg,
+    #3776ff 160deg 165deg, transparent 165deg 170deg,
+    #3776ff 170deg 175deg, transparent 175deg 180deg,
+    #3776ff 180deg 185deg, transparent 185deg 190deg,
+    #3776ff 190deg 195deg, transparent 195deg 200deg,
+    #3776ff 200deg 205deg, transparent 205deg 210deg,
+    #3776ff 210deg 215deg, transparent 215deg 220deg,
+    #3776ff 220deg 225deg, transparent 225deg 230deg,
+    #3776ff 230deg 235deg, transparent 235deg 240deg,
+    #c74eff 240deg 245deg, transparent 245deg 250deg,
+    #c74eff 250deg 255deg, transparent 255deg 260deg,
+    #c74eff 260deg 265deg, transparent 265deg 270deg,
+    #c74eff 270deg 275deg, transparent 275deg 280deg,
+    #c74eff 280deg 285deg, transparent 285deg 290deg,
+    #c74eff 290deg 295deg, transparent 295deg 300deg,
+    #c74eff 300deg 305deg, transparent 305deg 310deg,
+    #c74eff 310deg 315deg, transparent 315deg 320deg,
+    #c74eff 320deg 325deg, transparent 325deg 330deg,
+    #c74eff 330deg 335deg, transparent 335deg 340deg,
+    #c74eff 340deg 345deg, transparent 345deg 350deg,
+    #c74eff 350deg 355deg, transparent 355deg 360deg
+  );
+
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 2px), #000 0) content-box;
+  -webkit-mask-composite: destination-out;
+  mask: radial-gradient(farthest-side, #0000 calc(100% - 2px), #000 0) content-box;
+  mask-composite: exclude;
+
+  animation: rotate 3s linear infinite;
+  z-index: 2; /* make sure it's on top of background but below the image if needed */
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+.image-upload-circle::before {
+  z-index: 2; /* ensure border is below the image */
+}
+/* Profile Image stays visible */
+.profile {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  position: relative;
+  z-index: 3; /* higher than ::before so image is visible */
+}
+
+
+/* Upload hint text */
+.image-upload-circle::after {
+  content: "Upload Photo";
+  position: absolute;
+  bottom: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0057c9;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 4px 10px;
+  border-radius: 20px;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  z-index: 3;
+}
+
+/* Hover text animation */
+.image-upload-circle:hover::after {
+  background: #0057c9;
+  color: #fff;
+  transform: translateY(-4px);
+  border:3px white;
+  border-radius: 10px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 400px) {
+  .image-upload-circle {
+    width: 120px;
+    height: 120px;
+  }
+
+  .image-upload-circle::after {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+}
+
+
+
+h3 {
+  font-size: 1.7rem;
+  color: #00469b;
+  margin: 10px 0 20px 0;
+}
+
+/* ===============================
+   RESPONSIVE DESIGN
+=============================== */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .input-container {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+
+  }
+  .input-container02 {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+
+  }
+  .input-container03 {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+
+  }
+  .input-container04 {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+
+  }
+  .input-container input,
+  .input-container02 input,
+  .input-container03 input,
+  .input-container04 input,
+  .input-container select {
+    font-size: 14px;
+    padding: 12px 10px;
+    border-radius: 8px;
+    margin-bottom: 0px;
+  }
+
+  .input-wrapper {
+    margin: 0; 
+  } 
+}
+  
+/* Mobiles */
+@media (max-width: 480px) {
+  .input-container
+   {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1px;
+  }
+ 
+  .input-container input,
+  .input-container select {
+    font-size: 14px;
+    padding: 12px 10px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+  }
+
+  .input-wrapper {
+    margin: 0; 
+  } 
+}
+/* Mobiles */
+@media (max-width: 350px) {
+  .input-container {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      justify-content: start;
+    align-items: self-start;
+  }
+ 
+  .input-container input,
+  .input-container select {
+    max-width: 170px;
+    height: 40px;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 8px;
+    margin-bottom: 2px;
+    justify-content: start;
+    align-items: self-start;
+  }
+
+  .input-wrapper {
+    margin: 0; 
+  } 
+}
+
+
+/* ===============================
+   FLOATING LABEL INPUTS
+=============================== */
+.input-wrapper,
+.input-wrper,
+.lang-wrapper,
+.hobby-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 16px 0;
+
+}
+
+/* Normal Inputs & Selects */
+.input-wrapper input,
+.input-wrapper select {
+  width: 100%;
+  padding: 14px 12px;
+  border: 2px solid #bbbbbb;
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
+  background-color: white;
+  color: #00469b;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus Effects */
+.input-wrapper input:focus,
+.input-wrapper select:focus {
+  border-color: #00469b;
+  box-shadow: 0 0 8px rgba(0, 70, 155, 0.2);
+}
+
+/* Floating Label */
+.input-wrapper label {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #aaa;
+  padding: 0 4px;
+  pointer-events: none;
+  transition: all 0.25s ease-in-out;
+}
+
+/* Label Moves Up */
+.input-wrapper input:focus + label,
+.input-wrapper input:valid + label,
+.input-wrapper select:focus + label,
+.input-wrapper select:valid + label {
+  top: -1px;
+  left: 14px;
+  font-size: 13px;
+  color: #00469b;
+}
+
+/* White lower part for floating label */
+.input-wrapper input:focus + label::after,
+.input-wrapper input:valid + label::after,
+.input-wrapper select:focus + label::after,
+.input-wrapper select:valid + label::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, white 40%, transparent 60%);
+  border-radius: 4px;
+  transition: all 0.25s ease;
+}
+/* Floating Label */
+.input-wrapper label {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #aaa;
+  padding: 0 4px;
+  pointer-events: none;
+  transition: all 0.25s ease-in-out;
+}
+
+/* Label Moves Up */
+.input-wrapper input:focus + label,
+.input-wrapper input:valid + label,
+.input-wrapper select:focus + label,
+.input-wrapper select:valid + label {
+  top: -1px;
+  left: 14px;
+  font-size: 13px;
+  color: #00469b;
+}
+
+/* White lower part for floating label */
+.input-wrapper input:focus + label::after,
+.input-wrapper input:valid + label::after,
+.input-wrapper select:focus + label::after,
+.input-wrapper select:valid + label::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, white 40%, transparent 60%);
+  border-radius: 4px;
+  transition: all 0.25s ease;
+}
+
+/* ===============================
+   MULTI-HOBBY & MULTI-LANG INPUTS (Auto-expand with tags)
+=============================== */
+.multi-hobby-input,
+.multi-hobby-input,
+.multi-lang-input {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 1px 20px 6px;
+  border: 2px solid #bbbbbb;
+  border-radius: 8px;
+  background: white;
+  transition: all 0.3s ease;
+  min-height: 48px;
+}
+
+.multi-hobby-input:focus-within,
+.multi-lang-input:focus-within {
+  border-color: #00469b;
+  box-shadow: 0 0 8px rgba(0, 70, 155, 0.2);
+}
+
+.multi-hobby-input input,
+.multi-lang-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #00469b;
+  min-width: 120px;
+  padding: 6px 0;
+}
+
+/* Label always stays top for hobby/lang */
+.multi-hobby-input label,
+.multi-lang-input label {
+  position: absolute;
+  top: 6px;
+  left: 12px;
+  font-size: 13px;
+  color: #00469b;
+  background: white;
+  padding: 0 4px;
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+/* Tags Container */
+.selected-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: 100%;
+  padding-top: 4px;
+  order: 2;
+  pointer-events: none;
+}
+
+/* Tag Styling */
+.tag {
+ background: linear-gradient(90deg,#2d73ffc7,#f78fb3);  color: #333;
+  padding: 5px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  pointer-events: all;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  color: rgb(255, 255, 255);
+}
+.tag span { 
+  cursor: pointer; 
+  font-weight: bold; 
+  transition: color 0.2s ease; 
+} 
+.tag span:hover { 
+  color: red;
+ }
+/* Expand input box automatically when tags exist */
+  .multi-hobby-input:has(.tag),
+  .multi-lang-input:has(.tag) {
+    min-height: auto;
+    padding-bottom: 12px;
+  }
+
+/* Placeholder style */
+.multi-hobby-input input::placeholder,
+.multi-lang-input input::placeholder {
+  color: #aaa;
+  opacity: 1;
+  position: relative;
+  top: 4px;
+}
+
+/* Remove old hobby-wrapper input style (replaced by .multi-hobby-input) */
+/* .hobby-wrapper input,
+.hobby-wrapper select {
+  all: unset;
+} */
+
+/* ===============================
+   DROPDOWN STYLING
+=============================== */
+.dropdown,
+.hobby-dropdown01,
+.dropdown01 {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid #b3d9ff;
+  border-radius: 10px;
+  margin-top: 4px;
+  display: none;
+  max-height: 220px;
+  overflow-y: auto;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  z-index: 10000;
+}
+
+/* Dropdown Options */
+.dropdown div,
+.hobby-dropdown01 div,
+.dropdown01 div {
+  padding: 10px 12px;
+  font-size: 15px;
+  color: #00469b;
+  background: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+/* Hover + Active + Keyboard Highlight + Focus */
+.dropdown div:hover,
+.dropdown div.active,
+.dropdown div.highlighted,
+.dropdown div:focus,
+.hobby-dropdown01 div:hover,
+.hobby-dropdown01 div.active,
+.hobby-dropdown01 div.highlighted,
+.hobby-dropdown01 div:focus,
+.dropdown01 div:hover,
+.dropdown01 div.active,
+.dropdown01 div.highlighted,
+.dropdown01 div:focus {
+  background: linear-gradient(90deg, #ffb6c1 0%, #add8e6 100%);
+  color: #ffffff;
+  padding-left: 20px;
+  border-radius: 6px;
+  outline: none;
+}
+
+/* Arrow Animation */
+.dropdown div::before,
+.hobby-dropdown01 div::before,
+.dropdown01 div::before {
+  content: "→";
+  position: absolute;
+  left: 8px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.25s ease;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* Arrow visible on Hover, Active, Keyboard Highlight, or Focus */
+.dropdown div:hover::before,
+.dropdown div.active::before,
+.dropdown div.highlighted::before,
+.dropdown div:focus::before,
+.hobby-dropdown01 div:hover::before,
+.hobby-dropdown01 div.active::before,
+.hobby-dropdown01 div.highlighted::before,
+.hobby-dropdown01 div:focus::before,
+.dropdown01 div:hover::before,
+.dropdown01 div.active::before,
+.dropdown01 div.highlighted::before,
+.dropdown01 div:focus::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+/* Unified hover + keyboard highlight */
+.dropdown div:hover,
+.dropdown div.highlighted,
+.hobby-dropdown01 div:hover,
+.hobby-dropdown01 div.highlighted,
+.dropdown01 div:hover,
+.dropdown01 div.highlighted {
+  background: linear-gradient(90deg, #ffb6c1 0%, #add8e6 100%);
+  color: #222;
+  padding-left: 20px;
+  border-radius: 6px;
+  outline: none;
+}
+
+/* Show arrow for hovered + highlighted */
+.dropdown div:hover::before,
+.dropdown div.highlighted::before,
+.hobby-dropdown01 div:hover::before,
+.hobby-dropdown01 div.highlighted::before,
+.dropdown01 div:hover::before,
+.dropdown01 div.highlighted::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+
+/* ===============================
+   RESPONSIVE DESIGN
+=============================== */
+@media (max-width: 768px) {
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  .dropdown,
+  .hobby-dropdown01,
+  .dropdown01 {
+    max-height: 180px;
+    font-size: 14px;
+  }
+
+  .selected-container {
+    gap: 4px;
+    font-size: 11px;
+  }
+
+  .image-upload-circle {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* .input-container {
+    grid-template-columns: 1fr;
+  } */
+
+  .Apply-Form {
+    padding: 15px;
+  }
+
+  /* .input-wrapper input,
+  .input-wrapper select {
+    font-size: 14px;
+    padding: 12px 10px;
+  } */
+
+  .input-wrapper label {
+    font-size: 14px;
+  }
+
+  .dropdown,
+  .hobby-dropdown01,
+  .dropdown01 {
+    font-size: 13px;
+    border-radius: 6px;
+  }
+
+  .dropdown div,
+  .hobby-dropdown01 div,
+  .dropdown01 div {
+    padding: 8px;
+  }
+}
+
+
+
+
+
+
+
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 16px 0;
+}
+
+/* .hobby-wrapper input[type="text09"] {
+  width: 100%;
+  padding: 14px 12px;
+  outline: none;
+  font-size: 16px;
+  background: transparent;
+  transition: border-color 0.3s ease;
+  background-color: rgb(255, 255, 255);
+  color: #ffffff;
+}
+
+.hobby-wrapper input[type="text09"]:focus {
+  color:  #00469b;
+} */
+
+/* .input-wrapper input[type="date"] {
+  width: 100%;
+  padding: 14px 12px;
+  outline: none;
+  font-size: 16px;
+  background: transparent;
+  transition: border-color 0.3s ease;
+  background-color: rgb(255, 255, 255);
+  color: #ffffff;
+}
+
+.input-wrapper input[type="date"]:focus {
+  color:  #00469b;
+} */
+
+/* .input-wrapper input[type="date"] .label{
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  background: white;
+  padding: 0 6px;
+  color: #666;
+  font-size: 16px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+} */
+
+/* When focused or value filled — move label up */
+/* .input-wrapper input[type="date"]:focus + label,
+.input-wrapper input[type="date"]:valid + label {
+  top: -8px;
+  font-size: 13px;
+  color: #87ceeb;
+  background: linear-gradient(to bottom, transparent 50%, white 50%);
+} */
+
+
+
+
+
+/* Style for each dropdown option */
+.dropdown div {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Highlight by keyboard or hover */
+.dropdown div:hover,
+.dropdown div.highlighted {
+  background: linear-gradient(90deg,#3d7effc7,#ffa6c5);
+  color: #ffffff;
+  padding-left: 20px;
+  border-radius: 6px;
+  outline: none;
+}
+
+/* Optional: for dropdown container itself */
+.dropdown {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+  margin-top: 4px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+
+/* .multi-hobby-input input{
+  opacity:0px;
+position:absolute;
+pointer-events: none;
+} */

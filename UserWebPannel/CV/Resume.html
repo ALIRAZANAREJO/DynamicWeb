@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Final Professional CV — Preview & PDF</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- THEME (blue-gray, compact for A4 single page) ---------- */
+:root{
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --panel:#243142;
+  --content:#1f2937;       /* chosen option C */
+  --sub:#6b7280;
+  --accent:#0b72c3;
+  --muted:#9aa0a6;
+  --pdf-width-mm:210mm;
+  --pdf-height-mm:297mm;
+}
+
+/* Reset & baseline */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);font-family:'Poppins',system-ui,Arial;color:var(--content)}
+a{color:var(--accent);text-decoration:none}
+.container{display:flex;justify-content:center;padding:18px}
+
+/* ---------- A4 CV SHEET ---------- */
+/* Use precise printable size - we constrain visually; html2pdf will export to a4 */
+.cv-sheet{
+  width:794px;             /* chosen width for on-screen approx A4 */
+  height:1123px;           /* chosen height to match single page */
+  background:var(--card);
+  border-radius:6px;
+  box-shadow:0 12px 30px rgba(16,24,32,0.08);
+  display:flex;
+  overflow:hidden;
+  padding:18px;
+  color:var(--content);
+}
+
+/* Left (sidebar) */
+.sidebar{
+  width:250px;
+  background:linear-gradient(180deg,var(--panel),#16222a);
+  color:#fff;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  overflow:hidden;
+}
+.profile-img{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.12);margin:0 auto 6px auto;display:block}
+.sidebar .name-small{text-align:center;font-weight:700;font-size:14px;color:#fff;margin-bottom:2px}
+.sidebar .role-small{text-align:center;font-size:12px;color:rgba(255,255,255,0.85);margin-bottom:8px}
+.section-title{display:flex;gap:8px;align-items:center;font-weight:700;text-transform:uppercase;font-size:11px;color:rgba(255,255,255,0.9)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{background:#fff;color:var(--panel);padding:6px 8px;border-radius:999px;font-size:11px;display:inline-flex;align-items:center;gap:6px}
+
+/* Skills (vertical list with small bars) */
+.skill-list{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.skill-row{display:flex;flex-direction:column;gap:4px}
+.skill-meta{display:flex;justify-content:space-between;font-weight:600;font-size:11px}
+.skill-bar-wrap{height:8px;background:rgba(255,255,255,0.12);border-radius:999px;overflow:hidden}
+.skill-bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#1e8fe1);border-radius:999px;transition:width .6s ease}
+
+/* Personal info at bottom */
+.personal-list{display:flex;flex-direction:column;gap:6px;margin-top:auto;font-size:11px}
+.personal-item{display:flex;gap:8px;align-items:center;color:rgba(255,255,255,0.95)}
+
+/* Right (main content) */
+.main{
+  flex:1;
+  padding-left:18px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:6px;
+}
+.name-large{font-size:20px;font-weight:800;color:var(--content)}
+.profession{font-size:12.5px;color:var(--accent);font-weight:600;margin-top:4px}
+.about{font-size:11px;color:var(--sub);margin-top:6px;max-width:100%}
+
+/* Sections */
+.section{
+  margin-top:10px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.section .title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:12px;color:var(--content);border-bottom:1px solid #e7eaec;padding-bottom:6px}
+.section .title .icon{width:28px;height:28px;border-radius:6px;background:rgba(11,114,195,0.08);display:inline-grid;place-items:center;color:var(--accent)}
+.section .list{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+
+/* Item - education/experience - each value on its own line */
+.item{
+  padding:8px;
+  border-radius:6px;
+  background:transparent;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  font-size:11px;
+  color:var(--content);
+}
+.item .line{font-size:11px;color:var(--content);line-height:1.05}
+.item .sub{font-size:10.5px;color:var(--sub);}
+
+/* Projects & references: two-column boxes inside the section if space allows */
+.col-row{display:flex;gap:10px}
+.col-box{flex:1;background:#f7f8fa;border-radius:8px;padding:8px;font-size:11px;color:var(--content)}
+
+/* small responsive */
+@media (max-width:900px){
+  .cv-sheet{width:100%;height:auto;flex-direction:column}
+  .sidebar{width:100%;flex-direction:row;gap:12px;padding:12px;align-items:center}
+  .main{padding-left:12px}
+}
+
+/* ensure printing uses small fonts */
+@media print{
+  body{background:#fff}
+  .container{padding:0}
+  .cv-sheet{box-shadow:none;border-radius:0}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="cv" class="cv-sheet" role="document" aria-label="CV">
+    <aside class="sidebar" id="sidebar">
+      <img id="profileImage" class="profile-img" alt="Profile">
+      <div class="name-small" id="sidebarName"></div>
+      <div class="role-small" id="sidebarRole"></div>
+
+      <div id="skillsWrap">
+        <div class="section-title"><span class="icon">🛠️</span><div>Skills</div></div>
+        <div class="skill-list" id="skillList"></div>
+      </div>
+
+      <div id="langWrap">
+        <div class="section-title"><span class="icon">🏷️</span><div>Languages</div></div>
+        <div class="chips" id="langList"></div>
+      </div>
+
+      <div id="hobbyWrap">
+        <div class="section-title"><span class="icon">🎯</span><div>Hobbies</div></div>
+        <div class="chips" id="hobbyList"></div>
+      </div>
+
+      <div class="section-title" style="margin-top:6px"><span class="icon">👤</span><div>Personal Info</div></div>
+      <div class="personal-list" id="personalList"></div>
+    </aside>
+
+    <main class="main" id="mainCV">
+      <header class="header">
+        <div>
+          <div class="name-large" id="fullName"></div>
+          <div class="profession" id="profession"></div>
+          <div class="about" id="about"></div>
+        </div>
+      </header>
+
+      <!-- Education -->
+      <section class="section" id="educationSection">
+        <div class="title"><div class="icon">🎓</div><div>Education</div></div>
+        <div class="list" id="educationList"></div>
+      </section>
+
+      <!-- Experience -->
+      <section class="section" id="experienceSection">
+        <div class="title"><div class="icon">🏢</div><div>Experience</div></div>
+        <div class="list" id="experienceList"></div>
+      </section>
+
+      <!-- Projects -->
+      <section class="section" id="projectsSection">
+        <div class="title"><div class="icon">💡</div><div>Projects</div></div>
+        <div class="col-row" id="projectsRow"></div>
+      </section>
+
+      <!-- References -->
+      <section class="section" id="referencesSection">
+        <div class="title"><div class="icon">📘</div><div>References</div></div>
+        <div class="col-row" id="referencesRow"></div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- Modal & html2pdf -->
+<div id="overlay" style="display:none;position:fixed;inset:0;z-index:1200">
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,0.6)"></div>
+  <div style="position:relative;max-width:980px;margin:8% auto;background:#fff;padding:12px;border-radius:10px;z-index:1210">
+    <div style="display:flex;gap:10px">
+      <button id="displayBtn">Display</button>
+      <button id="downloadBtn">Download</button>
+      <button id="closeModal">Close</button>
+    </div>
+    <div id="modalViewer" style="margin-top:10px;display:none"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script type="module">
+/* =========================
+   Final production CV UI + DB load + single-page A4 PDF save/download
+   - Limits applied to avoid overflow
+   - Education/Experience: each value on its own line
+   - Left: skills, langs, hobbies, personal info
+   - PDF: single A4 page, tight margins (8mm)
+   ========================= */
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { getDatabase, ref, get, child, update } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-storage.js";
+
+/* ---------- Firebase config (kept from your project) ---------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyCmL8qcjg4S6NeY3erraq_XhlDJ7Ek2s_E",
+  authDomain: "palestine-web.firebaseapp.com",
+  databaseURL: "https://palestine-web-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "palestine-web",
+  storageBucket: "palestine-web.appspot.com",
+  messagingSenderId: "35190212487",
+  appId: "1:35190212487:web:0a699bb1fa7b1a49113522",
+  measurementId: "G-8TE04Z9ZFW"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const storage = getStorage(app);
+
+/* ---------- DOM ---------- */
+const cvSheet = document.getElementById('cv');
+const profileImage = document.getElementById('profileImage');
+const sidebarName = document.getElementById('sidebarName');
+const sidebarRole = document.getElementById('sidebarRole');
+const skillListEl = document.getElementById('skillList');
+const langListEl = document.getElementById('langList');
+const hobbyListEl = document.getElementById('hobbyList');
+const personalListEl = document.getElementById('personalList');
+const fullNameEl = document.getElementById('fullName');
+const professionEl = document.getElementById('profession');
+const aboutEl = document.getElementById('about');
+const educationList = document.getElementById('educationList');
+const experienceList = document.getElementById('experienceList');
+const projectsRow = document.getElementById('projectsRow');
+const referencesRow = document.getElementById('referencesRow');
+
+const overlay = document.getElementById('overlay');
+const displayBtn = document.getElementById('displayBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const closeModal = document.getElementById('closeModal');
+const modalViewer = document.getElementById('modalViewer');
+
+/* ---------- Helpers ---------- */
+function mapHobbyIcon(h){
+  const k = (h||'').toLowerCase();
+  if(k.includes('travel')) return '✈️';
+  if(k.includes('photo')||k.includes('photography')) return '📸';
+  if(k.includes('music')) return '🎧';
+  if(k.includes('game')) return '🎮';
+  if(k.includes('read')||k.includes('book')) return '📚';
+  if(k.includes('fit')||k.includes('gym')) return '🏋️';
+  return '⭐';
+}
+function safeText(v){ return (v===undefined||v===null||v==='' )? null : String(v).trim(); }
+
+/* ---------- Limits to ensure single-page A4 ---------- */
+const LIMITS = {
+  education: 5,
+  experience: 5,
+  skills: 10,
+  languages: 10,
+  hobbies: 10,
+  projects: 3,
+  references: 2
+};
+
+/* ---------- Load data ---------- */
+let CNIC = localStorage.getItem('Cnic') || prompt('Enter CNIC:');
+if(!CNIC) CNIC = prompt('CNIC required:') || 'unknown';
+localStorage.setItem('Cnic', CNIC);
+
+async function fetchUser(){
+  const dbRef = ref(db);
+  const snap = await get(child(dbRef, `resContainer9/${CNIC}`));
+  if(!snap.exists()) throw new Error('No data for CNIC: '+CNIC);
+  return snap.val();
+}
+
+/* ---------- Render rules (one-line-per-value) ---------- */
+function render(data, target){
+  const personal = data.Personal || {};
+  // Sidebar header small
+  profileImage.src = safeText(personal.ImageUrl) || '/assets/default-profile.png';
+  sidebarName.textContent = safeText(personal.Name) || safeText(personal.Fname) || '';
+  sidebarRole.textContent = safeText(personal.profession) || '';
+
+  // Main header
+  fullNameEl.textContent = safeText(personal.Name) || '';
+  professionEl.textContent = safeText(personal.profession) || '';
+  aboutEl.textContent = safeText(personal.aboutHeadline) || '';
+
+  // Personal Info bottom (show only existing fields)
+  personalListEl.innerHTML = '';
+  [['Father', personal.Fname], ['CNIC', personal.Cnic], ['Phone', personal.Phone], ['Bsnumber', personal.Bsnumber], ['Email', personal.Email], ['Address', personal.Caddres]]
+    .forEach(([label,val]) => { if(safeText(val)) personalListEl.insertAdjacentHTML('beforeend', `<div class="personal-item"> <strong style="min-width:70px">${label}:</strong><span>${safeText(val)}</span></div>`); });
+
+  // Skills
+  skillListEl.innerHTML = '';
+  const skillsObj = data.Skills || {};
+  const skillArr = Object.values(skillsObj).slice(0, LIMITS.skills).map(s => (typeof s === 'string') ? { name: s, percent: '0%' } : s);
+  skillArr.forEach(s => {
+    const name = safeText(s.name) || '';
+    const pct = safeText(s.percent) || safeText(s.level) || '0%';
+    const row = document.createElement('div'); row.className = 'skill-row';
+    row.innerHTML = `<div class="skill-meta"><div>${name}</div><div>${pct}</div></div><div class="skill-bar-wrap"><div class="skill-bar" style="width:${pct}"></div></div>`;
+    skillListEl.appendChild(row);
+  });
+
+  // Languages
+  langListEl.innerHTML = '';
+  const langs = (safeText(personal.Paddres) || '').split(',').map(x=>x.trim()).filter(Boolean).slice(0, LIMITS.languages);
+  langs.forEach(l => langListEl.insertAdjacentHTML('beforeend', `<div class="chip">${l}</div>`));
+
+  // Hobbies
+  hobbyListEl.innerHTML = '';
+  const hobbies = (safeText(personal.Qual) || '').split(',').map(x=>x.trim()).filter(Boolean).slice(0, LIMITS.hobbies);
+  hobbies.forEach(h => hobbyListEl.insertAdjacentHTML('beforeend', `<div class="chip">${mapHobbyIcon(h)} ${h}</div>`));
+
+  // EDUCATION: use only existing entries, limit, and each property on its own line
+  educationList.innerHTML = '';
+  const educationObj = data.Education || {};
+  const edEntries = Object.values(educationObj).filter(e => e && (e.Name || e.Degree)).slice(0, LIMITS.education);
+  edEntries.forEach(ed => {
+    const start = safeText(ed.Startyear) || '';
+    const end = safeText(ed.Endyear) || '';
+    const name = safeText(ed.Name) || '';
+    const degree = safeText(ed.Degree) || '';
+    const field = safeText(ed.Field) || '';
+    const subfield = safeText(ed.Subfield) || safeText(ed.Specialization) || '';
+    const gpa = safeText(ed.Gpa) || '';
+    const container = document.createElement('div'); container.className = 'item';
+    if(start || end) container.insertAdjacentHTML('beforeend', `<div class="line">${start}${start||end? ' - ' : ''}${end}</div>`);
+    if(name) container.insertAdjacentHTML('beforeend', `<div class="line">${name}</div>`);
+    if(degree) container.insertAdjacentHTML('beforeend', `<div class="line">${degree}</div>`);
+    if(field) container.insertAdjacentHTML('beforeend', `<div class="line">${field}</div>`);
+    if(subfield) container.insertAdjacentHTML('beforeend', `<div class="line">${subfield}</div>`);
+    if(gpa) container.insertAdjacentHTML('beforeend', `<div class="line">GPA: ${gpa}</div>`);
+    educationList.appendChild(container);
+  });
+
+  // EXPERIENCE: same rule as education — each value on its own line
+  experienceList.innerHTML = '';
+  const experienceArr = (data.Experience && Array.isArray(data.Experience)) ? data.Experience.slice(0,LIMITS.experience) : (Array.isArray(Object.values(data.Experience||{})) ? Object.values(data.Experience).slice(0,LIMITS.experience) : []);
+  experienceArr.forEach(ex => {
+    const durNum = safeText(ex.durationNumber) || safeText(ex.Startyear) || '';
+    const durUnit = safeText(ex.durationUnit) || safeText(ex.Endyear) || '';
+    const org = safeText(ex.organizationName) || '';
+    const pos = safeText(ex.organizationPosition) || safeText(ex.position) || '';
+    const dept = safeText(ex.Department) || '';
+    const details = safeText(ex.details) || '';
+    const container = document.createElement('div'); container.className='item';
+    if(durNum || durUnit) container.insertAdjacentHTML('beforeend', `<div class="line">${durNum}${durNum||durUnit ? ' - ' : ''}${durUnit}</div>`);
+    if(org) container.insertAdjacentHTML('beforeend', `<div class="line">${org}</div>`);
+    if(pos) container.insertAdjacentHTML('beforeend', `<div class="line">${pos}</div>`);
+    if(dept) container.insertAdjacentHTML('beforeend', `<div class="line">${dept}</div>`);
+    if(details) container.insertAdjacentHTML('beforeend', `<div class="sub">${details}</div>`);
+    experienceList.appendChild(container);
+  });
+
+  // PROJECTS: limit & show in two boxes (max 3 shown)
+  projectsRow.innerHTML = '';
+  const projArr = (data.Project && Array.isArray(data.Project)) ? data.Project.slice(0,LIMITS.projects) : Object.values(data.Project||{}).slice(0,LIMITS.projects);
+  if(projArr.length){
+    projArr.forEach(p => {
+      const box = document.createElement('div'); box.className='col-box';
+      box.innerHTML = `<div style="font-weight:700"> ${safeText(p.category) ? `<div class="sub">${safeText(p.category)}</div>` : ''}
+      ${safeText(p.projectName) || safeText(p.title) || ''}</div>
+                        ${safeText(p.tools) ? `<div class="sub">${safeText(p.tools)}</div>` : ''}
+                       ${safeText(p.projectUrl) ? `<div style="margin-top:6px;font-size:10px"><a href="${safeText(p.projectUrl)}" target="_blank">${safeText(p.projectUrl)}</a></div>` : ''}`;
+      projectsRow.appendChild(box);
+    });
+    // If only one project, add an empty box to keep layout consistent
+    while(projectsRow.children.length < 2) projectsRow.appendChild(document.createElement('div')).lastChild.className='col-box', projectsRow.lastChild.style.visibility='hidden';
+  }
+
+  // REFERENCES: up to 2 boxes
+  referencesRow.innerHTML = '';
+  const refs = [];
+  if(data.JobReference){
+    if(data.JobReference.Reference1) refs.push(data.JobReference.Reference1);
+    if(data.JobReference.Reference2) refs.push(data.JobReference.Reference2);
+  }
+  refs.slice(0,LIMITS.references).forEach(r => {
+    const box = document.createElement('div'); box.className='col-box';
+    box.innerHTML = `<div style="font-weight:700">${safeText(r.Name)||''}</div>
+                     <div class="sub">${safeText(r.Post)||''}</div>
+                     <div style="margin-top:6px;font-size:11px">${safeText(r.PhoneNumber)||''}${r.Email? ' • '+safeText(r.Email):''}</div>`;
+    referencesRow.appendChild(box);
+  });
+  while(referencesRow.children.length < 2) referencesRow.appendChild(document.createElement('div')).lastChild.className='col-box', referencesRow.lastChild.style.visibility='hidden';
+
+  // animate skill bars
+  requestAnimationFrame(()=>document.querySelectorAll('.skill-bar').forEach(b=>{const w=b.style.width;b.style.width='0%';setTimeout(()=>b.style.width=w,60)}));
+}
+
+/* ---------- PDF generation (single A4 page) ---------- */
+async function createAndUploadPdf() {
+  // Hide modal overlays etc. so PDF contains only CV
+  // Options: tight margins 8mm, use a4, high quality scale
+  const element = document.getElementById('cv');
+  const opt = {
+    margin: 8,                                 // mm
+    filename: `${CNIC}.pdf`,
+    image: { type: 'jpeg', quality: 0.95 },
+    html2canvas: { scale: 2, useCORS: true, logging:false },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['css', 'legacy'] }
+  };
+
+  // Generate blob
+  const blob = await html2pdf().from(element).set(opt).outputPdf('blob');
+
+  // Upload to Firebase Storage
+  const fileRef = storageRef(storage, `resumes/${CNIC}.pdf`);
+  await uploadBytes(fileRef, blob);
+  const url = await getDownloadURL(fileRef);
+
+  // Save URL to database
+  await update(ref(db), { [`resContainer9/${CNIC}/PDF`]: url });
+
+  return url;
+}
+
+/* ---------- Download flow with Access check ---------- */
+async function downloadIfAllowed() {
+  const snap = await get(child(ref(db), `resContainer9/${CNIC}/Access`));
+  const access = snap.exists() ? snap.val() : null;
+  const status = access?.paymentStatus || null;
+  if(status !== 'Verified'){
+    window.location.href = '/payment.html';
+    return;
+  }
+
+  // If PDF exists, use it; otherwise create & upload
+  const pdfSnap = await get(child(ref(db), `resContainer9/${CNIC}/PDF`));
+  let url = pdfSnap.exists() ? pdfSnap.val() : null;
+  if(!url){
+    url = await createAndUploadPdf();
+  }
+  // Force download
+  const a = document.createElement('a'); a.href = url; a.download = `${CNIC}.pdf`; document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ---------- Bind modal actions ---------- */
+displayBtn.addEventListener('click', async ()=>{
+  modalViewer.style.display = 'block';
+  modalViewer.innerHTML = ''; // inject a clone of CV for display
+  const clone = cvSheet.cloneNode(true);
+  clone.style.transform = 'scale(0.9)';
+  clone.style.transformOrigin = 'top left';
+  clone.style.width = '90%';
+  clone.style.height = 'auto';
+  modalViewer.appendChild(clone);
+});
+downloadBtn.addEventListener('click', async ()=>{ try{ await downloadIfAllowed(); }catch(e){ alert('Download failed'); console.error(e);} });
+closeModal.addEventListener('click', ()=>{ overlay.style.display = 'none'; modalViewer.innerHTML=''; modalViewer.style.display='none'; });
+
+/* ---------- Initial load ---------- */
+(async ()=>{
+  try{
+    const data = await fetchUser();
+    render(data, cvSheet);
+  }catch(err){
+    console.error(err);
+    cvSheet.innerHTML = `<div style="padding:18px;color:#a00">Error loading CV: ${err.message}</div>`;
+  }
+})();
+
+/* Expose quick functions for manual save & preview if needed */
+window.createAndUploadPdf = createAndUploadPdf;
+window.downloadIfAllowed = downloadIfAllowed;
+window.showModal = ()=>overlay.style.display='block';
+window.hideModal = ()=>{ overlay.style.display='none'; modalViewer.style.display='none'; modalViewer.innerHTML=''; };
+
+</script>
+
+<script type="module" src="/UserWebPannel/CV/PDF.js"></script>
+</body>
+</html>

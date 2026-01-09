@@ -1,0 +1,698 @@
+/* 
+.logo-link {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 50%;
+  background-color: #00337f;
+} */
+
+.Apply-Form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #e0e0e000;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0px auto;
+  padding: 20px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.image-upload-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.user-img{
+  width: 100px;
+  height: 100px;
+}
+/* Hide the native file input */
+.pdf{
+  opacity: 0;
+  width: 200px;
+  height: 40px;
+}
+
+/* .label.lbs {
+  display: inline-block;
+  background-color: #00337f;
+  color: white;
+  padding: 7px 60px;
+  border-radius: 5px;
+  font-family: sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}  */
+/* Style the label as your custom button */
+
+
+.image-upload-circle {
+  background-image: url("/Assets/user01.png");
+  background-size: cover;   /* cover full screen */
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.profile {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  align-items: center;
+  text-align: center;
+}
+
+h3 {
+  font-size: 1.7rem;
+  color:#00469b;
+  margin: 10px 0 20px 0;
+}
+
+.input-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+  /* .input-wrapper {
+    position: relative;
+  } */
+/* ===== Input + Label Floating Effect with Real Border Gap ===== */
+.input-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 16px 0;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+  width: 100%;
+  padding: 14px 12px;
+  border: 2px solid #bbbbbb;
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
+  background-color: white;
+  color: #fff; /* optional for dark UI */
+  transition: border-color 0.3s ease;
+}
+
+.hobby-wrapper input,
+.hobby-wrapper select {
+  width: 100%;
+  padding: 14px 12px;
+  border: 2px solid #bbbbbb;
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
+  background-color: white;
+  color:#00469b;
+  transition: border-color 0.3s ease;
+  margin-top: 17px;
+}
+
+/* Label */
+.input-wrapper label {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #aaa;
+  padding: 0 4px;
+  pointer-events: none;
+  transition: all 0.25s ease-in-out;
+}
+
+/* Label */
+.hobby-wrapper label {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #aaa;
+  padding: 0 4px;
+  pointer-events: none;
+  transition: all 0.25s ease-in-out;
+}
+
+/* Focus Border */
+.input-wrapper input:focus,
+.input-wrapper select:focus {
+  border-color:#00469b;
+}
+/* Focus Border */
+.hobby-wrapper input:focus,
+.hobby-wrapper select:focus {
+  border-color:#00469b;
+}
+
+
+
+
+/* Floating Label Position */
+.input-wrapper input:focus + label,
+.input-wrapper input:valid + label,
+.input-wrapper select:focus + label,
+.input-wrapper select:valid + label {
+  top: -1px;
+  left: 14px;
+  font-size: 13px;
+  color:#00469b;
+}
+
+/* ===== The Real Border Cut Effect ===== */
+.input-wrapper label::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  right: -6px;
+  height: 6px;
+  background: transparent;
+  z-index: 2;
+  transition: all 0.25s ease;
+}
+
+/* ====== Updated Floating Label Background (Lower 50% white only) ====== */
+.input-wrapper input:focus + label::after,
+.input-wrapper input:valid + label::after,
+.input-wrapper select:focus + label::after,
+.input-wrapper select:valid + label::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, white 40%, transparent 60%);
+  border-radius: 4px;
+  transition: all 0.25s ease;
+}
+
+/* When label floats — transparent overlay to match container background */
+.input-wrapper input:focus + label::before,
+.input-wrapper input:valid + label::before,
+.input-wrapper select:focus + label::before,
+.input-wrapper select:valid + label::before {
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  background: var(--bg-color, transparent); /* matches container background */
+  border-radius: 4px;
+  box-shadow:
+    -3px 0 0 var(--bg-color, transparent),
+     3px 0 0 var(--bg-color, transparent);
+}
+
+
+/* Floating Label Position */
+.hobby-wrapper input:focus + label,
+.hobby-wrapper input:valid + label,
+.hobby-wrapper select:focus + label,
+.input-wrapper select:valid + label {
+  top: -1px;
+  left: 14px;
+  font-size: 13px;
+  color:#00469b;
+}
+
+/* ===== The Real Border Cut Effect ===== */
+.hobby-wrapper label::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  right: -6px;
+  height: 6px;
+  background: transparent;
+  z-index: 2;
+  transition: all 0.25s ease;
+}
+
+/* ====== Updated Floating Label Background (Lower 50% white only) ====== */
+.input-wrapper input:focus + label::after,
+.input-wrapper input:valid + label::after,
+.input-wrapper select:focus + label::after,
+.input-wrapper select:valid + label::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, white 40%, transparent 60%);
+  border-radius: 4px;
+  transition: all 0.25s ease;
+  border-color: #00469b;
+}
+
+.input-wrapper #Dob{
+  color: #919191;
+}
+.input-wrapper input{
+  color: #00469b;
+}
+/* When label floats — transparent overlay to match container background */
+.input-wrapper input:focus + label::before,
+.input-wrapper input:valid + label::before,
+.input-wrapper select:focus + label::before,
+.input-wrapper select:valid + label::before {
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  background: var(--bg-color, transparent); /* matches container background */
+  border-radius: 4px;
+  box-shadow:
+    -3px 0 0 var(--bg-color, transparent),
+     3px 0 0 var(--bg-color, transparent);
+}
+
+/* ===== Optional Variable Background Control ===== */
+.input-container {
+  --bg-color: transparent; /* set your form background color here if needed */
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .input-wrapper input,
+  .input-wrapper select {
+    font-size: 14px;
+    padding: 12px 10px;
+  }
+  .input-wrapper label {
+    font-size: 14px;
+  }
+}
+
+/* .sbbt {
+  width: 160px;
+  height: 40px;
+  font-size: 1rem;
+  background: #00337f;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.expand-sbbt:hover {
+  transition: 2s;
+} */
+
+/* Responsive Fixes */
+@media (max-width: 768px) {
+  h3 {
+    font-size: 1.2rem;
+  }
+  .logo-img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: 50%;
+  background-color: #00469b;
+}
+
+
+  .sbbt {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .image-upload-circle {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .input-container {
+    grid-template-columns: 1fr;
+  }
+
+  .Apply-Form {
+    padding: 15px;
+  }
+
+  .sbbt {
+    height: 40px;
+  }
+}
+
+
+
+
+
+
+/* #selectedLanguages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  background: #007bff;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tag span {
+  cursor: pointer;
+  font-weight: bold;
+} */
+
+/* ===== Universal Dropdown Style (Select + JS Dropdowns) ===== */
+/* .input-wrapper select,
+.dropdown,
+.hobby-dropdown01,
+.dropdown01 {
+  width: 100%;
+  background: linear-gradient(135deg, #ffe6f2 0%, #e6f7ff 100%);
+  border: 1.5px solid #b3d9ff;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  appearance: none;
+  position: relative;
+  z-index: 10;
+} */
+.input-wrapper select,
+.dropdown{
+  background: white;
+  /* border: 1px solid #b3d9ff; */
+  max-height: 220px;
+  overflow-y: auto;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  color:#00469b;
+  /* z-index: 1000;   */
+}
+
+/* Hover + Focus Effects */
+
+/* .input-wrapper:hover,
+.input-wrapper select:hover,
+.dropdown div:hover,
+.hobby-dropdown01 div:hover,
+.dropdown01 div:hover {
+  background: linear-gradient(135deg, #ffecf7 0%, #e6f2ff 100%);
+  border-color:#00469b;
+  box-shadow: 0 0 10px rgba(128, 191, 255, 0.4);
+  cursor: pointer;
+} */
+
+/* Dropdown container styling */
+
+.dropdown,
+.hobby-dropdown01,
+.dropdown01 {
+  background: white;
+  border: 1px solid #b3d9ff;
+  border-radius: 10px;
+  margin-top: 6px;
+  display: none;
+  max-height: 220px;
+  overflow-y: auto;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+}
+
+/* Dropdown options */
+.dropdown div,
+.hobby-dropdown01 div,
+.dropdown01 div {
+  padding: 10px 14px;
+  font-size: 15px;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+/* Hover state for JS dropdown options */
+
+.dropdown div:hover,
+.hobby-dropdown01 div:hover,
+.dropdown01 div:hover {
+  background: linear-gradient(135deg, #ffb3d9 0%, #b3e0ff 100%);
+  color: white;
+  border-radius: 6px;
+}
+
+/* Label floating (optional aesthetic alignment) */
+/* .input-wrapper label {
+  position: absolute;
+  top: -10px;
+  left: 14px;
+  font-size: 13px;
+  background: white;
+  color: #666;
+  padding: 0 6px;
+  border-radius: 4px;
+  pointer-events: none;
+} */
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+  .input-wrapper select,
+  .dropdown,
+  .hobby-dropdown01,
+  .dropdown01 {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .dropdown div,
+  .hobby-dropdown01 div,
+  .dropdown01 div {
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .input-wrapper select,
+  .dropdown,
+  .hobby-dropdown01,
+  .dropdown01 {
+    font-size: 13px;
+    border-radius: 6px;
+  }
+
+  .dropdown div,
+  .hobby-dropdown01 div,
+  .dropdown01 div {
+    padding: 8px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ===== Dropdown Hover & Arrow-Key Highlight ===== */
+.dropdown div {
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.dropdown div:hover,
+.dropdown div.active {
+  background: linear-gradient(90deg, #ffb6c1 0%, #add8e6 100%);
+  color: #222;
+  padding-left: 20px;
+}
+
+/* ===== Animated Arrow on Hover or Active ===== */
+.dropdown div::before {
+  content: "→";
+  position: absolute;
+  left: 8px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.25s ease;
+  color: #444;
+  font-weight: bold;
+}
+
+.dropdown div:hover::before,
+.dropdown div.active::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+
+/* ===== Common Container ===== */
+/* .input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 400px;
+  margin: 40px auto;
+  font-family: "Poppins", sans-serif;
+} */
+
+/* ===== Shared Input Box ===== */
+.multi-input {
+  position: relative;
+  width: 100%;
+  min-height: 52px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background: white;
+  padding: 8px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.multi-input:focus-within {
+  border-color: #ff9ebc;
+  box-shadow: 0 0 8px rgba(255, 182, 193, 0.4);
+}
+
+.multi-input input {
+  border: none;
+  outline: none;
+  flex: 1;
+  min-width: 120px;
+  padding: 6px 0;
+  font-size: 15px;
+  background: transparent;
+}
+
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  width: 100%;
+}
+
+.tag {
+  background: linear-gradient(135deg, #ffb6c1, #add8e6);
+  color: #333;
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.tag span {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* 
+
+.input-wrapper {
+  position: relative;
+  width: 300px;
+  font-family: Arial, sans-serif;
+}
+
+.multi-lang-input {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #ccc;
+  padding: 6px;
+  border-radius: 6px;
+  min-height: 40px;
+  cursor: text;
+}
+
+.multi-lang-input input {
+  border: none;
+  outline: none;
+  flex: 1;
+  min-width: 100px;
+}
+
+#selectedLanguages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  background: #007bff;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tag span {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.dropdown {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+  margin-top: 4px;
+  z-index: 1000;
+}
+
+.dropdown div {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown div:hover {
+  background: #f0f0f0;
+}  */

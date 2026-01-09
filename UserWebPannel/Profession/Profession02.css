@@ -1,0 +1,169 @@
+
+
+#ticolor{
+  color: white;
+  font-size: large;
+}
+
+.team-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;       /* centers all items horizontally */
+  text-align: center;        /* centers text */
+  gap: 8px;
+  background: transparent !important; /* make div transparent */
+  padding: 1rem;
+}
+
+.team-text .small.text-muted {
+  text-align: center;        /* ensure about text stays centered */
+}
+
+.team-text .d-flex {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+/* Icon styling */
+.team-text .d-flex a {
+  color: #007bff;            /* default blue */
+  transition: color 0.3s ease;
+}
+
+.team-text .d-flex a:hover {
+  color: #0056b3;            /* darker blue on hover */
+}
+
+
+/* .h3{
+    font-size: 100px;
+}
+.spam05{
+    font-size: 20rem;
+}
+
+
+
+.project-item {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.project-item:hover img {
+  transform: scale(1.05);
+}
+
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.project-item:hover .project-overlay {
+  opacity: 1;
+} */
+
+
+
+/* === Admin Dropdown Only === */
+#adminDropdown {
+  position: relative;
+}
+
+#adminDropdown .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #171717;        /* dark dropdown background */
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  min-width: 160px;
+}
+
+#adminDropdown .dropdown-menu a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+  font-size: 15px;
+  transition: background 0.3s;
+}
+
+#adminDropdown .dropdown-menu a:hover {
+  background: #2b2b2b;
+}
+
+/* === Hover Animation === */
+#adminDropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+
+#timer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #111;
+  color: #00ff99;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  box-shadow: 0 0 10px #00ff99;
+  animation: glow 1.5s infinite alternate;
+  z-index: 9999;
+}
+@keyframes glow {
+  from { box-shadow: 0 0 5px #00ff99; }
+  to { box-shadow: 0 0 15px #00ff99; }
+}
+
+
+
+
+
+
+
+
+#timerDisplay {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: rgb(104, 104, 104);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px 14px;
+  border-radius: 8px;
+  display: inline-block;
+  letter-spacing: 1px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+#timerDisplay.warning {
+  color: #ff4444; /* red */
+  animation: pulseRed 1s infinite alternate;
+}
+
+@keyframes pulseRed {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+}

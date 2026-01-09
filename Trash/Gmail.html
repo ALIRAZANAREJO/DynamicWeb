@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Contact Page</title>
+  <!-- <link rel="stylesheet" href="./Contact-Us.css"/> -->
+</head>
+<body>
+<div id="gmailPortalFrame" style="width:100%; height:400px; border:1px solid #ccc;">
+  <iframe id="gmailFrame" src="" style="width:100%; height:100%; border:none;"></iframe>
+</div>
+
+<button onclick="openGmailInFrame()">Open Gmail</button>
+
+<script>
+function openGmailInFrame() {
+  const toEmail = document.getElementById("contactEmail").innerText.trim();
+  const subject = "Test Subject";
+  const body = "Test Body";
+
+  const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(toEmail)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  
+  document.getElementById("gmailFrame").src = gmailURL;
+}
+</script>
+
+</body>
+</html>

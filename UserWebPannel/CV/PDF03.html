@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Final Professional CV — Preview & PDF</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/UserWebPannel/CV/Resume.css">
+</head>
+<body>
+
+
+<!-- Display & Download -->
+<div style="text-align:center;margin:12px">
+  <button id="displayDownloadBtn" class="btn ghost">Display & Download</button>
+</div>
+
+<!-- Modal Overlay -->
+<div id="overlay" style="display:none;position:fixed;inset:0;z-index:1200">
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,0.6)"></div>
+  <div style="position:relative;max-width:980px;margin:8% auto;background:#fff;padding:12px;border-radius:10px;z-index:1210">
+    <div style="display:flex;gap:10px">
+      <button id="displayBtn">Display</button>
+      <button id="downloadBtn">Download</button>
+      <button id="closeModal">Close</button>
+    </div>
+    <div id="modalViewer" style="margin-top:10px;display:none"></div>
+  </div>
+</div>
+
+
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script type="module" src="/UserWebPannel/CV/Resume copy.js"></script>
+</body>
+</html>

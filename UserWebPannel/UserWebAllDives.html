@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professional Step Form Wizard</title>
+  <style>
+    /* ================= Base Reset ================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffceea 0%, #a2c6fb 100%);
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* ================= Header & Nav ================= */
+    header {
+      width: 100%;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background: rgba(255, 255, 255, 0);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.441);
+      border-radius: 25px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      padding: 10px 20px;
+    }
+
+    .nav button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0);
+      color: #00469b;
+      font-size: 17px;
+      cursor: pointer;
+      font-weight: 520;
+      transition: all 0.3s ease;
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      background: linear-gradient(135deg, #006effc7, #f78fb3);
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    /* Hamburger button */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 25px;
+      height: 20px;
+      cursor: pointer;
+      position: absolute;
+      right: 20px;
+      top: 18px;
+    }
+
+    .hamburger span {
+      height: 3px;
+      width: 100%;
+      background: #000;
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        display: none;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.9);
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        border-radius: 15px;
+        padding: 15px;
+      }
+
+      .nav.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .nav button {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    /* ================= Progress Circle ================= */
+    #progress-circle {
+      position: fixed;
+      top: 15px;
+      right: 25px;
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      background: conic-gradient(#ccc 0deg 360deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #333;
+      font-weight: 600;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(10px);
+      transition: 0.3s ease;
+    }
+
+    /* ================= Main Content ================= */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .content {
+      display: none;
+      width: 100%;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      border-radius: 25px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      padding: 40px 30px;
+      animation: fadeIn 0.5s ease;
+      text-align: center;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .content h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #007bff, #f78fb3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .content input {
+      width: 100%;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 12px;
+      margin-top: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+      color: #333;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
+    }
+
+    .content input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0 0 8px rgba(91, 140, 255, 0.5);
+    }
+
+    .next-btn {
+      margin-top: 25px;
+      background: linear-gradient(135deg, #5c8fff, #f78fb3);
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: 0.3s;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+
+    .next-btn:hover {
+      box-shadow: 0 0 20px rgba(91, 140, 255, 0.7);
+      transform: scale(1.05);
+    }
+
+    /* ================= Overlay & Submit ================= */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(8px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .overlay.active {
+      display: flex;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #28a745, #5ce1e6);
+      color: #fff;
+      padding: 15px 50px;
+      border: none;
+      border-radius: 30px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+      transition: 0.3s;
+    }
+
+    .submit-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 30px rgba(91, 255, 191, 0.7);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav">
+      <button class="tab-btn active" data-target="about">About</button>
+      <button class="tab-btn" data-target="skills">Skills</button>
+      <button class="tab-btn" data-target="experience">Experience</button>
+      <button class="tab-btn" data-target="education">Education</button>
+      <button class="tab-btn" data-target="Professionality">Profession</button>
+      <button class="tab-btn" data-target="service">Services</button>
+      <button class="tab-btn" data-target="project">Projects</button>
+      <button class="tab-btn" data-target="team">Team</button>
+      <button class="tab-btn" data-target="cv">CV Designs</button>
+      <button class="tab-btn" data-target="Portfolio">Portfolio Web Design</button>
+      <button class="tab-btn" data-target="Web">Web Theme</button>
+    </div>
+
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+
+    <div id="progress-circle">0%</div>
+  </header>
+
+  <main>
+    <div id="about" class="content active">
+      <h2>About</h2>
+      <input type="text" placeholder="Enter about info" />
+      <button class="next-btn">Next ➜</button>
+    </div>
+
+    <div id="skills" class="content">
+      <h2>Skills</h2>
+      <input type="text" placeholder="Enter your skills" />
+      <button class="next-btn">Next ➜</button>
+    </div>
+
+    <div id="experience" class="content">
+      <h2>Experience</h2>
+      <input type="text" placeholder="Enter your experience" />
+      <button class="next-btn">Next ➜</button>
+    </div>
+
+    <div id="education" class="content">
+      <h2>Education</h2>
+      <input type="text" placeholder="Enter education" />
+      <button class="next-btn">Next ➜</button>
+    </div>
+
+    <div id="Professionality" class="content">
+      <h2>Profession</h2>
+      <input type="text" placeholder="Enter profession" />
+      <button class="next-btn">Next ➜</button>
+    </div>
+
+    <div id="service" class="content">
+      <h2>Services</h2>
+      <input type="text" placeholder="Enter services" />
+      <button class="next-btn">Next ➜</button>
+    </div>
+
+    <div id="project" class="content">
+      <h2>Projects</h2>
+      <input type="text" placeholder="Enter projects" />
+      <button class="next-btn">Next ➜</button>
+    </div>
+
+    <div id="team" class="content">
+      <h2>Team</h2>
+      <input type="text" placeholder="Enter team info" />
+      <button class="next-btn">Next ➜</button>
+    </div>
+
+    <div id="cv" class="content">
+      <h2>CV Designs</h2>
+      <input type="text" placeholder="Enter CV design details" />
+      <button class="next-btn">Next ➜</button>
+    </div>
+
+    <div id="Portfolio" class="content">
+      <h2>Portfolio Web Design</h2>
+      <input type="text" placeholder="Enter portfolio details" />
+      <button class="next-btn">Finish</button>
+    </div>
+    <div id="Web" class="content">
+      <h2>Portfolio Web Design</h2>
+      <input type="text" placeholder="Enter portfolio details" />
+      <button class="next-btn">Finish</button>
+    </div>
+  </main>
+
+  <div class="overlay" id="overlay">
+    <button class="submit-btn">Submit</button>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll(".tab-btn");
+    const contents = document.querySelectorAll(".content");
+    const nextBtns = document.querySelectorAll(".next-btn");
+    const progressCircle = document.getElementById("progress-circle");
+    const overlay = document.getElementById("overlay");
+    const hamburger = document.getElementById("hamburger");
+    const nav = document.querySelector(".nav");
+
+    let currentStep = 0;
+    const totalSteps = contents.length;
+
+    // Tab button click handler
+    buttons.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        goToStep(index);
+        nav.classList.remove("show");
+      });
+    });
+
+    // Next button logic
+    nextBtns.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        if (index < totalSteps - 1) {
+          goToStep(index + 1);
+        } else {
+          overlay.classList.add("active");
+          progressCircle.textContent = "100%";
+          progressCircle.style.background = `conic-gradient(#28a745 0deg 360deg)`;
+        }
+      });
+    });
+
+    function goToStep(stepIndex) {
+      contents.forEach(c => c.classList.remove("active"));
+      buttons.forEach(b => b.classList.remove("active"));
+      contents[stepIndex].classList.add("active");
+      buttons[stepIndex].classList.add("active");
+      currentStep = stepIndex;
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const progress = Math.floor(((currentStep + 1) / totalSteps) * 100);
+      progressCircle.textContent = `${progress}%`;
+      const colors = ["#5c8fff", "#f78fb3", "#9b6bff", "#8bd6ff", "#ffb3d1", "#70a1ff", "#a29bfe", "#74b9ff", "#81ecec", "#fab1a0"];
+      let filledSegments = Math.floor(progress / 10);
+      let gradientParts = [];
+      for (let i = 0; i < 10; i++) {
+        let start = i * 36;
+        let end = start + 36;
+        if (i < filledSegments) {
+          gradientParts.push(`${colors[i]} ${start}deg ${end}deg`);
+        } else {
+          gradientParts.push(`rgba(255,255,255,0.4) ${start}deg ${end}deg`);
+        }
+      }
+      progressCircle.style.background = `conic-gradient(${gradientParts.join(", ")})`;
+    }
+
+    hamburger.addEventListener("click", () => {
+      nav.classList.toggle("show");
+    });
+
+    overlay.querySelector(".submit-btn").addEventListener("click", () => {
+      alert("Form submitted successfully!");
+      overlay.classList.remove("active");
+      goToStep(0);
+    });
+
+    updateProgress();
+  </script>
+</body>
+</html>

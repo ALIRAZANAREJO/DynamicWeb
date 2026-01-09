@@ -1,0 +1,441 @@
+:root{
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --panel:#243142;
+  --content:#1f2937;
+  --sub:#6b7280;
+  --accent:#0b72c3;
+  --muted:#9aa0a6;
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;background:var(--bg);font-family:'Poppins',system-ui,Arial;color:var(--content);}
+a{color:var(--accent);text-decoration:none;}
+
+.container{
+  display:flex;
+  justify-content:center;
+  padding:1px;
+  overflow-x:auto;
+  align-items:flex-start;
+}
+
+.cv-sheet{
+  display:flex;
+  width:100%;
+  max-width:794px;
+  min-height:1123px;
+  background:var(--card);
+  border-radius:6px;
+  box-shadow:0 12px 30px rgba(16,24,32,0.08);
+  color:var(--content);
+  overflow:hidden;
+  align-items:stretch;
+  transform-origin:top left;
+}
+
+.sidebar{
+  flex:0 0 40%;
+  background:linear-gradient(180deg,var(--panel),#16222a);
+  color:#fff;
+  padding:1.2rem;
+  display:flex;
+  flex-direction:column;
+  gap:0.8rem;
+  overflow-y:auto;
+  font-size:0.85rem;
+}
+
+.main{
+  padding:1.2rem;
+  display:flex;
+  flex-direction:column;
+  overflow-y:auto;
+  width:100%;
+}
+
+.main .section,
+.main .item,
+.main .col-box,
+.main .project-item,
+.main h1,
+.main h2,
+.main h3,
+.main h4,
+.main p,
+.main .about{
+  width:100%;
+  max-width:100%;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
+  box-sizing:border-box;
+}
+
+/* About full width */
+.main .about {
+  width:100%;
+  max-width:100%;
+  line-height:1.3;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
+  box-sizing:border-box;
+}
+/* Reference items in column form */
+.main .col-row.reference-list {
+  display:flex;
+  flex-direction:column; /* stacked vertically */
+  gap:0.5rem;
+  width:100%;
+}
+
+.main .col-row.reference-list .col-box {
+  flex:1 1 100%;
+  min-width:100%;
+  background:#f7f8fa;
+  border-radius:8px;
+  padding:0.3rem;
+  font-size:0.6rem;
+  color:var(--content);
+  box-sizing:border-box;
+}
+
+.main .section .title{
+  font-size:0.75rem;
+  display:flex;
+  gap:0.3rem;
+  align-items:center;
+  width:100%;
+  flex-wrap:wrap;
+}
+
+.main .col-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.5rem;
+}
+
+.main .col-box{
+  flex:1 1 calc(50% - 0.5rem);
+  min-width:120px;
+}
+
+.main .project-col{
+  display:flex;
+  flex-direction:column;
+  gap:0.35rem;
+  width:100%;
+}
+
+.main .project-item{
+  width:100%;
+  font-size:0.7rem;
+  line-height:1.2;
+  word-break:break-word;
+  padding:0.25rem;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+
+.profile-img{
+  width:100%;
+  max-width:120px;
+  height:auto;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid rgba(255,255,255,0.12);
+  margin:0 auto 0.4rem auto;
+  display:block;
+}
+
+.section-title{
+  display:flex;
+  gap:6px;
+  align-items:center;
+  font-weight:700;
+  text-transform:uppercase;
+  font-size:0.95rem;
+  color:rgba(255,255,255,0.9);
+}
+
+.chips{display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.3rem;}
+.chip{
+  background:#fff;color:var(--panel);
+  padding:0.2rem 0.4rem;
+  border-radius:999px;
+  font-size:0.7rem;
+  display:inline-flex;
+  align-items:center;
+  gap:0.2rem;
+}
+
+.skill-list{display:flex;flex-direction:column;gap:0.4rem;margin-top:0.3rem;}
+.skill-row{display:flex;flex-direction:column;gap:0.2rem;}
+.skill-meta{display:flex;justify-content:space-between;font-weight:600;font-size:0.7rem;}
+.skill-bar-wrap{height:0.45rem;background:rgba(255,255,255,0.12);border-radius:999px;overflow:hidden;width:100%;}
+.skill-bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#1e8fe1);border-radius:999px;transition:width .6s ease;}
+
+.personal-list{display:flex;flex-direction:column;gap:0.25rem;font-size:0.75rem;}
+.personal-item{display:flex;gap:0.4rem;align-items:center;color:rgba(255,255,255,0.95);}
+
+.header{display:flex;justify-content:space-between;align-items:flex-start;gap:0.6rem;margin-bottom:-1rem;}
+.name-large{font-size:1.75rem;font-weight:800;color:var(--content);}
+.profession{font-size:1.1rem;color:var(--accent);font-weight:600;margin-top:0.1rem;}
+h5{font-size:0.75rem;color:var(--content);font-weight:600;margin-top:0.1rem;}
+.about{font-size:0.7rem;color:var(--sub);margin-top:0.1rem;max-width:100%;}
+
+.section{margin-top:0.5rem;display:flex;flex-direction:column;gap:0.3rem;}
+.section .title{display:flex;align-items:center;gap:0.3rem;font-weight:700;font-size:0.7rem;color:var(--content);border-bottom:1px solid #e7eaec;padding-bottom:0.3rem;}
+.section .title .icon{width:1.5rem;height:1.5rem;border-radius:6px;background:rgba(11,114,195,0.08);display:inline-grid;place-items:center;color:var(--accent);}
+.section .list{display:flex;flex-direction:column;gap:0.3rem;}
+.item{padding:0.25rem;border-radius:6px;background:transparent;display:flex;flex-direction:column;gap:0.2rem;font-size:0.65rem;color:var(--content);}
+.item .line{font-size:0.65rem;color:var(--content);line-height:1.1;}
+.item .sub{font-size:0.6rem;color:var(--sub);}
+
+/* ========================= RESPONSIVE ========================= */
+@media (max-width:900px){
+  .cv-sheet{flex-direction:row;width:100%;overflow-x:auto;transform:scale(1);}
+  .sidebar{flex:0 0 40%;padding:0.8rem;gap:0.5rem;}
+  .main{font:0.8rem;}
+}
+
+@media (max-width:600px){
+  /* .main{
+    flex:1;
+  } */
+
+  .personal-list{
+    gap: 3px;
+  }
+
+  /* Each row (Father, CNIC, Phone, etc.) */
+  .personal-item{
+    font-size: 7px;      /* smaller text */
+    line-height: 1.1;
+  }
+
+  /* Label + value spacing */
+  .personal-item span,
+  .personal-item strong{
+    font-size: 7px;
+  }
+  .cv-sheet{
+    width:100% !important;
+    min-height:auto;
+    flex-direction:row !important;
+    overflow-x:auto;
+    padding:0;
+    margin-top: 20px;
+  }
+  .sidebar{
+    width:40% !important;
+    padding:4px;
+    gap:4px;
+    padding-top:10px;
+
+  }
+  .main{
+    width:60% !important;
+    padding:4px;
+    padding-top:10px;
+  }
+
+  /* =================== SMALL SCREEN TEXT SCALE (<=600px) =================== */
+
+  /* SECTION TITLES (Education, Experience, References) */
+  .main .section .title{
+    font-size: 0.65rem;
+  }
+
+  /* Education / Experience item text */
+  .main .item{
+    font-size: 7px;
+    line-height: 1.15;
+  }
+
+  .main .item .line{
+    font-size: 7px;
+  }
+
+  .main .item .sub{
+    font-size: 6.5px;
+  }
+
+  /* Reference boxes */
+  .main .col-box{
+    font-size: 7px;
+    padding: 0.25rem;
+  }
+
+  .main .col-box div{
+    font-size: 7px;
+    line-height: 1.2;
+  }
+
+  /* Reference name (bold) */
+  .main .col-box div:first-child{
+    font-size: 7.2px;
+    font-weight: 600;
+  }
+
+  /* Reference contact line */
+  .main .col-box div:last-child{
+    font-size: 6.5px;
+  }
+
+  /* Titles like Education / Experience icons row */
+  .section .title .icon{
+    font-size: 0.7rem;
+  }
+
+
+  .section-title{font-size:0.85rem}
+  .name-large{font-size:18px}
+  .profession{font-size:12px}
+  .item,.col-box,.project-item{font-size:8px}
+  .skill-meta{font-size:7px}
+  .chip{font-size:7px;padding:2px 4px}
+  .about{font-size:8px}
+}
+
+/* EQUAL HEIGHT */
+.cv-sheet{align-items:stretch;}
+.sidebar,.main{display:flex;flex-direction:column;justify-content:flex-start;}
+.cv-sheet::after{content:"";flex-grow:1;}
+
+/* ===== TOP ACTION BAR (FIXED & ALWAYS ON TOP) ===== */
+.top-action-bar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  background: rgba(244,246,248,0.95);
+  backdrop-filter: blur(6px);
+}
+
+/* PUSH CONTENT DOWN SO IT DOES NOT HIDE UNDER BUTTON */
+body{
+  padding-top: 70px;
+}
+
+/* DOWNLOAD BUTTON */
+.download-btn{
+  padding: 10px 22px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #0b72c3 50%, #1f2937 50%);
+  background-size: 200% 100%;
+  background-position: left;
+  transition: all 0.35s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.download-btn:hover{
+  background-position: right;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.download-btn:active{
+  transform: scale(0.96);
+}
+
+/* MOBILE FIX */
+@media (max-width:600px){
+  body{
+    padding-top: 60px;
+  }
+
+  .download-btn{
+    font-size: 0.75rem;
+    padding: 8px 18px;
+  }
+}
+
+/* Modal Buttons */
+.modal-btn {
+  flex:1 1 100px;
+  min-width:80px;
+  padding:10px 16px !important; /* override other button styles */
+  font-size:0.85rem !important;
+  border-radius:8px !important;
+  cursor:pointer;
+}
+
+/* Responsive */
+@media (max-width:600px){
+  .modal-btn {
+    flex:1 1 100%;
+    font-size:0.75rem !important;
+    padding:8px 12px !important;
+  }
+}
+
+/* ===== ENABLE FULL PAGE SCROLL ===== */
+html, body {
+  height: auto;
+  min-height: 100%;
+  overflow-y: auto;
+}
+
+/* Allow content to grow naturally */
+.container {
+  min-height: 100vh;
+  overflow: visible;
+}
+
+
+
+/* Allow inner sections to grow */
+.sidebar,
+.main {
+  overflow: visible !important;
+  height: auto !important;
+}
+
+/* Keep top bar fixed */
+.top-action-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+/* Prevent content hiding under top bar */
+body {
+  padding-top: 70px;
+}
+
+
+
+
+
+/* PRINT / PDF */
+@media print{
+  body{background:#fff}
+  .container{padding:0}
+  .cv-sheet{box-shadow:none;border-radius:0;min-height:auto;width:100%}
+}
+.pdf-clone{width:1200px !important;height:1123px !important;flex-direction:row !important;}
+.pdf-clone .sidebar{flex:0 0 40% !important;}
+.pdf-clone .main{flex:1 !important;padding-left:18px !important;}
+.pdf-clone .skill-bar{transition:none !important;}
+
+/* Modal */
+#modalViewer{
+  display:block;
+  overflow-y:auto;
+  max-height:80vh;
+  padding:0.5rem;
+  background:#f9f9f9;
+  border-radius:6px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
