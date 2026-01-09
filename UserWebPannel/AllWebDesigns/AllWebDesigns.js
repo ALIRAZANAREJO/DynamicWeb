@@ -165,7 +165,7 @@ if (accessSnap.exists()) {
   }
 
   if (expiresAt <= now) {
-    window.location.href = `./UserWebPannel/Account/Pakig.html`;
+    window.location.href = `../UserWebPannel/Account/Pakig.html`;
     return;
   }
 }
