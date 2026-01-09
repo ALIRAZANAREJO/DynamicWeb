@@ -54,7 +54,7 @@ async function loadSubDesigns(designName) {
   selectedSubDesign = null;
   subContainer.innerHTML = "";
 
-  const jsonPath = `AllWebDesigns/${designName}/_files.json`;
+  const jsonPath = `./AllWebDesigns/${designName}/_files.json`;
 
   try {
     const res = await fetch(jsonPath);
@@ -83,7 +83,7 @@ async function loadSubDesigns(designName) {
       card.append(img, title);
 
       card.onclick = async () => {
-        const path = `AllWebDesigns/${designName}/${sub.name}.html`;
+        const path = `./AllWebDesigns/${designName}/${sub.name}.html`;
         if (!(await fileExists(path))) {
           alert("Coming soon");
           return;
@@ -127,7 +127,7 @@ loginBtn.addEventListener("click", async () => {
     return;
   }
 
-  const htmlPath = `AllWebDesigns/${selectedDesign}/${selectedSubDesign}.html`;
+  const htmlPath = `./AllWebDesigns/${selectedDesign}/${selectedSubDesign}.html`;
   if (!(await fileExists(htmlPath))) {
     alert("Design not available.");
     return;
