@@ -1,9 +1,9 @@
 [
-  { "name": "Portfolio01", "img": "Portfolio01.png" },
-  { "name": "Portfolio02", "img": "Portfolio02.png" },
-  { "name": "Portfolio03", "img": "Portfolio03.png" },
-  { "name": "Portfolio04", "img": "Portfolio04.png" },
-  { "name": "Portfolio05", "img": "Portfolio05.png" },
-  { "name": "Portfolio06", "img": "Portfolio06.png" }
+  { "name": "Portfolio01", "img": "./Portfolio01.png" },
+  { "name": "Portfolio02", "img": "./Portfolio02.png" },
+  { "name": "Portfolio03", "img": "./Portfolio03.png" },
+  { "name": "Portfolio04", "img": "./Portfolio04.png" },
+  { "name": "Portfolio05", "img": "./Portfolio05.png" },
+  { "name": "Portfolio06", "img": "./Portfolio06.png" }
 ]
   
