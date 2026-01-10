@@ -1,9 +1,14 @@
-// ======================= Firebase Imports =======================
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+// ======================= Firebase Modular Imports =======================
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
-// ======================= Firebase Config =======================
+// ======================= BASE PATH (GitHub Auto Detect) =======================
+const BASE_PATH = location.hostname.includes("github.io")
+  ? `/${location.pathname.split("/")[1]}/`
+  : "";
+
+// ======================= Firebase Configuration =======================
 const firebaseConfig = {
   apiKey: "AIzaSyCmL8qcjg4S6NeY3erraq_XhlDJ7Ek2s_E",
   authDomain: "palestine-web.firebaseapp.com",
@@ -14,20 +19,17 @@ const firebaseConfig = {
   appId: "1:35190212487:web:0a699bb1fa7b1a49113522"
 };
 
-// ======================= Init =======================
-const app = initializeApp(firebaseConfig);
+// ======================= Init (SAFE) =======================
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 const provider = new GoogleAuthProvider();
 
-// ======================= GitHub BASE PATH AUTO =======================
-const BASE_PATH = location.hostname.includes("github.io")
-  ? `/${location.pathname.split("/")[1]}/`
-  : "";
-
 // ======================= DOM =======================
 const subContainer = document.getElementById("SubDesignsContainer");
 const mainCards = document.getElementById("mainDesignCards");
+const popup = document.getElementById("popup");
+const closePopup = document.getElementById("closePopup");
 const cards = document.querySelectorAll(".design-card");
 const loginBtn = document.getElementById("loginBtn");
 const backBtn = document.getElementById("__backToMainDesigns_9921Btn");
@@ -56,7 +58,6 @@ async function loadSubDesigns(designName) {
     if (!res.ok) throw new Error(res.status);
 
     const files = await res.json();
-    console.log("✅ JSON Loaded:", files);
 
     const wrap = document.createElement("div");
     wrap.className = "design-grid";
@@ -67,6 +68,9 @@ async function loadSubDesigns(designName) {
 
       const img = document.createElement("img");
       img.src = `${BASE_PATH}Assets/${sub.img}`;
+      img.style.width = "240px";
+      img.style.height = "100px";
+      img.style.objectFit = "cover";
 
       const title = document.createElement("span");
       title.textContent = sub.name;
@@ -88,8 +92,8 @@ async function loadSubDesigns(designName) {
     loginBtn.style.display = "block";
     backBtn.classList.remove("hidden");
 
-  } catch (err) {
-    console.error("❌ JSON fetch failed:", err);
+  } catch (e) {
+    console.error(e);
     alert("Service unavailable");
   }
 }
@@ -107,10 +111,12 @@ backBtn.onclick = () => {
   selectedSubDesign = null;
 };
 
-// ======================= LOGIN =======================
+closePopup.onclick = () => popup.classList.add("hidden");
+
+// ======================= LOGIN LOGIC =======================
 loginBtn.addEventListener("click", async () => {
   if (!selectedDesign || !selectedSubDesign) {
-    alert("Select a design first");
+    alert("Please select a design first.");
     return;
   }
 
@@ -120,7 +126,7 @@ loginBtn.addEventListener("click", async () => {
     const safeEmail = toSafeEmail(email);
     const now = Date.now();
 
-    // ✅ SAVE EMAIL FIRST
+    // ✅ STORE EMAIL IMMEDIATELY
     localStorage.setItem("userEmail", email);
 
     const accessRef = ref(db, `AR_Technologies/Ai/Dynamic_Web/${safeEmail}/Portfolio/Access`);
@@ -134,7 +140,7 @@ loginBtn.addEventListener("click", async () => {
     }
 
     await set(accessRef, {
-      expiresAt: now + 86400000,
+      expiresAt: now + 24 * 60 * 60 * 1000,
       paymentStatus: "Pending"
     });
 
