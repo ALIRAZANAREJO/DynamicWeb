@@ -1,3 +1,8 @@
+// ======================= BASE PATH (GitHub Pages FIX) =======================
+const BASE_PATH = location.hostname.includes("github.io")
+  ? "/DynamicWeb/"        // 🔁 CHANGE repo name if needed
+  : "/";
+
 // ======================= Firebase Modular Imports =======================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
@@ -15,8 +20,10 @@ const firebaseConfig = {
   measurementId: "G-8TE04Z9ZFW"
 };
 
-// ======================= Init =======================
-const app = initializeApp(firebaseConfig);
+// ======================= Init (SAFE – NO DUPLICATE APP) =======================
+import { getApps, getApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 const provider = new GoogleAuthProvider();
@@ -54,11 +61,13 @@ async function loadSubDesigns(designName) {
   selectedSubDesign = null;
   subContainer.innerHTML = "";
 
-  const jsonPath = `AllWebDesigns/${designName}/_files.json`;
+  const jsonPath = `${BASE_PATH}AllWebDesigns/${designName}/_files.json`;
+
+  console.log("📂 Fetching JSON:", jsonPath);
 
   try {
     const res = await fetch(jsonPath);
-    if (!res.ok) throw new Error();
+    if (!res.ok) throw new Error("JSON not found");
 
     const files = await res.json();
     const wrap = document.createElement("div");
@@ -72,7 +81,7 @@ async function loadSubDesigns(designName) {
       card.style.alignItems = "center";
 
       const img = document.createElement("img");
-      img.src = `Assets/${sub.img}`;
+      img.src = `${BASE_PATH}Assets/${sub.img}`;
       img.style.width = "240px";
       img.style.height = "100px";
       img.style.objectFit = "cover";
@@ -83,11 +92,7 @@ async function loadSubDesigns(designName) {
       card.append(img, title);
 
       card.onclick = async () => {
-        const path = `AllWebDesigns/${designName}/${sub.name}.html`;
-        if (!(await fileExists(path))) {
-          alert("Coming soon");
-          return;
-        }
+        const path = `${BASE_PATH}AllWebDesigns/${designName}/${sub.name}.html`;
         selectedSubDesign = sub.name;
         wrap.querySelectorAll(".design-card").forEach(c => c.classList.remove("selected"));
         card.classList.add("selected");
@@ -102,13 +107,16 @@ async function loadSubDesigns(designName) {
     loginBtn.style.display = "block";
     backBtn.classList.remove("hidden");
 
-  } catch {
+  } catch (err) {
+    console.error(err);
     alert("Service unavailable");
   }
 }
 
 // ======================= EVENTS =======================
-cards.forEach(c => c.addEventListener("click", () => loadSubDesigns(c.dataset.design)));
+cards.forEach(c =>
+  c.addEventListener("click", () => loadSubDesigns(c.dataset.design))
+);
 
 backBtn.onclick = () => {
   subContainer.style.display = "none";
@@ -127,59 +135,54 @@ loginBtn.addEventListener("click", async () => {
     return;
   }
 
-  const htmlPath = `AllWebDesigns/${selectedDesign}/${selectedSubDesign}.html`;
-  if (!(await fileExists(htmlPath))) {
-    alert("Design not available.");
-    return;
-  }
+  const htmlPath = `${BASE_PATH}AllWebDesigns/${selectedDesign}/${selectedSubDesign}.html`;
 
   try {
     const { user } = await signInWithPopup(auth, provider);
+
     const email = user.email;
     const safeEmail = toSafeEmail(email);
     const now = Date.now();
-const profilePic = user.photoURL || null;   // ✅ FIX
+    const profilePic = user.photoURL || null;
 
     const personalRef = ref(db, `AR_Technologies/Ai/Dynamic_Web/${safeEmail}/Portfolio/Personal`);
     const accessRef = ref(db, `AR_Technologies/Ai/Dynamic_Web/${safeEmail}/Portfolio/Access`);
-const personalSnap = await get(personalRef);
-if (!personalSnap.exists()) {
-  alert("No user found. Contact admin.");
-  return;
-}
 
-// ✅ SAVE PROFILE FIRST (ALWAYS)
-await set(ref(db, `PortfolioUsers/${safeEmail}`), {
-  email,
-  profilePic
-});
+    const personalSnap = await get(personalRef);
+    if (!personalSnap.exists()) {
+      alert("No user found. Contact admin.");
+      return;
+    }
 
-const accessSnap = await get(accessRef);
+    // SAVE PROFILE
+    await set(ref(db, `PortfolioUsers/${safeEmail}`), {
+      email,
+      profilePic
+    });
 
-if (accessSnap.exists()) {
-  const { expiresAt } = accessSnap.val();
+    const accessSnap = await get(accessRef);
 
-  if (expiresAt > now) {
-    window.location.href = `${htmlPath}?email=${encodeURIComponent(email)}`;
-    return;
-  }
+    if (accessSnap.exists()) {
+      const { expiresAt } = accessSnap.val();
 
-  if (expiresAt <= now) {
-    window.location.href = `UserWebPannel/Account/Pakig.html`;
-    return;
-  }
-}
+      if (expiresAt > now) {
+        window.location.href = `${htmlPath}?email=${encodeURIComponent(email)}`;
+        return;
+      }
 
-// FIRST TIME ACCESS
-const expiresAt = now + 24 * 60 * 60 * 1000;
+      window.location.href = `${BASE_PATH}UserWebPannel/Account/Pakig.html`;
+      return;
+    }
 
-await set(accessRef, {
-  link: "User.html",
-  timerStart: now,
-  expiresAt,
-  paymentStatus: "Pending"
-});
+    // FIRST TIME ACCESS
+    const expiresAt = now + 24 * 60 * 60 * 1000;
 
+    await set(accessRef, {
+      link: "User.html",
+      timerStart: now,
+      expiresAt,
+      paymentStatus: "Pending"
+    });
 
     localStorage.setItem("userEmail", email);
     window.location.href = `${htmlPath}?email=${encodeURIComponent(email)}`;
