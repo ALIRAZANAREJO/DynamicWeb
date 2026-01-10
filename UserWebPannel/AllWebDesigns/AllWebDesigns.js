@@ -83,7 +83,7 @@ async function loadSubDesigns(designName) {
       card.append(img, title);
 
       card.onclick = async () => {
-        const path = `./AllWebDesigns/${designName}/${sub.name}.html`;
+        const path = `../../AllWebDesigns/${designName}/${sub.name}.html`;
         if (!(await fileExists(path))) {
           alert("Coming soon");
           return;
