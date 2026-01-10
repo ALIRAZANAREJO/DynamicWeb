@@ -1,10 +1,3 @@
-// Detect GitHub Pages repo name automatically
-const BASE_PATH = location.hostname.includes("github.io")
-  ? `/${location.pathname.split("/")[1]}/`  // e.g., /REPO_NAME/
-  : "/";  // localhost or Firebase Hosting
-
-
-
 // ======================= Firebase Modular Imports =======================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
@@ -46,8 +39,6 @@ let selectedSubDesign = null;
 // ======================= Utils =======================
 const toSafeEmail = (email) => email.replace(/[.#$[\]]/g, "_");
 
-
-
 // async function fileExists(path) {
 //   try {
 //     const res = await fetch(path, { method: "HEAD" });
@@ -65,24 +56,11 @@ async function loadSubDesigns(designName) {
 
   const jsonPath = `AllWebDesigns/${designName}/_files.json`;
 
-  // 🔹 DEBUG: show exact JSON path being fetched
-  console.log("📂 Fetching JSON:", jsonPath);
-  console.log("🌐 Full URL:", new URL(jsonPath, location.href).href);
-
   try {
     const res = await fetch(jsonPath);
-    console.log("📄 JSON fetch response:", res);
-
-    if (!res.ok) {
-      console.error("❌ JSON fetch failed with status:", res.status);
-      throw new Error("Fetch failed");
-    }
+    if (!res.ok) throw new Error();
 
     const files = await res.json();
-    console.log("✅ JSON data loaded:", files);
-
-    // ... rest of your code
-
     const wrap = document.createElement("div");
     wrap.className = "design-grid";
 
@@ -94,7 +72,7 @@ async function loadSubDesigns(designName) {
       card.style.alignItems = "center";
 
       const img = document.createElement("img");
-img.src = `${BASE_PATH}Assets/${sub.img}`;
+      img.src = `Assets/${sub.img}`;
       img.style.width = "240px";
       img.style.height = "100px";
       img.style.objectFit = "cover";
@@ -149,8 +127,7 @@ loginBtn.addEventListener("click", async () => {
     return;
   }
 
-const htmlPath = `${BASE_PATH}AllWebDesigns/${selectedDesign}/${selectedSubDesign}.html`;
-window.location.href = `${htmlPath}?email=${encodeURIComponent(email)}`;
+  const htmlPath = `AllWebDesigns/${selectedDesign}/${selectedSubDesign}.html`;
   if (!(await fileExists(htmlPath))) {
     alert("Design not available.");
     return;
