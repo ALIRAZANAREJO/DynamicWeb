@@ -39,14 +39,14 @@ let selectedSubDesign = null;
 // ======================= Utils =======================
 const toSafeEmail = (email) => email.replace(/[.#$[\]]/g, "_");
 
-// async function fileExists(path) {
-//   try {
-//     const res = await fetch(path, { method: "HEAD" });
-//     return res.ok;
-//   } catch {
-//     return false;
-//   }
-// }
+async function fileExists(path) {
+  try {
+    const res = await fetch(path, { method: "HEAD" });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
 
 // ======================= LOAD SUB DESIGNS =======================
 async function loadSubDesigns(designName) {
