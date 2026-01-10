@@ -54,7 +54,7 @@ async function loadSubDesigns(designName) {
   selectedSubDesign = null;
   subContainer.innerHTML = "";
 
-  const jsonPath = `./AllWebDesigns/${designName}/_files.json`;
+  const jsonPath = `../../AllWebDesigns/${designName}/_files.json`;
 
   try {
     const res = await fetch(jsonPath);
@@ -72,7 +72,7 @@ async function loadSubDesigns(designName) {
       card.style.alignItems = "center";
 
       const img = document.createElement("img");
-      img.src = `/Assets/${sub.img}`;
+      img.src = `../../Assets/${sub.img}`;
       img.style.width = "240px";
       img.style.height = "100px";
       img.style.objectFit = "cover";
@@ -127,7 +127,7 @@ loginBtn.addEventListener("click", async () => {
     return;
   }
 
-  const htmlPath = `./AllWebDesigns/${selectedDesign}/${selectedSubDesign}.html`;
+  const htmlPath = `../../AllWebDesigns/${selectedDesign}/${selectedSubDesign}.html`;
   if (!(await fileExists(htmlPath))) {
     alert("Design not available.");
     return;
@@ -165,7 +165,7 @@ if (accessSnap.exists()) {
   }
 
   if (expiresAt <= now) {
-    window.location.href = `./UserWebPannel/Account/Pakig.html`;
+    window.location.href = `../../UserWebPannel/Account/Pakig.html`;
     return;
   }
 }
