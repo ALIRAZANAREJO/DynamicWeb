@@ -65,11 +65,24 @@ async function loadSubDesigns(designName) {
 
   const jsonPath = `AllWebDesigns/${designName}/_files.json`;
 
+  // 🔹 DEBUG: show exact JSON path being fetched
+  console.log("📂 Fetching JSON:", jsonPath);
+  console.log("🌐 Full URL:", new URL(jsonPath, location.href).href);
+
   try {
     const res = await fetch(jsonPath);
-    if (!res.ok) throw new Error();
+    console.log("📄 JSON fetch response:", res);
+
+    if (!res.ok) {
+      console.error("❌ JSON fetch failed with status:", res.status);
+      throw new Error("Fetch failed");
+    }
 
     const files = await res.json();
+    console.log("✅ JSON data loaded:", files);
+
+    // ... rest of your code
+
     const wrap = document.createElement("div");
     wrap.className = "design-grid";
 
